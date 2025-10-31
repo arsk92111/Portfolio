@@ -2408,3 +2408,6 @@ footer {
   margin: 0;
 }
  
+.strong_text{
+    color: var(--color-white);
+}
