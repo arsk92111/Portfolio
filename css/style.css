@@ -59,6 +59,11 @@ footer {
     fill: white
 }
 
+#GmailLogo,
+.sign-company svg path {
+    fill: white
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -185,7 +190,7 @@ html {
     --static-heading-gradient-blue: #0f7878;
     --static-heading-gradient-pink: #f09bb9;
     --color-shadowDark: #e2ddd7;
-    --tech-stack-box-first-color: #e7e2db;
+    /* --tech-stack-box-first-color: #e7e2db; */
     --tech-stack-box-second-color: #ece7e100;
     --tech-stack-box-border-color: #dad5cf
 }
@@ -386,7 +391,7 @@ noscript {
     display: flex;
     list-style: none;
     justify-content: flex-end;
-    gap: 80px;
+    gap: 70px;
     color: var(--color-white)
 }
 
@@ -446,7 +451,7 @@ noscript {
 #hello-friend,
 #work,
 .about-info p,
-.activeThistab,
+.activeThistab, .experience-info p,
 .language-speak article {
     color: var(--color-white)
 }
@@ -697,6 +702,11 @@ noscript {
     font-size: 2rem
 }
 
+#info-para,
+.experience-info p {
+    font-weight: 400;
+    font-size: 2rem
+}
 #work div {
     display: flex;
     margin: 0 12px 0 0
@@ -831,13 +841,25 @@ noscript {
     color: #fff
 }
 
+
+.cta:hover span,
+.text-company
+.tooltip {
+    color: #fff
+}
+
 .resume-btn,
 .sign {
     align-items: center;
     transition-duration: .3s;
     display: flex
 }
-
+.company-btn,
+.sign-company {
+    align-items: center;
+    transition-duration: .3s;
+    display: flex
+}
 .letsTalkBtn-BG {
     position: absolute;
     width: 100%;
@@ -880,6 +902,24 @@ noscript {
     position: relative
 }
 
+.company-btn {
+    margin-top: 5px;
+    color: #fff;
+    justify-content: flex-start;
+    width: 35px;
+    height: 25px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, .199);
+    background: linear-gradient(82.3deg, #965de9 10.8%, #6358ee 94.3%);
+    position: relative;
+
+    display: flex;
+    align-items: center;   
+    padding: 0;
+}
+
 .projects-heading-article,
 .projectsHeadingP,
 .section-heading-article,
@@ -896,12 +936,27 @@ noscript {
     position: absolute
 }
 
+.dp::after,
+.dp::before,
+.text-company {
+    position: absolute
+}
+
 .sign {
     width: 100%;
     justify-content: center
 }
 
 .sign svg {
+    width: 17px
+}
+
+.sign-company {
+    width: 100%;
+    justify-content: center
+}
+
+.sign-company svg {
     width: 17px
 }
 
@@ -932,6 +987,32 @@ noscript {
     transition-duration: .3s;
     padding-right: 10px
 }
+.company-btn:hover {
+    width: 130px;
+    border-radius: 40px;
+    transition-duration: .3s
+}
+
+.company-btn:hover .sign-company {
+    width: 30%;
+    transition-duration: .3s;
+    padding-left: 20px
+}
+
+.company-btn:hover .text-company {
+    opacity: 1;
+    width: 70%;
+    transition-duration: .3s;
+    padding-right: 10px
+}
+
+.company-btn:hover .text-company {
+    opacity: 1;
+    width: 70%;
+    transition-duration: .3s;
+    padding-right: 10px
+}
+
 
 .dp,
 .dp::after,
@@ -955,6 +1036,16 @@ noscript {
     padding-top: 200px
 }
 
+.experience-section-container {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-top: 200px
+}
+
 .about-section,
 .projects-section-div,
 .skills-section {
@@ -964,6 +1055,17 @@ noscript {
     align-items: center;
     justify-content: center
 }
+
+.experience-section
+.projects-section-div,
+.skills-section {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center
+}
+
 
 .projects-heading,
 .section-heading,
@@ -1013,6 +1115,16 @@ noscript {
 }
 
 .about-info p {
+    line-height: 25px
+}
+
+.experience-info {
+    width: 60%;
+    display: flex;
+    flex-direction: column
+}
+
+.experience-info p {
     line-height: 25px
 }
 
@@ -1218,7 +1330,7 @@ footer {
 }
 
 .ProjectHeading {
-    color: var(--color-white);
+    /* color: var(--color-white); */
     font-size: 3.4rem;
     font-weight: 700
 }
@@ -1590,10 +1702,28 @@ footer {
         justify-content: center
     }
 
+    .experience-section {
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center
+    }
+
+
     .logo:hover {
         transform: translateY(200px);
         transition-duration: 1s
     }
+
+    .experience-section {
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center
+    }
+
 }
 
 @media screen and (max-width:1150px) {
@@ -1754,7 +1884,14 @@ footer {
         width: fit-content
     }
 
-    .about-info,
+    .about-info
+    .dp,
+    .info-dp-section {
+        width: 100%;
+        display: flex
+    }
+
+    .experience-info
     .dp,
     .info-dp-section {
         width: 100%;
@@ -1768,6 +1905,10 @@ footer {
     }
 
     .about-info {
+        flex-direction: column
+    }
+
+    .experience-info {
         flex-direction: column
     }
 
@@ -1939,6 +2080,12 @@ footer {
     }
 
     .about-section,
+    .projects-section-div,
+    .skills-section {
+        width: 80%
+    }
+
+    .experience-section
     .projects-section-div,
     .skills-section {
         width: 80%
@@ -2153,3 +2300,111 @@ footer {
     width: 100%;
   }
 }
+
+
+
+.experience-section {
+  margin-top: 3rem;
+}
+
+.section-heading {
+  font-size: 3rem;
+  font-weight: 900;
+  margin-bottom: 2rem;
+  color: var(--color-white);
+}
+
+.experience-card {
+  /* background: #111; */
+  border-radius: 12px;
+  padding: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.experience-card:hover {
+  transform: scale(1.02);
+}
+
+.company-name {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-white);
+}
+
+.company-link {
+  font-size: 1.4rem;
+  color: #0dcaf0;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+.role {
+  font-weight: 700;
+  color: var(--color-white);
+  margin: 1rem 0;
+}
+
+.duration,
+.location {
+  font-size: 1rem;
+  color: var(--color-white);
+}
+
+.experience-description p {
+  margin-top: 1rem;
+  color: var(--color-white);
+    line-height: 1.7;
+    font-size: 1.3rem;
+}
+
+.project-list {
+  margin-top: 1rem;
+  list-style: none;
+  padding-left: 0; 
+  
+    font-size: 1.3rem;
+
+}
+
+.project-list li { 
+  color: var(--color-white);
+  margin-bottom: 0.8rem;
+
+}
+.placed {
+    align-items: end;
+    padding-left: 2.5rem;
+}
+
+.text-company {
+    right: 0;
+    width: 0%;
+    opacity: 0;
+    font-size: 0.7em;
+    font-weight: 600;
+    transition-duration: .3s
+}
+
+ 
+.company-left, .company-right {
+  flex: 1;
+}
+
+.company-left {
+  text-align: left;
+}
+
+.company-right {
+  text-align: right;
+}
+.company-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* name aur button ek sath line me */
+  gap: 10px; /* dono ke beech sirf chhoti si jagah */
+}
+
+.company-left h3 {
+  margin: 0;
+}
+ 
