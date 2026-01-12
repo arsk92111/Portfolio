@@ -598,18 +598,23 @@ noscript {
     align-items: flex-end
 }
 
-#name,
-#work {
+#name {
     font-size: 8rem;
     width: fit-content
 }
 
+#work {
+    font-size: 6.5rem;
+    width: fit-content
+}
 #name,
 #work,
 .letsTalkBtn-text {
     display: flex;
     font-weight: 700
 }
+
+
 
 @-webkit-keyframes vibrate-1 {
 
@@ -1961,9 +1966,12 @@ footer {
         font-size: 3.5rem
     }
 
-    #name,
-    #work {
+    #name  {
         font-size: 5.5rem
+    }
+  
+    #work {
+        font-size: 3.5rem
     }
 
     #info-para,
