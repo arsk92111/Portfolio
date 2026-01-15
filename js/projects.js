@@ -32,13 +32,13 @@ function renderProjects(projects) {
       .map(p => `<center><strong>${p.i} :</strong>  </center>  <div data-aos="fade-up" class="project-box-wrapper">
                 <div class="project-box project-box2">
                 <div class="info-div">
-                <center><strong>${p.i} :</strong>  </center>
+                <center><strong>${p.id} :</strong>  </center>
                   <div class="projects-title-grid">
                     <div class="projects-title-f-grid">
                       <img src="${p.favicon}" alt="${p.project_name} favicon" class="faviconforProject" />
                     </div>
                     <div class="projects-title-s-grid">
-                      <article class="ProjectHeading"><center><strong>${p.i}.</strong>  </center>${p.project_name}</article>
+                      <article class="ProjectHeading"><center><strong>${p.id}.</strong>  </center>${p.project_name}</article>
                     </div>
                   </div>
                   <p class="ProjectDescription">${p.description}</p>
