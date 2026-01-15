@@ -45,7 +45,7 @@ function renderProjects(projects) {
                     <a href="${p.github_url}" target="_blank" class="github-redirect" aria-label="${p.github_label}">
                       <img src="${p.github_icon}" alt="github redirect button" />
                     </a>
-                <!--
+                <!-- start -->
                     <a href="${p.live_url}" target="_blank" class="cta" aria-label="${p.live_label}">
                       <span>Live view</span>
                       <svg viewBox="0 0 13 10" height="10px" width="15px">
@@ -53,7 +53,7 @@ function renderProjects(projects) {
                         <polyline points="8 1 12 5 8 9"></polyline>
                       </svg>
                     </a>
-                -->
+                <!-- End -->
                   </div>
                 </div>
                 <div class="image-div">
