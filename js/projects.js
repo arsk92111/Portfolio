@@ -29,16 +29,16 @@ function renderProjects(projects) {
        <div class="projects-grid">
         ${[projects[i], projects[i + 1]]
           .filter(Boolean)
-      .map(p => `<center><strong>${p.i} :</strong>  </center>  <div data-aos="fade-up" class="project-box-wrapper">
+      .map(p => ` <div data-aos="fade-up" class="project-box-wrapper">
                 <div class="project-box project-box2">
                 <div class="info-div">
-                <center><strong>${p.id} :</strong>  </center>
+                 <strong>${p.id} :</strong>  
                   <div class="projects-title-grid">
                     <div class="projects-title-f-grid">
                       <img src="${p.favicon}" alt="${p.project_name} favicon" class="faviconforProject" />
                     </div>
                     <div class="projects-title-s-grid">
-                      <article class="ProjectHeading"><center><strong>${p.id}.</strong>  </center>${p.project_name}</article>
+                      <article class="ProjectHeading"> <strong>${p.id}.</strong>${p.project_name}</article>
                     </div>
                   </div>
                   <p class="ProjectDescription">${p.description}</p>
