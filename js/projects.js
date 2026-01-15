@@ -54,7 +54,7 @@ function renderProjects(projects) {
                           <polyline points="8 1 12 5 8 9"></polyline>
                         </svg>
                       </a>
-              </div>
+                    </div>
                 <!-- End -->
                   </div>
                 </div>
