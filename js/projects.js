@@ -46,7 +46,7 @@ function renderProjects(projects) {
                       <img src="${p.github_icon}" alt="github redirect button" />
                     </a>
                 <!-- start -->
-                    <div class="" style="visibility: ${display};">
+                    <div class="" style="visibility: ${p.display};">
                       <a href="${p.live_url}" target="_blank" class="cta" aria-label="${p.live_label}" >
                         <span>Live view</span>
                         <svg viewBox="0 0 13 10" height="10px" width="15px">
