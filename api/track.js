@@ -46,7 +46,7 @@ export default async function handler(req, res) {
 }
 
 
-import { kv } from '@vercel/kv';
+// import { kv } from '@vercel/kv';
 
-const count = await kv.incr('visitor_count');
-res.json({ count });
+// const count = await kv.incr('visitor_count');
+// res.json({ count });
