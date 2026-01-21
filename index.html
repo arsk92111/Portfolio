@@ -785,17 +785,15 @@ How are You!</textarea>
   </script>
  
   <script src="api/track.js"></script>
- <script>
-(async () => {
-  if (localStorage.getItem("visited")) return;
 
-  const res = await fetch("/api/track");
-  const data = await res.json();
-
-  document.getElementById("user_count").innerText = data.count;
-  localStorage.setItem("visited", "true");
-})();
+<script>
+fetch("/api/track")
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("user_count").innerText = data.count;
+  });
 </script>
+
 
 </body>
 
