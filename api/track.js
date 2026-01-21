@@ -25,6 +25,9 @@ export default async function handler(req, res) {
         });
 
         res.json({ success: true });
+        const counter = await get('counter.txt');
+        count = parseInt(await counter.text()) + 1;
+        await put('counter.txt', String(count), { allowOverwrite: true });
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
