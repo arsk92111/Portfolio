@@ -24,10 +24,15 @@ export default async function handler(req, res) {
             allowOverwrite: true
         });
 
-        res.json({ success: true });
+
         const counter = await get('counter.txt');
         let count = parseInt(await counter.text()) + 1;
-        await put('counter.txt', String(count), { allowOverwrite: true });
+        await put('counter.txt', count, {
+            access: 'public',
+            contentType: 'text',
+            allowOverwrite: true
+        });
+        res.json({ success: true });
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
