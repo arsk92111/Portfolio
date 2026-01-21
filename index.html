@@ -784,19 +784,19 @@ How are You!</textarea>
   </script>
 
   <script src="api/track.js"></script>
-<script>
-  async function trackVisitor() {
-    try {
-      const res = await fetch('api/track.js');
-      const data = await res.json();
-      document.getElementById('user_count').innerText = data.count;
-    } catch (e) {
-      console.error('Visitor tracking failed');
-    }
-  }
 
-  trackVisitor();
-</script>
+
+  <script>
+(async () => {
+  if (localStorage.getItem("visited")) return;
+
+  const res = await fetch("/api/track");
+  const data = await res.json();
+
+  document.getElementById("user_count").innerText = data.count;
+  localStorage.setItem("visited", "true");
+})();
+</script
 
 </body>
 

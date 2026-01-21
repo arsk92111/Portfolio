@@ -10,34 +10,37 @@ export default async function handler(req, res) {
         const userAgent = req.headers['user-agent'] || 'unknown';
         const time = new Date().toISOString();
 
-        // Location (simple IP-based lookup)
+        // Geo (safe)
         let location = 'unknown';
         try {
-            const geo = await fetch(`https://ipapi.co/${ip}/json/`).then(r => r.json());
-            location = `${geo.city || ''}, ${geo.country_name || ''}`;
+            const geo = await fetch('https://ipapi.co/json/');
+            const data = await geo.json();
+            location = `${data.city || ''}, ${data.country_name || ''}`;
         } catch { }
 
-        const row = `"${time}","${ip}","${location}","${userAgent}"\n`;
+        const line = `"${time}","${ip}","${location}","${userAgent}"\n`;
 
-        // Try to read existing CSV
-        let existing = '';
-        try {
-            const blob = await get('data/visitors.csv');
-            existing = await blob.text();
-        } catch { }
-
-        const updatedCSV = existing + row;
-
-        // Save CSV
-        await put('data/visitors.csv', updatedCSV, {
+        // Append CSV (each request adds a new object version)
+        await put(`visits/${Date.now()}.csv`, line, {
             access: 'private',
             contentType: 'text/csv'
         });
 
-        const count = updatedCSV.trim().split('\n').length;
+        // Visitor count
+        let count = 1;
+        try {
+            const counter = await get('counter.txt');
+            count = parseInt(await counter.text()) + 1;
+        } catch { }
+
+        await put('counter.txt', String(count), {
+            access: 'private',
+            contentType: 'text/plain'
+        });
 
         res.status(200).json({ count });
     } catch (err) {
-        res.status(500).json({ error: 'Tracking failed' });
+        console.error(err);
+        res.status(500).json({ error: err.message });
     }
 }
