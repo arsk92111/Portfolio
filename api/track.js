@@ -22,14 +22,14 @@ export default async function handler(req, res) {
         // Try to read existing CSV
         let existing = '';
         try {
-            const blob = await get('visitors.csv');
+            const blob = await get('data/visitors.csv');
             existing = await blob.text();
         } catch { }
 
         const updatedCSV = existing + row;
 
         // Save CSV
-        await put('visitors.csv', updatedCSV, {
+        await put('data/visitors.csv', updatedCSV, {
             access: 'private',
             contentType: 'text/csv'
         });

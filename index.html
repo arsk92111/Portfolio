@@ -221,8 +221,8 @@
               </button></a>
               
               <h5 class="letsTalkBtn">
-                <p class="letsTalkBtn-text">Visitted User : </p>
-                <span id="user_count"  class="letsTalkBtn-BG" >0</span>
+                <p class="letsTalkBtn-text">Visitted User :<span id="user_count">0</span> </p>
+                <span class="letsTalkBtn-BG"></span>
               </h5>  
                
             <div class="setting-container" id="setting-container">
@@ -787,7 +787,7 @@ How are You!</textarea>
 <script>
   async function trackVisitor() {
     try {
-      const res = await fetch('/api/track');
+      const res = await fetch('api/track.js');
       const data = await res.json();
       document.getElementById('user_count').innerText = data.count;
     } catch (e) {
