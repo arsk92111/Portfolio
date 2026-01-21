@@ -19,10 +19,11 @@ export default async function handler(req, res) {
 
         const line = `"${time}","${ip}","${location}","${userAgent}"\n`;
 
-        // Store each visit as a CSV line
-        await put(`visits/${Date.now()}.csv`, line, {
+        // Unique visit log
+        await put(`visits/visit.csv`, line, {
             access: 'public',
-            contentType: 'text/csv'
+            contentType: 'text/csv',
+            addRandomSuffix: true
         });
 
         // Counter
