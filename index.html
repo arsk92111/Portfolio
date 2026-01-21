@@ -790,7 +790,7 @@ How are You!</textarea>
 (async () => {
   if (localStorage.getItem("visited")) return;
 
-  const res = await fetch("/api/track");
+  const res = await fetch("api/track.js");
   const data = await res.json();
 
   document.getElementById("user_count").innerText = data.count;
