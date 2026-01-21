@@ -37,7 +37,7 @@ function renderProjects(projects) {
                       <img src="${p.favicon}" alt="${p.project_name} favicon" class="faviconforProject" />
                     </div>
                     <div class="projects-title-s-grid">
-                      <article class="ProjectHeading">${p.id}.${p.project_name}</article>
+                      <article class="ProjectHeading">${p.id}. ${p.project_name}</article>
                     </div>
                   </div>
                   <p class="ProjectDescription">${p.description}</p>
