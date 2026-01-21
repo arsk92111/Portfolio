@@ -10,7 +10,6 @@ export default async function handler(req, res) {
         const userAgent = req.headers['user-agent'] || 'unknown';
         const time = new Date().toISOString();
 
-        // Geo (safe)
         let location = 'unknown';
         try {
             const geo = await fetch('https://ipapi.co/json/');
@@ -20,13 +19,13 @@ export default async function handler(req, res) {
 
         const line = `"${time}","${ip}","${location}","${userAgent}"\n`;
 
-        // Append CSV (each request adds a new object version)
+        // Store each visit as a CSV line
         await put(`visits/${Date.now()}.csv`, line, {
-            access: 'private',
+            access: 'public',
             contentType: 'text/csv'
         });
 
-        // Visitor count
+        // Counter
         let count = 1;
         try {
             const counter = await get('counter.txt');
@@ -34,7 +33,7 @@ export default async function handler(req, res) {
         } catch { }
 
         await put('counter.txt', String(count), {
-            access: 'private',
+            access: 'public',
             contentType: 'text/plain'
         });
 
