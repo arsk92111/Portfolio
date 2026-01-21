@@ -38,6 +38,7 @@ export default async function handler(req, res) {
             allowOverwrite: true
         });
 
+
         res.status(200).json({ count });
     } catch (e) {
         res.status(500).json({ error: e.message });
@@ -45,3 +46,7 @@ export default async function handler(req, res) {
 }
 
 
+import { kv } from '@vercel/kv';
+
+const count = await kv.incr('visitor_count');
+res.json({ count });
