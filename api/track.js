@@ -34,7 +34,8 @@ export default async function handler(req, res) {
 
         await put('counter.txt', String(count), {
             access: 'public',
-            contentType: 'text/plain'
+            contentType: 'text/plain',
+            allowOverwrite: true
         });
 
         res.status(200).json({ count });
