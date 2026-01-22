@@ -6,12 +6,10 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { email = "", city = "", country = "", ip_local = "" } = req.body || {};
+        const { uniqueId = "", email = "", city = "", country = "", ip_local = "" } = req.body || {};
         const time = new Date().toISOString();
         const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.socket?.remoteAddress || 'unknown';
-        const uniqueId = localStorage.getItem("visitorId") || crypto.randomUUID();
-        localStorage.setItem("visitorId", uniqueId);
-        // CSV row
+
         const row = `"${uniqueId}","${ip}","${city}","${country}","${email}","${time}","${ip_local}"\n`;
 
         // Read existing CSV
@@ -19,19 +17,16 @@ export default async function handler(req, res) {
         try {
             const blob = await get('visits.csv', { token: process.env.BLOB_READ_WRITE_TOKEN });
             existing = await blob.text();
-        } catch (err) {
-            console.log("No existing file, creating new CSV");
+        } catch {
+            console.log("No existing CSV, creating new one");
         }
 
-        // Add header if first time
         if (!existing) {
-            existing = `"Unique ID", "ip","city","country","email","time","ip_local"\n`;
+            existing = `"Unique ID","ip","city","country","email","time","ip_local"\n`;
         }
 
-        // Append new row
         const updated = existing + row;
 
-        // Save back
         await put('visits.csv', updated, {
             access: 'public',
             contentType: 'text/csv',
@@ -40,7 +35,6 @@ export default async function handler(req, res) {
         });
 
         const count = updated.trim().split('\n').slice(1).length;
-
         res.status(200).json({ count });
     } catch (e) {
         console.error(e);

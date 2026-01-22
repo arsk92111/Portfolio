@@ -790,29 +790,34 @@ How are You!</textarea>
 
 <script>
 async function trackUser(email = "") {
-  try {
-    const geoRes = await fetch("https://ipwho.is/");
-    const geo = await geoRes.json();
-
-    const res = await fetch("/api/track", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: email,
-        city: geo.city || "",
-        country: geo.country || "",
-        ip_local: geo.ip || ""
-      })
-    });
-
-    const data = await res.json();
-    document.getElementById("user_count").innerText = data.count;
-  } catch (err) {
-    console.error(err);
+  // Check localStorage for unique ID
+  let visitorId = localStorage.getItem("visitorId");
+  if (!visitorId) {
+    visitorId = crypto.randomUUID();
+    localStorage.setItem("visitorId", visitorId);
   }
+
+  // Geo lookup (optional)
+  const geo = await fetch("https://ipwho.is/").then(r => r.json());
+
+  // Send data to server
+  const res = await fetch("/api/track", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      uniqueId: visitorId,
+      email: email,
+      city: geo.city || "",
+      country: geo.country || "",
+      ip_local: geo.ip || ""
+    })
+  });
+
+  const data = await res.json();
+  document.getElementById("user_count").innerText = data.count;
 }
 
-trackUser();
+trackUser(); // call this when page loads
 </script>
 
 
