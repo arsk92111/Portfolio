@@ -783,15 +783,17 @@ How are You!</textarea>
       window.open(url, "_blank");
     }  
   </script>
- 
-  <script src="api/track.js"></script>
-
+  
 <script>
-fetch("/api/track")
-  .then(res => res.json())
-  .then(data => {
-    document.getElementById("user_count").innerText = data.count;
-  });
+fetch("/api/track", {
+  method: "POST",
+  cache: "no-store"
+})
+.then(res => res.json())
+.then(data => {
+  document.getElementById("user_count").innerText = data.count;
+})
+.catch(err => console.error(err));
 </script>
 
 

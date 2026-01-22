@@ -1,15 +1,19 @@
-import { put, get } from '@vercel/blob'; 
+import { put, get } from '@vercel/blob';
 
 export default async function handler(req, res) {
+    if (req.method !== "POST") {
+        return res.status(405).json({ error: "Method not allowed" });
+    }
+
     try {
         const time = new Date().toISOString();
         const ip =
-            req.headers['x-forwarded-for']?.split(',')[0] ||
-            'unknown';
+            req.headers['x-forwarded-for']?.split(',')[0] || 'unknown';
         const ua = req.headers['user-agent'] || 'unknown';
 
         const row = `"${time}","${ip}","${ua}"\n`;
 
+        // ---- VISITS CSV ----
         let existing = '';
         try {
             const blob = await get('visits.csv');
@@ -24,8 +28,7 @@ export default async function handler(req, res) {
             allowOverwrite: true
         });
 
-
-        // Counter
+        // ---- COUNTER ----
         let count = 1;
         try {
             const counter = await get('counter.txt');
@@ -38,10 +41,8 @@ export default async function handler(req, res) {
             allowOverwrite: true
         });
 
-
         res.status(200).json({ count });
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
 }
-
