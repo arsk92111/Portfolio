@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 
         let existing = '';
         try {
-            const blob = await get('visits.csv');
+            const blob = await get('data/visits.csv');
             existing = await blob.text();
         } catch { }
 
