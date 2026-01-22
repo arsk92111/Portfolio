@@ -800,10 +800,10 @@ async function track() {
       city: geo.city || "",
       country: geo.country || "",
       ip_local: geo.ip || "",
-      email: res.email || "",
+      email: "",
     })
   });
-
+console.log(res.email);
   const data = await res.json();
   document.getElementById("user_count").innerText = data.count;
 }
