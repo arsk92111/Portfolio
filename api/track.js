@@ -6,33 +6,39 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { email = "", city = "", country = "", ip_local = "" } = req.body;
+        const { email = "", city = "", country = "", ip_local = "" } = req.body || {};
 
         const time = new Date().toISOString();
-        const ip =
-            req.headers['x-forwarded-for']?.split(',')[0] ||
-            'unknown';
+        const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.socket?.remoteAddress || 'unknown';
 
-        const row = `"${ip}","${city}, ${country}","${email}","${time}","${ip_local}"\n`;
+        // CSV row
+        const row = `"${ip}","${city}","${country}","${email}","${time}","${ip_local}"\n`;
 
+        // Read existing CSV
         let existing = '';
         try {
-            const blob = await get('www.arshadali.vercel.app/data/visits.csv');
+            const blob = await get('visits.csv');
             existing = await blob.text();
-        } catch { }
-
-        if (!existing) {
-            existing = `"ip","city, country","email","time","ip_local"\n`;
+        } catch {
+            // file not found = first visitor
         }
 
+        // Add header if first time
+        if (!existing) {
+            existing = `"ip","city","country","email","time","ip_local"\n`;
+        }
+
+        // Append new row
         const updated = existing + row;
 
-        await put('www.arshadali.vercel.app/data/visits.csv', updated, {
+        // Save back to Vercel Blob
+        await put('visits.csv', updated, {
             access: 'public',
             contentType: 'text/csv',
             allowOverwrite: true
         });
 
+        // Count users (exclude header)
         const count = updated.trim().split('\n').slice(1).length;
 
         res.status(200).json({ count });

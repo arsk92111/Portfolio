@@ -788,27 +788,33 @@ How are You!</textarea>
 
 
 <script>
-async function track() {
-  const geo = await fetch("https://ipwho.is/")
-    .then(r => r.json());
+async function trackUser(email = "") {
+  try {
+    // Get user IP info from ipwho.is
+    const geoRes = await fetch("https://ipwho.is/");
+    const geo = await geoRes.json();
 
-  const res = await fetch("/api/track", {
-    method: "POST",
-    cache: "no-store",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      city: geo.city || "",
-      country: geo.country || "",
-      ip_local: geo.ip || "",
-      email: "",
-    })
-  });
+    const res = await fetch("/api/track", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      cache: "no-store",
+      body: JSON.stringify({
+        email: email,
+        city: geo.city || "",
+        country: geo.country || "",
+        ip_local: geo.ip || ""
+      })
+    });
 
-  const data = await res.json(); 
-  document.getElementById("user_count").innerText = data.count;
+    const data = await res.json();
+    document.getElementById("user_count").innerText = data.count;
+  } catch (err) {
+    console.error("Tracking failed:", err);
+  }
 }
 
-track();
+// Call tracking on page load
+trackUser(); // optionally pass email: trackUser("user@example.com")
 </script>
 
 
