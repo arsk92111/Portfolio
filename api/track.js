@@ -43,11 +43,12 @@ export default async function handler(req, res) {
             contentType: "text/plain",
             token: process.env.BLOB_READ_WRITE_TOKEN,
         });
-
+        // let count = 0;
         res.status(200).json({
             success: true,
             id: nextId,
             file: filename,
+            count: nextId,
         });
 
     } catch (e) {
