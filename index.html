@@ -239,9 +239,12 @@
                   class="needtobeinvert"></label>
               </div>
             </div>
-            
+              <h4 class="letsTalkBtn">
+            <p class="letsTalkBtn-text letsTalkBtn-BG">User Visitor :<span id="user_count"></span> </p>
+          </h4> 
             <!-- setting div ends -->
           </div>
+         
           <!-- contact-btn-div -->
           
         </div>
@@ -250,10 +253,7 @@
             
           </div>
       </div>
-       <h5 class="letsTalkBtn">
-                <p class="letsTalkBtn-text">Visitor User :<span id="user_count"></span> </p>
-                <span class="letsTalkBtn-BG"></span>
-              </h5> 
+       
       </div>
      
     </section>
@@ -787,17 +787,16 @@ How are You!</textarea>
 
 
 
+
 <script>
 async function trackUser(email = "") {
   try {
-    // Get user IP info from ipwho.is
     const geoRes = await fetch("https://ipwho.is/");
     const geo = await geoRes.json();
 
     const res = await fetch("/api/track", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      cache: "no-store",
       body: JSON.stringify({
         email: email,
         city: geo.city || "",
@@ -809,12 +808,11 @@ async function trackUser(email = "") {
     const data = await res.json();
     document.getElementById("user_count").innerText = data.count;
   } catch (err) {
-    console.error("Tracking failed:", err);
+    console.error(err);
   }
 }
 
-// Call tracking on page load
-trackUser(); // optionally pass email: trackUser("user@example.com")
+trackUser();
 </script>
 
 
