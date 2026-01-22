@@ -12,11 +12,12 @@
   </script>
   <meta charset="UTF-8" />
 
-  <title>Arshad Ali | Portfolio</title>
+  <title>Arshad Ali | Portfolio</title> 
   <meta name="theme-color" content="#000" />
   <meta name="author" content="Arshad Ali" /> 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />   
+  <meta name="viewport" content="width=1440">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" />    -->
   <meta property="og:title" content="Arshad Ali | Portfolio" />
   <meta property="og:site_name" content="Arshad Ali Portfolio" />
   <meta name="twitter:title" content="Arshad Ali | Portfolio" />
@@ -33,6 +34,7 @@
    
 
 <body class="body">
+  
   <audio loop="" id="audioPlayer" style="display: none">
     <source src="images/preloader.mp3" type="audio/mp3" />
   </audio>
@@ -814,7 +816,7 @@ async function trackUser(email = "") {
   });
 
   const data = await res.json();
-  document.getElementById("user_count").innerText = data.count;
+  document.getElementById("user_count").innerText = data.count || 0;
 }
 
 trackUser(); // call this when page loads
