@@ -1,5 +1,4 @@
-import { put, get } from '@vercel/blob';
-import { kv } from '@vercel/kv';
+import { put, get } from '@vercel/blob'; 
 
 export default async function handler(req, res) {
     try {
