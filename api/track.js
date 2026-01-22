@@ -18,6 +18,7 @@ export default async function handler(req, res) {
         // ---- GEO LOOKUP ----
         let city = '';
         let country = '';
+        let ip_local = '';
 
         try {
             const geoRes = await fetch('https://ipapi.co/json/');
