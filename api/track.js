@@ -14,7 +14,7 @@ export default async function handler(req, res) {
         const row = `"${ip}","${time}","${ua}"\n`;
 
         // ---- READ EXISTING CSV ----
-        // let existing;
+        let existing;
         try {
             const blob = await get('visits.csv');
             existing = await blob.text();
