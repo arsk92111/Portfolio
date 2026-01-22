@@ -13,13 +13,16 @@ export default async function handler(req, res) {
 
         const row = `"${time}","${ip}","${ua}"\n`;
 
-        // ---- VISITS CSV ----
+        // ---- READ EXISTING CSV ----
         let existing = '';
         try {
             const blob = await get('visits.csv');
             existing = await blob.text();
-        } catch { }
+        } catch {
+            // file not found = first visitor
+        }
 
+        // ---- APPEND NEW ROW ----
         const updated = existing + row;
 
         await put('visits.csv', updated, {
@@ -28,18 +31,11 @@ export default async function handler(req, res) {
             allowOverwrite: true
         });
 
-        // ---- COUNTER ----
-        let count = 1;
-        try {
-            const counter = await get('counter.txt');
-            count = parseInt(await counter.text()) + 1;
-        } catch { }
-
-        await put('counter.txt', String(count), {
-            access: 'public',
-            contentType: 'text/plain',
-            allowOverwrite: true
-        });
+        // ---- COUNT ROWS ----
+        const count = updated
+            .trim()
+            .split('\n')
+            .filter(Boolean).length;
 
         res.status(200).json({ count });
     } catch (e) {

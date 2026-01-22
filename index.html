@@ -793,7 +793,7 @@ fetch("/api/track", {
 .then(data => {
   document.getElementById("user_count").innerText = data.count;
 })
-.catch(err => console.error(err));
+.catch(console.error);
 </script>
 
 
