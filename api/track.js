@@ -1,4 +1,4 @@
-import { put, get } from '@vercel/blob';
+import { put, list } from '@vercel/blob';
 
 export default async function handler(req, res) {
     if (req.method !== "POST") {
@@ -6,36 +6,50 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { uniqueId = "", email = "", city = "", country = "", ip_local = "" } = req.body || {};
+        const { email = "", city = "", country = "", ip_local = "" } = req.body || {};
         const time = new Date().toISOString();
-        const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.socket?.remoteAddress || 'unknown';
 
-        const row = `"${uniqueId}","${ip}","${city}","${country}","${email}","${time}","${ip_local}"\n`;
+        const ip =
+            req.headers["x-forwarded-for"]?.split(",")[0] ||
+            req.socket?.remoteAddress ||
+            "unknown";
 
-        // Read existing CSV
-        let existing = '';
-        try {
-            const blob = await get('visits.csv', { token: process.env.BLOB_READ_WRITE_TOKEN });
-            existing = await blob.text();
-        } catch {
-            console.log("No existing CSV, creating new one");
-        }
-
-        if (!existing) {
-            existing = `"Unique ID","ip","city","country","email","time","ip_local"\n`;
-        }
-
-        const updated = existing + row;
-
-        await put('visits.csv', updated, {
-            access: 'public',
-            contentType: 'text/csv',
-            allowOverwrite: true,
-            token: process.env.BLOB_READ_WRITE_TOKEN
+        // 1️⃣ Count existing visit files
+        const { blobs } = await list({
+            prefix: "visits/visits_",
+            token: process.env.BLOB_READ_WRITE_TOKEN,
         });
 
-        const count = updated.trim().split('\n').slice(1).length;
-        res.status(200).json({ count });
+        const nextId = blobs.length + 1;
+
+        // 2️⃣ File name
+        const filename = `visits/visits_${nextId}.txt`;
+
+        // 3️⃣ File content
+        const content = `
+                        ID: ${nextId}
+                        IP: ${ip}
+                        City: ${city}
+                        Country: ${country}
+                        Email: ${email}
+                        IP Local: ${ip_local}
+                        Time: ${time}
+                        -------------------------
+                        `;
+
+        // 4️⃣ Save file (NO overwrite)
+        await put(filename, content, {
+            access: "public",
+            contentType: "text/plain",
+            token: process.env.BLOB_READ_WRITE_TOKEN,
+        });
+
+        res.status(200).json({
+            success: true,
+            id: nextId,
+            file: filename,
+        });
+
     } catch (e) {
         console.error(e);
         res.status(500).json({ error: e.message });
