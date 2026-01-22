@@ -17,7 +17,7 @@ export default async function handler(req, res) {
         // let existing = '';
         try {
             const blob = await get('visits.csv');
-            existing = await blob.text();
+            let existing = await blob.text();
         } catch {
             // file not found = first visitor
         }
