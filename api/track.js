@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 
         let existing = '';
         try {
-            const blob = await get('data/visits.csv');
+            const blob = await get('www.arshadali.vercel.app/data/visits.csv');
             existing = await blob.text();
         } catch { }
 
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
 
         const updated = existing + row;
 
-        await put('data/visits.csv', updated, {
+        await put('www.arshadali.vercel.app/data/visits.csv', updated, {
             access: 'public',
             contentType: 'text/csv',
             allowOverwrite: true
