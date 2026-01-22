@@ -1,4 +1,4 @@
-import { put, get } from '@vercel/blob';
+import { kv } from '@vercel/kv';
 
 export default async function handler(req, res) {
     if (req.method !== "POST") {
@@ -8,12 +8,19 @@ export default async function handler(req, res) {
     try {
         const { email = "", city = "", country = "", ip_local = "" } = req.body;
 
+        const ip = req.headers['x-forwarded-for']?.split(',')[0] || 'unknown';
         const time = new Date().toISOString();
-        const ip =
-            req.headers['x-forwarded-for']?.split(',')[0] ||
-            'unknown';
 
-        const row = `"${ip}","${city}, ${country}","${email}","${time}","${ip_local}"\n`;
+        // ---- ATOMIC COUNTER ----
+        let count;
+        try {
+            count = await kv.incr("visitors_count");
+        } catch (e) {
+            return res.status(500).json({ error: "KV not configured" });
+        }
+
+        // ---- CSV LOG (optional) ----
+        const row = `"${ip}","${city}","${country}","${email}","${time}","${ip_local}"\n`;
 
         let existing = '';
         try {
@@ -22,18 +29,14 @@ export default async function handler(req, res) {
         } catch { }
 
         if (!existing) {
-            existing = `"ip","city, country","email","time","ip_local"\n`;
+            existing = `"ip","city","country","email","time","ip_local"\n`;
         }
 
-        const updated = existing + row;
-
-        await put('visits.csv', updated, {
+        await put('visits.csv', existing + row, {
             access: 'public',
             contentType: 'text/csv',
             allowOverwrite: true
         });
-
-        const count = updated.trim().split('\n').slice(1).length;
 
         res.status(200).json({ count });
     } catch (e) {
