@@ -2585,99 +2585,144 @@ textarea{
  
 /* ------------------------------------------           Mobile size     --------------------------------- */
  
-@media screen and (min-width:300 )  and (max-width: 400px) {
-.footer-background, .footer-foreground { 
-    height: 30vh; 
-}
-  
-.landing-page-container{
-    height: calc(60vh - 115px); 
-}
+@media screen and (min-width:300px ) and (max-width: 400px) {
+    .footer-background, .footer-foreground { 
+        height: 30vh; 
+    }
+    
+    .landing-page-container{
+        height: calc(60vh - 115px); 
+    }
 
-#info-para {
-    font-weight: 400;
-    font-size: 3.5rem;
-    width: 150%;   
-    line-height: 48px;  
-}
+    #info-para {
+        font-weight: 400;
+        font-size: 3.5rem;
+        width: 150%;   
+        line-height: 48px;  
+    }
 
-.letsTalkBtn{    
-    width: 200px;
-    height: 60px;
-}
+    .letsTalkBtn{    
+        width: 200px;
+        height: 60px;
+    }
 
-.letsTalkBtn-text { 
-    font-size: 1.8rem;
-}
- .about-section, .skills-section {
-        width: 92%;
- }
- .company-name, .about-info p {
-    font-size: 3rem;
-}
-.duration, .location, .strong_text, .role, .ProjectHeading, .ProjectDescription  {
-    font-size: 2rem;
-}
-.experience-description p { 
-    font-size: 2.5rem;
-}
+    .letsTalkBtn-text { 
+        font-size: 1.8rem;
+    }
+    .about-section, .skills-section {
+            width: 92%;
+    }
+    .company-name, .about-info p {
+        font-size: 3rem;
+    }
+    .duration, .location, .strong_text, .role, .ProjectHeading, .ProjectDescription  {
+        font-size: 2rem;
+    }
+    .experience-description p { 
+        font-size: 2.5rem;
+    }
 
-.project-list { 
-    font-size: 1.8rem;
-}
-.about-info p {
-    line-height: 42px;  
-}
-.info-div .faviconforProject {
-    width: 75px;
-    height: 75px;
-}
-.image-div img { 
-    height: 60%;
-}
+    .project-list { 
+        font-size: 1.8rem;
+    }
+    .about-info p {
+        line-height: 42px;  
+    }
+    .info-div .faviconforProject {
+        width: 75px;
+        height: 75px;
+    }
+    .image-div img { 
+        height: 60%;
+    }
 }
  
-@media screen and (min-width: 500px) and (max-width:400px) {
-.footer-background , .footer-foreground{ 
-    height: 40vh; 
-} 
-.landing-page-container{
-    height: calc(60vh - 115px); 
+@media screen and (min-width: 401px) and (max-width:500px) {
+    .footer-background , .footer-foreground{ 
+        height: 40vh; 
+    } 
+    .landing-page-container{
+        height: calc(60vh - 115px); 
+    }
+    #info-para {
+        font-weight: 400;
+        font-size: 3.5rem;
+        width: 150%;   
+        line-height: 48px;  
+    }
+    .about-section, .skills-section, .projects-section-div {
+            width: 92%;
+    }
+    .letsTalkBtn-text { 
+        font-size: 1.8rem;
+    }
+    .company-name, .about-info p{
+        font-size: 3rem;
+    }
+    .duration, .location, .strong_text, .role, .ProjectHeading {
+        font-size: 2rem;
+    }
+    .ProjectDescription {
+        font-size: 1.5rem;
+        font-weight: 500;
+    }
+    .experience-description p { 
+        font-size: 2.5rem;
+    }
+    .about-info p {
+        line-height: 42px;  
+    }
+    .info-div .faviconforProject {
+        width: 75px;
+        height: 75px;
+    }
+    .image-div img { 
+        height: 60%;
+    }
 }
-#info-para {
-    font-weight: 400;
-    font-size: 3.5rem;
-    width: 150%;   
-    line-height: 48px;  
-}
-.about-section, .skills-section, .projects-section-div {
-        width: 92%;
- }
-.letsTalkBtn-text { 
-    font-size: 1.8rem;
-}
-.company-name, .about-info p{
-    font-size: 3rem;
-}
-.duration, .location, .strong_text, .role, .ProjectHeading {
-    font-size: 2rem;
-}
-.ProjectDescription {
-    font-size: 1.5rem;
-    font-weight: 500;
-}
-.experience-description p { 
-    font-size: 2.5rem;
-}
-.about-info p {
-    line-height: 42px;  
-}
-.info-div .faviconforProject {
-    width: 75px;
-    height: 75px;
-}
-.image-div img { 
-    height: 60%;
-}
+ 
+
+@media screen and (min-width: 501px) and (max-width:600px) {
+    .footer-background , .footer-foreground{ 
+        height: 40vh; 
+    } 
+    .landing-page-container{
+        height: calc(60vh - 115px); 
+    }
+    #info-para {
+        font-weight: 400;
+        font-size: 3.5rem;
+        width: 150%;   
+        line-height: 48px;  
+    }
+    .about-section, .skills-section, .projects-section-div {
+            width: 92%;
+    }
+    .letsTalkBtn-text { 
+        font-size: 1.8rem;
+    }
+    .company-name, .about-info p{
+        font-size: 3rem;
+    }
+    .duration, .location, .strong_text, .role, .ProjectHeading {
+        font-size: 2rem;
+    }
+    .ProjectDescription {
+        font-size: 1.5rem;
+        font-weight: 500;
+    }
+    .experience-description p { 
+        font-size: 2.5rem;
+    }
+    .about-info p {
+        line-height: 42px;  
+    }
+    .info-div .faviconforProject {
+        width: 75px;
+        height: 75px;
+    }
+    .image-div img { 
+        height: 60%;
+    }
 }
  
