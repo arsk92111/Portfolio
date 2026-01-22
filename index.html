@@ -784,10 +784,19 @@ How are You!</textarea>
     }  
   </script>
   
+
+
+
 <script>
 fetch("/api/track", {
   method: "POST",
-  cache: "no-store"
+  cache: "no-store",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    email: "user@example.com" // or "" if not logged in
+  })
 })
 .then(res => res.json())
 .then(data => {
