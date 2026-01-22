@@ -30,7 +30,7 @@ export default async function handler(req, res) {
         }
 
         // ---- CSV ROW ----
-        const row = `"${ip}","${city}","${country}","${email}","${time}"\n`;
+        const row = `"${ip}","${city}, ${country}","${email}","${time}"\n`;
 
         // ---- READ EXISTING CSV ----
         let existing = '';
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
 
         // ---- ADD HEADER IF FIRST TIME ----
         if (!existing) {
-            existing = `"ip","city","country","email","time"\n`;
+            existing = `"ip","city, country","email","time"\n`;
         }
 
         // ---- APPEND ----
