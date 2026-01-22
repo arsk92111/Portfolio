@@ -59,7 +59,7 @@ export default async function handler(req, res) {
             .split('\n')
             .slice(1).length;
 
-        res.status(200).json({ count });
+        res.status(200).json({ count, updated });
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
