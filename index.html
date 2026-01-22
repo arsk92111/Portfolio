@@ -804,8 +804,7 @@ async function track() {
     })
   });
 
-  const data = await res.json();
-  console.log("email:", data.email);
+  const data = await res.json(); 
   document.getElementById("user_count").innerText = data.count;
 }
 
