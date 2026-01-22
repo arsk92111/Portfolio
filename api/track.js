@@ -27,7 +27,18 @@ export default async function handler(req, res) {
 
 
         // Counter
-        const count = await kv.incr('visitor_count');
+        let count = 1;
+        try {
+            const counter = await get('counter.txt');
+            count = parseInt(await counter.text()) + 1;
+        } catch { }
+
+        await put('counter.txt', String(count), {
+            access: 'public',
+            contentType: 'text/plain',
+            allowOverwrite: true
+        });
+
 
         res.status(200).json({ count });
     } catch (e) {
