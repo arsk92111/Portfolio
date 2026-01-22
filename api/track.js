@@ -11,7 +11,7 @@ export default async function handler(req, res) {
             req.headers['x-forwarded-for']?.split(',')[0] || 'unknown';
         const ua = req.headers['user-agent'] || 'unknown';
 
-        const row = `"${time}","${ip}","${ua}"\n`;
+        const row = `"${ip}","${time}","${ua}"\n`;
 
         // ---- READ EXISTING CSV ----
         let existing = '';
