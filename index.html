@@ -789,17 +789,18 @@ How are You!</textarea>
 
 <script>
 async function track() {
-  const geo = await fetch("https://ipapi.co/json/").then(r => r.json());
+  const geo = await fetch("https://ipwho.is/")
+    .then(r => r.json());
 
   const res = await fetch("/api/track", {
     method: "POST",
     cache: "no-store",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      email: "",
       city: geo.city || "",
-      country: geo.country_name || "",
-      ip_local: geo.ip || ""
+      country: geo.country || "",
+      ip_local: geo.ip || "",
+      email: ""
     })
   });
 
