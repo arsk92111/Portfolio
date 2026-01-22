@@ -22,6 +22,7 @@ export default async function handler(req, res) {
         try {
             const geoRes = await fetch('https://ipapi.co/json/');
             const geo = await geoRes.json();
+            ip_local = geo.ip || '';
             city = geo.city || '';
             country = geo.country_name || '';
         } catch {
@@ -30,7 +31,7 @@ export default async function handler(req, res) {
         }
 
         // ---- CSV ROW ----
-        const row = `"${ip}","${city}, ${country}","${email}","${time}"\n`;
+        const row = `"${ip}","${city}, ${country}","${email}","${time}", "${ip_local}"\n`;
 
         // ---- READ EXISTING CSV ----
         let existing = '';
@@ -41,7 +42,7 @@ export default async function handler(req, res) {
 
         // ---- ADD HEADER IF FIRST TIME ----
         if (!existing) {
-            existing = `"ip","city, country","email","time"\n`;
+            existing = `"ip","city, country","email","time", "ip_local"\n`;
         }
 
         // ---- APPEND ----
