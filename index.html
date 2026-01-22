@@ -788,21 +788,26 @@ How are You!</textarea>
 
 
 <script>
-fetch("/api/track", {
-  method: "POST",
-  cache: "no-store",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    // email: "user@example.com" // or "" if not logged in
-  })
-})
-.then(res => res.json())
-.then(data => {
+async function track() {
+  const geo = await fetch("https://ipapi.co/json/").then(r => r.json());
+
+  const res = await fetch("/api/track", {
+    method: "POST",
+    cache: "no-store",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: "",
+      city: geo.city || "",
+      country: geo.country_name || "",
+      ip_local: geo.ip || ""
+    })
+  });
+
+  const data = await res.json();
   document.getElementById("user_count").innerText = data.count;
-})
-.catch(console.error);
+}
+
+track();
 </script>
 
 
