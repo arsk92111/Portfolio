@@ -9,9 +9,10 @@ export default async function handler(req, res) {
         const { email = "", city = "", country = "", ip_local = "" } = req.body || {};
         const time = new Date().toISOString();
         const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.socket?.remoteAddress || 'unknown';
-
+        const uniqueId = localStorage.getItem("visitorId") || crypto.randomUUID();
+        localStorage.setItem("visitorId", uniqueId);
         // CSV row
-        const row = `"${ip}","${city}","${country}","${email}","${time}","${ip_local}"\n`;
+        const row = `"${uniqueId}","${ip}","${city}","${country}","${email}","${time}","${ip_local}"\n`;
 
         // Read existing CSV
         let existing = '';
@@ -24,7 +25,7 @@ export default async function handler(req, res) {
 
         // Add header if first time
         if (!existing) {
-            existing = `"ip","city","country","email","time","ip_local"\n`;
+            existing = `"Unique ID", "ip","city","country","email","time","ip_local"\n`;
         }
 
         // Append new row
