@@ -803,8 +803,9 @@ async function track() {
       email: "",
     })
   });
-console.log(res.email);
+
   const data = await res.json();
+  console.log("email:", data.email);
   document.getElementById("user_count").innerText = data.count;
 }
 
