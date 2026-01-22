@@ -1,23 +1,32 @@
+import { put, get } from '@vercel/blob';
 import { kv } from '@vercel/kv';
-import { put } from '@vercel/blob';
 
 export default async function handler(req, res) {
     try {
         const time = new Date().toISOString();
         const ip =
-            req.headers['x-forwarded-for']?.split(',')[0] || 'unknown';
+            req.headers['x-forwarded-for']?.split(',')[0] ||
+            'unknown';
         const ua = req.headers['user-agent'] || 'unknown';
 
         const row = `"${time}","${ip}","${ua}"\n`;
 
-        // ✅ Safe log (unique file)
-        await put('visits/visit.csv', row, {
+        let existing = '';
+        try {
+            const blob = await get('visits.csv');
+            existing = await blob.text();
+        } catch { }
+
+        const updated = existing + row;
+
+        await put('visits.csv', updated, {
             access: 'public',
             contentType: 'text/csv',
-            addRandomSuffix: true
+            allowOverwrite: true
         });
 
-        // ✅ Atomic counter (NO race condition)
+
+        // Counter
         const count = await kv.incr('visitor_count');
 
         res.status(200).json({ count });
@@ -25,3 +34,4 @@ export default async function handler(req, res) {
         res.status(500).json({ error: e.message });
     }
 }
+
