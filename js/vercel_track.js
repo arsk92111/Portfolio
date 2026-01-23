@@ -14,13 +14,16 @@ class VisitorTracker {
             if (!this.vid) {
                 this.vid = 'vid_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
                 localStorage.setItem('visitor_id', this.vid);
+                console.log('🆕 Generated new visitor ID:', this.vid);
+            } else {
+                console.log('🔑 Existing visitor ID:', this.vid);
             }
 
-            // First, show existing count if available
+            // Show current count
             await this.showCurrentCount();
 
-            // Then track visitor (with delay to not block page load)
-            setTimeout(() => this.trackVisitor(), 1000);
+            // Track after delay
+            setTimeout(() => this.trackVisitor(), 1500);
 
             this.initialized = true;
         } catch (error) {
@@ -28,23 +31,37 @@ class VisitorTracker {
         }
     }
 
+    getDeviceType() {
+        const ua = navigator.userAgent;
+
+        // Mobile detection
+        const isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+
+        // Tablet detection
+        const isTablet = /Tablet|iPad|PlayBook|Silk|(Android(?!.*Mobile))/i.test(ua);
+
+        if (isTablet) return "Tablet";
+        if (isMobile) return "Mobile";
+        return "Desktop";
+    }
+
     async trackVisitor() {
         try {
             console.log('🚀 Starting visitor tracking...');
 
-            // Collect basic visitor data (NO external API calls)
+            // Collect device info
+            const deviceType = this.getDeviceType();
+            console.log('📱 Device detected:', deviceType);
+
             const data = {
                 vid: this.vid,
-                device: this.getDeviceType(),
+                device: deviceType,
                 browser: navigator.userAgent.substring(0, 200),
                 screen: `${window.screen.width}x${window.screen.height}`,
                 language: navigator.language,
                 timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
                 page: window.location.pathname,
-                referrer: document.referrer || 'direct',
-                city: "Unknown",  // Backend will try to get this
-                country: "Unknown", // Backend will try to get this
-                ip_local: "Unknown" // Backend will get real IP
+                referrer: document.referrer || 'direct'
             };
 
             console.log('📤 Sending tracking data:', data);
@@ -62,30 +79,27 @@ class VisitorTracker {
             console.log('📥 Tracking response:', result);
 
             // Update count on page
-            this.updateCount(result.count || 0);
+            if (result.count !== undefined) {
+                this.updateCount(result.count);
+            }
+
+            // If duplicate, show message
+            if (result.duplicate) {
+                console.log('⚠️ Duplicate visitor detected');
+                this.showMessage('Already counted!', 'info');
+            }
 
             return result;
 
         } catch (error) {
             console.error('❌ Tracking error:', error);
-            this.updateCount(this.count);
+            this.showMessage('Tracking failed', 'error');
             return { success: false, error: error.message };
         }
     }
 
-    getDeviceType() {
-        const ua = navigator.userAgent;
-        if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
-            return "Tablet";
-        } else if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
-            return "Mobile";
-        }
-        return "Desktop";
-    }
-
     async showCurrentCount() {
         try {
-            // Try to read the current count from the blob file
             const response = await fetch('https://qq2nxd209l2mgsh8.public.blob.vercel-storage.com/visited.txt');
             if (response.ok) {
                 const text = await response.text();
@@ -98,7 +112,6 @@ class VisitorTracker {
             }
         } catch (e) {
             console.log('Could not fetch initial count:', e);
-            // Start with 0
             this.updateCount(0);
         }
     }
@@ -107,36 +120,71 @@ class VisitorTracker {
         this.count = newCount;
         const countElement = document.getElementById('user_count');
         if (countElement) {
-            // Animate the count update
+            const oldCount = parseInt(countElement.textContent) || 0;
             countElement.textContent = newCount;
-            countElement.style.transform = 'scale(1.1)';
-            setTimeout(() => {
-                countElement.style.transform = 'scale(1)';
-            }, 300);
+
+            // Animation
+            if (newCount > oldCount) {
+                countElement.classList.add('count-updated');
+                setTimeout(() => {
+                    countElement.classList.remove('count-updated');
+                }, 1000);
+            }
         }
     }
 
-    getCount() {
-        return this.count;
+    showMessage(text, type) {
+        // Create a temporary notification
+        const messageDiv = document.createElement('div');
+        messageDiv.textContent = text;
+        messageDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: ${type === 'error' ? '#ff4444' : '#4CAF50'};
+            color: white;
+            border-radius: 5px;
+            z-index: 1000;
+            font-family: sans-serif;
+        `;
+
+        document.body.appendChild(messageDiv);
+        setTimeout(() => messageDiv.remove(), 3000);
     }
 }
 
-// Create and initialize tracker
+// Create tracker instance
 const visitorTracker = new VisitorTracker();
 
-// Initialize when page loads
-if (typeof window !== 'undefined') {
-    window.addEventListener('load', () => {
-        visitorTracker.init();
-    });
+// Initialize when DOM loads
+document.addEventListener('DOMContentLoaded', () => {
+    visitorTracker.init();
 
-    // Also track when page becomes visible again
+    // Track on visibility change
     document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) {
-            setTimeout(() => visitorTracker.trackVisitor(), 2000);
+        if (document.visibilityState === 'visible') {
+            setTimeout(() => visitorTracker.trackVisitor(), 1000);
         }
     });
-}
+});
 
 // Make tracker available globally
 window.visitorTracker = visitorTracker;
+
+// Add CSS for animation
+const style = document.createElement('style');
+style.textContent = `
+    #user_count.count-updated {
+        animation: countPulse 0.5s ease-in-out;
+        color: #4CAF50;
+        font-weight: bold;
+    }
+    
+    @keyframes countPulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+    }
+`;
+document.head.appendChild(style);
