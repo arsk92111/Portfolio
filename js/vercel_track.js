@@ -14,7 +14,7 @@ async function trackVisit() {
         };
 
         // IP aur location ke liye API (optional)
-        const geoResponse = await fetch('https://ipapi.co/json/');
+        const geoResponse = await fetch('https://ipwho.is/');
         const geoData = await geoResponse.json();
 
         const data = {
