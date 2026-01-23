@@ -1,6 +1,7 @@
-import { get, put } from "@vercel/blob";
+// Import using require for CommonJS
+const { get, put } = require('@vercel/blob');
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     // Set CORS headers
     res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -40,38 +41,26 @@ export default async function handler(req, res) {
             req.socket?.remoteAddress ||
             "unknown";
 
-        console.log("🔍 Tracking request from IP:", ip, "Device:", device);
+        console.log(`🔍 Tracking: IP=${ip}, Device=${device}`);
 
-        // 🔹 1️⃣ Read existing visited.txt file (NOT visits.txt)
+        // 🔹 1️⃣ Read existing visitors.txt file
         let visitors = [];
-        let existingData = null;
-
         try {
-            const blob = await get("visited.txt", {
-                token: process.env.BLOB_READ_WRITE_TOKEN,
-            });
-            existingData = await blob.text();
-            console.log("📄 File content:", existingData.substring(0, 200) + "...");
+            // Try to read the file
+            const blob = await get('visited.txt');
+            const text = await blob.text();
 
-            // Parse JSON, handle empty or invalid JSON
-            if (existingData && existingData.trim() !== "") {
-                visitors = JSON.parse(existingData);
+            if (text && text.trim() !== '') {
+                visitors = JSON.parse(text);
+                console.log(`📊 Found ${visitors.length} existing visitors`);
             } else {
                 visitors = [];
+                console.log('📄 File is empty, starting fresh');
             }
-
-            console.log(`📊 Found ${visitors.length} existing visitors`);
         } catch (err) {
-            if (err.message.includes("No such blob")) {
-                console.log("📄 No existing file, creating new one");
-                visitors = [];
-            } else if (err instanceof SyntaxError) {
-                console.log("⚠️ JSON parse error, starting fresh");
-                visitors = [];
-            } else {
-                console.error("❌ Error reading file:", err);
-                visitors = [];
-            }
+            // If file doesn't exist or other error, start fresh
+            console.log('📄 No existing file or error, starting fresh:', err.message);
+            visitors = [];
         }
 
         // 🔹 2️⃣ Check duplicate: only skip if BOTH IP + Device match
@@ -103,7 +92,7 @@ export default async function handler(req, res) {
             country: country || "Unknown",
             ip_local: ip_local || ip,
             device: device || "Unknown",
-            browser: (browser || "Unknown").substring(0, 200), // Limit length
+            browser: (browser || "Unknown").substring(0, 200),
             screen: screen || "Unknown",
             language: language || "Unknown",
             timezone: timezone || "Unknown",
@@ -119,51 +108,41 @@ export default async function handler(req, res) {
         visitors.push(newVisitor);
         console.log(`✅ Total visitors now: ${visitors.length}`);
 
-        // 🔹 6️⃣ Save back to SAME FILE (visited.txt)
+        // 🔹 6️⃣ Save back to visited.txt
         try {
             const jsonString = JSON.stringify(visitors, null, 2);
             console.log(`💾 Saving ${visitors.length} visitors to visited.txt`);
 
-            await put("visited.txt", jsonString, {
-                access: "public",
-                contentType: "application/json",
-                allowOverwrite: true,
-                token: process.env.BLOB_READ_WRITE_TOKEN,
+            // Save the file
+            const blob = await put('visited.txt', jsonString, {
+                access: 'public',
+                contentType: 'application/json',
             });
 
-            console.log("✅ File saved successfully to visited.txt");
-
-            // Verify by reading back
-            const verifyBlob = await get("visited.txt", {
-                token: process.env.BLOB_READ_WRITE_TOKEN,
-            });
-            const verifyText = await verifyBlob.text();
-            const verifyVisitors = JSON.parse(verifyText);
-            console.log(`✅ Verified: ${verifyVisitors.length} visitors in file`);
+            console.log('✅ File saved successfully:', blob.url);
 
         } catch (error) {
-            console.error("❌ Error saving file:", error);
+            console.error('❌ Error saving file:', error);
             return res.status(500).json({
                 error: "Failed to save data",
                 details: error.message
             });
         }
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             saved: true,
             count: visitors.length,
             visitor: newVisitor,
             duplicate: false,
-            message: `Appended visitor #${newId}. Total: ${visitors.length}`
+            message: `Visitor #${newId} added. Total: ${visitors.length}`
         });
 
     } catch (e) {
-        console.error("🚨 Server error:", e);
-        res.status(500).json({
+        console.error('🚨 Server error:', e);
+        return res.status(500).json({
             error: "Internal server error",
-            message: e.message,
-            stack: process.env.NODE_ENV === 'development' ? e.stack : undefined
+            message: e.message
         });
     }
-}
+};

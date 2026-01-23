@@ -1,154 +1,138 @@
-async function trackVisitor() {
-    console.log("🚀 Starting visitor tracking...");
+class VisitorTracker {
+    constructor () {
+        this.vid = null;
+        this.count = 0;
+        this.init();
+    }
 
-    try {
+    init() {
         // Generate or get visitor ID
-        let vid = localStorage.getItem("portfolio_vid");
-        if (!vid) {
-            vid = 'vid_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-            localStorage.setItem("portfolio_vid", vid);
-            console.log("🆕 Generated new VID:", vid);
+        this.vid = localStorage.getItem('visitor_id');
+        if (!this.vid) {
+            this.vid = 'vid_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('visitor_id', this.vid);
+        }
+
+        // Wait for DOM to load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.track());
         } else {
-            console.log("🔑 Existing VID found:", vid);
+            this.track();
         }
+    }
 
-        // Collect device information
-        const deviceInfo = {
-            vid: vid,
-            device: /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
-            browser: navigator.userAgent.substring(0, 200), // Limit length
-            screen: `${window.screen.width}x${window.screen.height}`,
-            language: navigator.language,
-            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-            page: window.location.pathname,
-            referrer: document.referrer || "direct"
-        };
-
-        console.log("📱 Device info:", deviceInfo);
-
-        // Get location info with fallback
+    async track() {
         try {
-            const geoResponse = await fetch('https://ipapi.co/json/');
-            if (geoResponse.ok) {
-                const geoData = await geoResponse.json();
-                deviceInfo.city = geoData.city || "Unknown";
-                deviceInfo.country = geoData.country_name || "Unknown";
-                deviceInfo.ip_local = geoData.ip || "Unknown";
-                console.log("📍 Location info:", geoData);
-            } else {
-                throw new Error("Geo API failed");
-            }
-        } catch (geoError) {
-            console.log("⚠️ Geo location failed, using defaults");
-            deviceInfo.city = "Unknown";
-            deviceInfo.country = "Unknown";
-            deviceInfo.ip_local = "Unknown";
+            // Collect visitor data
+            const data = {
+                vid: this.vid,
+                device: /Mobi|Android/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop',
+                browser: navigator.userAgent,
+                screen: `${window.screen.width}x${window.screen.height}`,
+                language: navigator.language,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                page: window.location.pathname,
+                referrer: document.referrer || 'direct'
+            };
 
-            // Try backup API
+            // Get IP and location
             try {
-                const backupGeo = await fetch('https://ipwho.is/');
-                if (backupGeo.ok) {
-                    const backupData = await backupGeo.json();
-                    deviceInfo.city = backupData.city || deviceInfo.city;
-                    deviceInfo.country = backupData.country || deviceInfo.country;
-                    deviceInfo.ip_local = backupData.ip || deviceInfo.ip_local;
+                const geoResponse = await fetch('https://ipapi.co/json/');
+                if (geoResponse.ok) {
+                    const geoData = await geoResponse.json();
+                    data.city = geoData.city || 'Unknown';
+                    data.country = geoData.country_name || 'Unknown';
+                    data.ip_local = geoData.ip || 'Unknown';
                 }
-            } catch (e) {
-                // Ignore backup error
+            } catch (geoError) {
+                console.log('Geo location failed, using defaults');
+                data.city = 'Unknown';
+                data.country = 'Unknown';
+                data.ip_local = 'Unknown';
             }
+
+            console.log('📤 Sending tracking data:', data);
+
+            // Send to API
+            const response = await fetch('/api/track', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            console.log('📥 Tracking response:', result);
+
+            // Update count on page
+            this.updateCount(result.count || this.count);
+
+        } catch (error) {
+            console.error('❌ Tracking error:', error);
+            this.updateCount(this.count);
         }
+    }
 
-        console.log("📤 Sending data to API...");
-
-        // Send tracking data
-        const response = await fetch('/api/track', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(deviceInfo)
-        });
-
-        const result = await response.json();
-        console.log("📥 API Response:", result);
-
-        // Update visitor count display
-        if (result.count !== undefined) {
-            const countElement = document.getElementById("user_count");
-            if (countElement) {
-                // Add animation
-                countElement.textContent = result.count;
-                countElement.style.color = "#4CAF50";
-                countElement.style.fontWeight = "bold";
-
-                // Reset animation
-                setTimeout(() => {
-                    countElement.style.color = "";
-                    countElement.style.fontWeight = "";
-                }, 1000);
-
-                console.log("✅ Visitor count updated:", result.count);
-            }
-        }
-
-        return result;
-
-    } catch (error) {
-        console.error("❌ Tracking failed:", error);
-
-        // Show error in count element
-        const countElement = document.getElementById("user_count");
+    updateCount(newCount) {
+        this.count = newCount;
+        const countElement = document.getElementById('user_count');
         if (countElement) {
-            countElement.textContent = "Error";
-            countElement.style.color = "red";
+            // Animate the count update
+            countElement.textContent = newCount;
+            countElement.classList.add('pulse');
+            setTimeout(() => countElement.classList.remove('pulse'), 300);
         }
+    }
 
-        return { success: false, error: error.message };
+    // Method to get current count (public)
+    getCount() {
+        return this.count;
     }
 }
 
-// Function to get current count without tracking
-async function getVisitorCount() {
+// Initialize tracker when page loads
+let visitorTracker;
+
+if (typeof window !== 'undefined') {
+    window.addEventListener('load', () => {
+        visitorTracker = new VisitorTracker();
+
+        // Also fetch current count from file
+        fetchCurrentCount();
+    });
+}
+
+// Function to fetch current count directly from blob
+async function fetchCurrentCount() {
     try {
-        // Try to read the file directly from Blob storage
         const response = await fetch('https://qq2nxd209l2mgsh8.public.blob.vercel-storage.com/visited.txt');
         if (response.ok) {
             const text = await response.text();
             if (text.trim()) {
                 const visitors = JSON.parse(text);
-                return visitors.length;
+                const countElement = document.getElementById('user_count');
+                if (countElement) {
+                    countElement.textContent = visitors.length;
+                }
             }
         }
-        return 0;
     } catch (e) {
-        console.log("Could not fetch count:", e);
-        return 0;
+        console.log('Could not fetch count:', e);
     }
 }
 
-// Initialize when page loads
-document.addEventListener('DOMContentLoaded', async function () {
-    console.log("🏁 Page loaded, initializing tracking...");
-
-    // First, try to show existing count
-    const initialCount = await getVisitorCount();
-    const countElement = document.getElementById("user_count");
-    if (countElement && initialCount > 0) {
-        countElement.textContent = initialCount;
+// CSS for animation
+const style = document.createElement('style');
+style.textContent = `
+    .pulse {
+        animation: pulse 0.3s ease-in-out;
     }
 
-    // Then track after delay (to not block page load)
-    setTimeout(trackVisitor, 1500);
-
-    // Track on page visibility change
-    document.addEventListener('visibilitychange', function () {
-        if (!document.hidden) {
-            console.log("🔍 Page became visible, tracking again");
-            setTimeout(trackVisitor, 1000);
-        }
-    });
-});
-
-// Make functions available globally
-window.trackVisitor = trackVisitor;
-window.getVisitorCount = getVisitorCount;
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+`;
+document.head.appendChild(style);
