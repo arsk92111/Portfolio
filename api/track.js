@@ -38,7 +38,7 @@ export default async function handler(req, res) {
             visitors = []; // file doesn't exist yet
         }
 
-        // 🔹 2️⃣ Check duplicate: only skip if BOTH IP + Device match
+        // 🔹 2️⃣ Check duplicate: ONLY if BOTH IP + Device match
         const isDuplicate = visitors.some(
             (v) => v.ip === ip && v.device === device
         );
@@ -51,10 +51,14 @@ export default async function handler(req, res) {
             });
         }
 
-        // 🔹 3️⃣ New visitor object
+        // 🔹 3️⃣ Generate unique ID (better approach)
+        const newId = visitors.length > 0 ?
+            Math.max(...visitors.map(v => v.id)) + 1 : 1;
+
+        // 🔹 4️⃣ New visitor object
         const newVisitor = {
-            id: visitors.length + 1,
-            vid,
+            id: newId,
+            vid: vid || `visitor_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
             ip,
             city,
             country,
@@ -67,12 +71,13 @@ export default async function handler(req, res) {
             page,
             referrer,
             time,
+            timestamp: Date.now()
         };
 
-        // 🔹 4️⃣ Append new visitor
+        // 🔹 5️⃣ Append new visitor
         visitors.push(newVisitor);
 
-        // 🔹 5️⃣ Save back to same file (overwrite entire array)
+        // 🔹 6️⃣ Save back to same file
         await put("visits.txt", JSON.stringify(visitors, null, 2), {
             access: "public",
             contentType: "application/json",
@@ -85,9 +90,14 @@ export default async function handler(req, res) {
             saved: true,
             count: visitors.length,
             visitor: newVisitor,
+            duplicateCheck: {
+                ipSame: visitors.some(v => v.ip === ip),
+                deviceSame: visitors.some(v => v.device === device),
+                bothSame: isDuplicate
+            }
         });
     } catch (e) {
-        console.error(e);
+        console.error("Tracking Error:", e);
         res.status(500).json({ error: e.message });
     }
 }
