@@ -26,75 +26,53 @@ export default async function handler(req, res) {
             req.socket?.remoteAddress ||
             "unknown";
 
-        // ---- 1️⃣ Read existing file ----
-        let existingText = '';
+        // 1️⃣ Read existing file
+        let existingData = [];
         try {
-            const blob = await get("visits.txt", { token: process.env.BLOB_READ_WRITE_TOKEN });
-            existingText = await blob.text();
+            const blob = await get("visits.json", { token: process.env.BLOB_READ_WRITE_TOKEN });
+            const text = await blob.text();
+            existingData = JSON.parse(text);
         } catch {
-            existingText = ''; // First visitor
+            existingData = [];
         }
 
-        // ---- 2️⃣ Convert existing data to JSON array ----
-        let records = [];
-        if (existingText) {
-            records = existingText
-                .split('-------------------------')
-                .map(block => block.trim())
-                .filter(Boolean)
-                .map(block => {
-                    const obj = {};
-                    block.split('\n').forEach(line => {
-                        const [key, ...rest] = line.split(':');
-                        if (key && rest) obj[key.trim()] = rest.join(':').trim();
-                    });
-                    return obj;
-                });
-        }
+        // 2️⃣ Check duplicate (IP + Device)
+        const isDuplicate = existingData.some(
+            entry => entry.ip === ip && entry.device === device
+        );
 
-        // ---- 3️⃣ Duplicate check (IP + Device) ----
-        const isDuplicate = records.some(r => r.IP === ip && r.Device === device);
         if (isDuplicate) {
             return res.status(200).json({
                 success: false,
-                message: "Duplicate IP + Device – data not saved",
-                count: records.length
+                message: "Duplicate IP + Device – not saved",
+                count: existingData.length
             });
         }
 
-        // ---- 4️⃣ Append new visitor ----
-        const id = records.length + 1;
+        // 3️⃣ Append new record
         const newRecord = {
-            ID: String(id),
-            VisitorID: vid,
-            IP: ip,
-            City: city,
-            Country: country,
-            "IP Local": ip_local,
-            Device: device,
-            Browser: browser,
-            Screen: screen,
-            Language: language,
-            Timezone: timezone,
-            Page: page,
-            Referrer: referrer,
-            Time: time
+            id: existingData.length + 1,
+            vid,
+            ip,
+            city,
+            country,
+            ip_local,
+            device,
+            browser,
+            screen,
+            language,
+            timezone,
+            page,
+            referrer,
+            time
         };
-        records.push(newRecord);
 
-        // ---- 5️⃣ Convert JSON array back to text ----
-        const updatedText = records
-            .map(r =>
-                Object.entries(r)
-                    .map(([k, v]) => `${k}: ${v}`)
-                    .join('\n') + '\n-------------------------\n'
-            )
-            .join('');
+        existingData.push(newRecord);
 
-        // ---- 6️⃣ Save back to same file ----
-        await put("visits.txt", updatedText, {
+        // 4️⃣ Save back to JSON file
+        await put("visits.json", JSON.stringify(existingData, null, 2), {
             access: "public",
-            contentType: "text/plain",
+            contentType: "application/json",
             allowOverwrite: true,
             token: process.env.BLOB_READ_WRITE_TOKEN
         });
@@ -102,8 +80,7 @@ export default async function handler(req, res) {
         res.status(200).json({
             success: true,
             saved: true,
-            id,
-            count: records.length
+            count: existingData.length
         });
 
     } catch (e) {
