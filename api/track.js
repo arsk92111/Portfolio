@@ -63,7 +63,7 @@ export default async function handler(req, res) {
         }
 
         // ---- 4️⃣ Append new visitor ----
-        const id = records.length + 1;
+        const id = parseInt(records.length, 10) + 1;
         const newRecord = {
             ID: String(id),
             VisitorID: vid,
