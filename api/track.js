@@ -26,22 +26,23 @@ export default async function handler(req, res) {
             req.socket?.remoteAddress ||
             "unknown";
 
-        // 1️⃣ Read existing visits.json from Vercel Blob
+        // 1️⃣ Read existing data
         let existingData = [];
         try {
             const blob = await get("visits.txt", { token: process.env.BLOB_READ_WRITE_TOKEN });
             const text = await blob.text();
-            existingData = JSON.parse(text); // parse existing array
-        } catch {
-            existingData = []; // first visitor
+            existingData = JSON.parse(text);
+            if (!Array.isArray(existingData)) existingData = [];
+        } catch (err) {
+            existingData = [];
         }
 
-        // 2️⃣ Check for duplicate (IP + Device)
-        const isDuplicate = existingData.some(
+        // 2️⃣ Duplicate check (IP + Device)
+        const duplicate = existingData.find(
             entry => entry.ip === ip && entry.device === device
         );
 
-        if (isDuplicate) {
+        if (duplicate) {
             return res.status(200).json({
                 success: false,
                 message: "Duplicate IP + Device – not saved",
@@ -67,9 +68,9 @@ export default async function handler(req, res) {
             time
         };
 
-        existingData.push(newRecord); // append new record
+        existingData.push(newRecord);
 
-        // 4️⃣ Save back to SAME file (visits.txt)
+        // 4️⃣ Save back to same file
         await put("visits.txt", JSON.stringify(existingData, null, 2), {
             access: "public",
             contentType: "application/json",
