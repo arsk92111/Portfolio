@@ -26,7 +26,7 @@ export default async function handler(req, res) {
             req.socket?.remoteAddress ||
             "unknown";
 
-        // ---- Read existing file ----
+        // ---- 1️⃣ Read existing file ----
         let existingText = '';
         try {
             const blob = await get('visits.txt', { token: process.env.BLOB_READ_WRITE_TOKEN });
@@ -35,9 +35,10 @@ export default async function handler(req, res) {
             existingText = ''; // first visitor
         }
 
-        // ---- Convert existing data to JSON array ----
-        const records = existingText
-            ? existingText
+        // ---- 2️⃣ Convert existing data to JSON array ----
+        let records = [];
+        if (existingText) {
+            records = existingText
                 .split('-------------------------')
                 .map(block => block.trim())
                 .filter(Boolean)
@@ -48,10 +49,10 @@ export default async function handler(req, res) {
                         if (key && rest) obj[key.trim()] = rest.join(':').trim();
                     });
                     return obj;
-                })
-            : [];
+                });
+        }
 
-        // ---- Duplicate check ----
+        // ---- 3️⃣ Duplicate check ----
         const isDuplicate = records.some(r => r.IP === ip && r.Device === device);
         if (isDuplicate) {
             return res.status(200).json({
@@ -61,7 +62,7 @@ export default async function handler(req, res) {
             });
         }
 
-        // ---- Add new visitor ----
+        // ---- 4️⃣ Append new visitor ----
         const id = records.length + 1;
         const newRecord = {
             ID: String(id),
@@ -79,10 +80,9 @@ export default async function handler(req, res) {
             Referrer: referrer,
             Time: time
         };
-
         records.push(newRecord);
 
-        // ---- Convert back to text with separators ----
+        // ---- 5️⃣ Convert JSON array back to text ----
         const updatedText = records
             .map(r =>
                 Object.entries(r)
@@ -91,7 +91,7 @@ export default async function handler(req, res) {
             )
             .join('');
 
-        // ---- Save back to the same file (append effectively) ----
+        // ---- 6️⃣ Save back to same file ----
         await put('visits.txt', updatedText, {
             access: "public",
             contentType: "text/plain",
@@ -105,6 +105,7 @@ export default async function handler(req, res) {
             id,
             count: records.length
         });
+
     } catch (e) {
         console.error(e);
         res.status(500).json({ error: e.message });
