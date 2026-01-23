@@ -40,20 +40,38 @@ export default async function handler(req, res) {
             req.socket?.remoteAddress ||
             "unknown";
 
-        console.log("Tracking request from IP:", ip, "Device:", device);
+        console.log("🔍 Tracking request from IP:", ip, "Device:", device);
 
-        // 🔹 1️⃣ Read existing visits.json
+        // 🔹 1️⃣ Read existing visited.txt file (NOT visits.txt)
         let visitors = [];
+        let existingData = null;
+
         try {
-            const blob = await get("visits.txt", {
+            const blob = await get("visited.txt", {
                 token: process.env.BLOB_READ_WRITE_TOKEN,
             });
-            const text = await blob.text();
-            visitors = JSON.parse(text);
-            console.log("Existing visitors:", visitors.length);
+            existingData = await blob.text();
+            console.log("📄 File content:", existingData.substring(0, 200) + "...");
+
+            // Parse JSON, handle empty or invalid JSON
+            if (existingData && existingData.trim() !== "") {
+                visitors = JSON.parse(existingData);
+            } else {
+                visitors = [];
+            }
+
+            console.log(`📊 Found ${visitors.length} existing visitors`);
         } catch (err) {
-            console.log("No existing file, starting fresh");
-            visitors = []; // file doesn't exist yet
+            if (err.message.includes("No such blob")) {
+                console.log("📄 No existing file, creating new one");
+                visitors = [];
+            } else if (err instanceof SyntaxError) {
+                console.log("⚠️ JSON parse error, starting fresh");
+                visitors = [];
+            } else {
+                console.error("❌ Error reading file:", err);
+                visitors = [];
+            }
         }
 
         // 🔹 2️⃣ Check duplicate: only skip if BOTH IP + Device match
@@ -61,8 +79,9 @@ export default async function handler(req, res) {
             (v) => v.ip === ip && v.device === device
         );
 
+        console.log(`🔍 Duplicate check: IP=${ip}, Device=${device}, IsDuplicate=${isDuplicate}`);
+
         if (isDuplicate) {
-            console.log("Duplicate visitor detected:", ip, device);
             return res.status(200).json({
                 success: false,
                 message: "Duplicate visitor (IP + Device), not saved",
@@ -71,7 +90,7 @@ export default async function handler(req, res) {
             });
         }
 
-        // 🔹 3️⃣ Generate new ID safely
+        // 🔹 3️⃣ Generate new ID
         const newId = visitors.length > 0 ?
             Math.max(...visitors.map(v => v.id || 0)) + 1 : 1;
 
@@ -84,7 +103,7 @@ export default async function handler(req, res) {
             country: country || "Unknown",
             ip_local: ip_local || ip,
             device: device || "Unknown",
-            browser: browser || "Unknown",
+            browser: (browser || "Unknown").substring(0, 200), // Limit length
             screen: screen || "Unknown",
             language: language || "Unknown",
             timezone: timezone || "Unknown",
@@ -94,22 +113,36 @@ export default async function handler(req, res) {
             timestamp: Date.now()
         };
 
-        console.log("New visitor:", newVisitor);
+        console.log("🆕 New visitor to add:", newVisitor);
 
         // 🔹 5️⃣ Append new visitor
         visitors.push(newVisitor);
+        console.log(`✅ Total visitors now: ${visitors.length}`);
 
-        // 🔹 6️⃣ Save back to same file
+        // 🔹 6️⃣ Save back to SAME FILE (visited.txt)
         try {
-            await put("visits.txt", JSON.stringify(visitors, null, 2), {
+            const jsonString = JSON.stringify(visitors, null, 2);
+            console.log(`💾 Saving ${visitors.length} visitors to visited.txt`);
+
+            await put("visited.txt", jsonString, {
                 access: "public",
                 contentType: "application/json",
                 allowOverwrite: true,
                 token: process.env.BLOB_READ_WRITE_TOKEN,
             });
-            console.log("File saved successfully");
+
+            console.log("✅ File saved successfully to visited.txt");
+
+            // Verify by reading back
+            const verifyBlob = await get("visited.txt", {
+                token: process.env.BLOB_READ_WRITE_TOKEN,
+            });
+            const verifyText = await verifyBlob.text();
+            const verifyVisitors = JSON.parse(verifyText);
+            console.log(`✅ Verified: ${verifyVisitors.length} visitors in file`);
+
         } catch (error) {
-            console.error("Error saving file:", error);
+            console.error("❌ Error saving file:", error);
             return res.status(500).json({
                 error: "Failed to save data",
                 details: error.message
@@ -121,11 +154,12 @@ export default async function handler(req, res) {
             saved: true,
             count: visitors.length,
             visitor: newVisitor,
-            duplicate: false
+            duplicate: false,
+            message: `Appended visitor #${newId}. Total: ${visitors.length}`
         });
 
     } catch (e) {
-        console.error("Server error:", e);
+        console.error("🚨 Server error:", e);
         res.status(500).json({
             error: "Internal server error",
             message: e.message,
