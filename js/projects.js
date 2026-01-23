@@ -34,10 +34,14 @@ function renderProjects(projects) {
                 <div class="info-div">
                   <div class="projects-title-grid">
                     <div class="projects-title-f-grid">
-                      <img src="${p.favicon}" alt="${p.project_name} favicon" class="faviconforProject" />
+                      <a href="${p.favicon}" title="download image"> 
+                        <img src="${p.favicon}" alt="${p.project_name} favicon" class="faviconforProject" />
+                      </a>
                     </div>
                     <div class="projects-title-s-grid">
-                      <article class="ProjectHeading">${p.id}. ${p.project_name}</article>
+                       
+                        <article class="ProjectHeading">${p.id}. ${p.project_name}</article>
+                      
                     </div>
                   </div>
                   <p class="ProjectDescription">${p.description}</p>
@@ -58,8 +62,10 @@ function renderProjects(projects) {
                 <!-- End -->
                   </div>
                 </div>
-                <div class="image-div">
-                  <img src="${p.main_image}" alt="${p.main_image_alt}" />
+                <div class="image-div"> 
+                  <a href="${p.main_image}" title="download image"> 
+                    <img src="${p.main_image}" alt="${p.main_image_alt}" />
+                  </a>
                 </div> 
             </div>
             </div> 

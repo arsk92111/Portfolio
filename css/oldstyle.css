@@ -1021,7 +1021,7 @@ noscript {
     padding-top: 200px
 }
 
-.about-section,.home-section,
+.about-section,
 .projects-section-div,
 .skills-section {
     width: 75%;
@@ -1228,7 +1228,10 @@ noscript {
     font-weight: 500
 }
 
-.cta,.cta span,.cta svg,.project-box,
+.cta,
+.cta span,
+.cta svg,
+.project-box,
 footer {
     position: relative
 }
@@ -2026,8 +2029,8 @@ textarea{
  
 
 /*  -----------------------------------  Media Query   ----------------------- */
- 
-    
+
+/* 
 
 @media screen and (max-width:1920px) {
     html {
@@ -2052,14 +2055,7 @@ textarea{
         width: 80%
     }
 
-    .about-section{
-        width: 80%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center
-    }
-    .home-section {
+    .about-section {
         width: 80%;
         display: flex;
         flex-direction: column;
@@ -2392,8 +2388,8 @@ textarea{
   .image-div img {
     width: 100%;
   }
-}    
-/*  
+}  
+ 
 @media screen and (max-width:500px) {
     html {
         font-size: 45%
@@ -2466,7 +2462,7 @@ textarea{
         font-size: 45%
     }
 
-    .about-section,.home-section,
+    .about-section,
     .projects-section-div,
     .skills-section {
         width: 80%
@@ -2544,213 +2540,141 @@ textarea{
         gap: 20px
     }
 }   
-   */
-
+  */
 /* ------------------------------------------           Mobile size     --------------------------------- */
 
 
-   
-@media screen and (max-width:500px) {
-    html {
-        font-size: 25.5%;
-    }
-    .text-content { 
-        width: 50%;
-    }
-    #hello-friend {
-        height: 10px; 
-    }
+ 
+@media screen and (max-width:1400px) {
     .footer-background, .footer-foreground { 
         height: 100vh; 
     }
     
-    .landing-page-container{
-        height: calc(85vh - 115px); 
-        width: 100%; 
+    .landing-page-container {
+        height: calc(100vh - 115px); 
     }
 
     #info-para {
         font-weight: 400;
-        font-size: 2.5rem;
-        width: 100%;   
+        font-size: 2rem;
+        width: 75%;   
         line-height: 20px;  
     }
 
-    .letsTalkBtn{    
-        
-        width: 151px;
-        height: 30px;
+    .letsTalkBtn {    
+        width: 180px;
+        height: 40px;
     }
 
     .letsTalkBtn-text { 
         font-size: 1.8rem;
     }
-
-    .skills-section {
-            width: 93%;
-            margin-top: 2%;
+    .about-section, .skills-section {
+            width: 75%;
     }
-    
-    .contact-btn-div {
-        height: 90px;
-        display: flex;
-        height: fit-content;
-        flex-direction: column-reverse;  
-        align-items: flex-start;
-         justify-content: flex-start;  
-        gap: 0px;
-    }
-    .contact-btn-div {  
-        height: fit-content;
-        display: flex;
-        width: 88%;
-        padding-top: 21px; 
-        display: -webkit-inline-box;
-        align-items: center;
-        justify-content: flex-start;
-    }
-     
-    .about-section{ 
-        width: 93%;
-        margin-top: 50%;
-    }
-    .home-section{ 
-        width: 93%;
-        margin-top: 10%;
-    }
-    
-    .company-name {
-        font-size: 3.5rem;
-    } 
-    .duration, .location  {
+    .company-name, .about-info p {
         font-size: 2rem;
     }
-
-    .strong_text, .role, .ProjectHeading, .ProjectDescription  {
-        font-size: 3rem;
-    }
- 
-
-    .info-div .faviconforProject {
-        width: 25px;
-        height: 25px;
-    }
- 
-    .dp img, .dp::after, .dp::before {
-            width: 150px;
-    }
-    .dp::after, .dp::before {
-        height: 175px; 
-    }
-     
-    .dp {
-        align-items: baseline;
-        justify-content: center;
-        width: 40%;
-        display: flex; 
-        position: relative;
-    }
-    .mobile-navbar-tabs-ul { 
-        width: 100%;
-        height: 75%; 
-        gap: 35px; 
-    }
-    .mobiletogglemenu {  
-        width: 62%;
-    }
-    #hello-friend{
-        font-size: 3rem;
-    }
-
-    #name {
-        font-size: 6rem;
-    }
-
-    #work {
-        font-size: 4rem;
-    }
- 
-    .info-dp-section { 
-        margin-top: 0; 
-    }  
-    .experience-info .dp, .info-dp-section {
-        width: 93%; 
-        display: -webkit-inline-box;
-    } 
-
-    .experience-section-container {
-        width: 63%; 
-        padding-top: 0%; 
-        margin-top: 0%;
+    .duration, .location, .strong_text, .role, .ProjectHeading, .ProjectDescription  {
+        font-size: 1.7rem;
     }
     .experience-description p { 
-        font-size: 2.1rem;
+        font-size: 1.3rem;
     }
+
     .project-list { 
-        font-size: 1.7rem;
+        font-size: 1.3rem;
     }
 
     .about-info p {
-        line-height: 14px;
-        font-size: 2.5rem;
-    } 
-    .about-info {
-        width: 53%;
+        line-height: 25px;  
     }
-    
-    .about-section-container{
-        padding-top: 0%; 
-        margin-top: 80px;
+
+    .info-div .faviconforProject {
+        width: 50px;
+        height: 50px;
     }
-    .skills-section-container { 
-        padding-top: 32%;
+
+    .image-div img { 
+        height: 100%;
     }
-    .frontend-dev-heading {
-        font-size: 2.5rem; 
-        height: 40px;
-    }
-    .frontend-dev-section{ 
-        width: 50%;
-        margin-top: 6px;
-    }
-    .tech-stack-wrapper {
-        gap: 30px;
-        margin-top: 35px;
-    }
-    .tech-stack-box {
-        width: 67px;
-        height: 67px;
-    }
-    .info-div, .image-div {
-        flex: -1 1 100%;
-        padding: 3px;
-        width: 50%;
-        height: 25%;
-    }
-    .project-boxes-div {
-        padding: 15px 0;
-    }
-    .image-div img {
-        height: 50%;
-    }
-    .project-box {  
-        height: 350px;
-    }
-    .cta:hover:before, .project-box-wrapper {
-        width: 100%;
-    }
-    .getintouch-heading article {
-        font-size: 5rem;
-    }
-    .two-words article {
+
+    #hello-friend {
         font-size: 3.5rem;
     }
-    .logos {
-        gap: 10px;
+
+    #name {
+        font-size: 8rem;
     }
-    .social-media-container a {
-        width: 45px;
-        height: 45px;
+
+    #work {
+        font-size: 6.5rem;
     }
+
+
 }
-  
+ 
+ 
+@media screen and (max-width:500px) {
+    .footer-background, .footer-foreground { 
+        height: 30vh; 
+    }
+    
+    .landing-page-container{
+        height: calc(60vh - 115px); 
+    }
+
+    #info-para {
+        font-weight: 450;
+        font-size: 4.5rem;
+        width: 150%;   
+        line-height: 60px;  
+    }
+
+    .letsTalkBtn{    
+        width: 200px;
+        height: 60px;
+    }
+
+    .letsTalkBtn-text { 
+        font-size: 1.8rem;
+    }
+    .about-section, .skills-section {
+            width: 92%;
+    }
+    .company-name, .about-info p {
+        font-size: 3rem;
+    }
+    .duration, .location, .strong_text, .role, .ProjectHeading, .ProjectDescription  {
+        font-size: 2rem;
+    }
+    .experience-description p { 
+        font-size: 2.5rem;
+    }
+
+    .project-list { 
+        font-size: 1.8rem;
+    }
+    .about-info p {
+        line-height: 42px;  
+    }
+    .info-div .faviconforProject {
+        width: 75px;
+        height: 75px;
+    }
+    .image-div img { 
+        height: 60%;
+    }
+    #hello-friend{
+        font-size: 4.5rem;
+    }
+    #name {
+        font-size: 10rem;
+    }
+    #work {
+        font-size: 7.5rem;
+    }
+
+
+}
+ 
