@@ -793,10 +793,7 @@ How are You!</textarea>
     }  
   </script>
   
-
-
-
-
+ 
 <script>
   async function track() {
     // Unique visitor ID
@@ -825,12 +822,16 @@ How are You!</textarea>
       referrer: document.referrer
     };
 
-    await fetch("/api/track", {
+    const res = await fetch("/api/track", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
     });
-    document.getElementById("user_count").innerText = data.count || 0;
+    const new_data = await res.json();
+
+  if (data.count) {
+    document.getElementById("user_count").innerText = new_data.count  || 0;
+  }
   }
 
   track();

@@ -40,7 +40,7 @@ export default async function handler(req, res) {
                 return res.status(200).json({
                     success: false,
                     message: "Duplicate IP & Device – not saved",
-                    id: id,
+                    count: id,
                 });
             }
         }
@@ -76,7 +76,8 @@ Time: ${time}
         res.status(200).json({
             success: true,
             saved: true,
-            id
+            id,
+            count: id,
         });
 
     } catch (e) {
