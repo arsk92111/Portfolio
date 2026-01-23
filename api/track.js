@@ -90,7 +90,7 @@ export default async function handler(req, res) {
                     .join('\n') + '\n-------------------------\n'
             )
             .join('');
-
+        console.log(updatedText);
         // ---- 6️⃣ Save back to same file ----
         await put('visits.txt', updatedText, {
             access: "public",
