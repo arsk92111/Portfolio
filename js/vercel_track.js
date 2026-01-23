@@ -2,54 +2,50 @@ class VisitorTracker {
     constructor () {
         this.vid = null;
         this.count = 0;
-        this.init();
+        this.initialized = false;
     }
 
-    init() {
-        // Generate or get visitor ID
-        this.vid = localStorage.getItem('visitor_id');
-        if (!this.vid) {
-            this.vid = 'vid_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-            localStorage.setItem('visitor_id', this.vid);
-        }
+    async init() {
+        if (this.initialized) return;
 
-        // Wait for DOM to load
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => this.track());
-        } else {
-            this.track();
-        }
-    }
-
-    async track() {
         try {
-            // Collect visitor data
+            // Generate or get visitor ID
+            this.vid = localStorage.getItem('visitor_id');
+            if (!this.vid) {
+                this.vid = 'vid_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('visitor_id', this.vid);
+            }
+
+            // First, show existing count if available
+            await this.showCurrentCount();
+
+            // Then track visitor (with delay to not block page load)
+            setTimeout(() => this.trackVisitor(), 1000);
+
+            this.initialized = true;
+        } catch (error) {
+            console.error('Tracker init error:', error);
+        }
+    }
+
+    async trackVisitor() {
+        try {
+            console.log('🚀 Starting visitor tracking...');
+
+            // Collect basic visitor data (NO external API calls)
             const data = {
                 vid: this.vid,
-                device: /Mobi|Android/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop',
-                browser: navigator.userAgent,
+                device: this.getDeviceType(),
+                browser: navigator.userAgent.substring(0, 200),
                 screen: `${window.screen.width}x${window.screen.height}`,
                 language: navigator.language,
                 timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
                 page: window.location.pathname,
-                referrer: document.referrer || 'direct'
+                referrer: document.referrer || 'direct',
+                city: "Unknown",  // Backend will try to get this
+                country: "Unknown", // Backend will try to get this
+                ip_local: "Unknown" // Backend will get real IP
             };
-
-            // Get IP and location
-            try {
-                const geoResponse = await fetch('https://ipapi.co/json/');
-                if (geoResponse.ok) {
-                    const geoData = await geoResponse.json();
-                    data.city = geoData.city || 'Unknown';
-                    data.country = geoData.country_name || 'Unknown';
-                    data.ip_local = geoData.ip || 'Unknown';
-                }
-            } catch (geoError) {
-                console.log('Geo location failed, using defaults');
-                data.city = 'Unknown';
-                data.country = 'Unknown';
-                data.ip_local = 'Unknown';
-            }
 
             console.log('📤 Sending tracking data:', data);
 
@@ -66,11 +62,44 @@ class VisitorTracker {
             console.log('📥 Tracking response:', result);
 
             // Update count on page
-            this.updateCount(result.count || this.count);
+            this.updateCount(result.count || 0);
+
+            return result;
 
         } catch (error) {
             console.error('❌ Tracking error:', error);
             this.updateCount(this.count);
+            return { success: false, error: error.message };
+        }
+    }
+
+    getDeviceType() {
+        const ua = navigator.userAgent;
+        if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+            return "Tablet";
+        } else if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
+            return "Mobile";
+        }
+        return "Desktop";
+    }
+
+    async showCurrentCount() {
+        try {
+            // Try to read the current count from the blob file
+            const response = await fetch('https://qq2nxd209l2mgsh8.public.blob.vercel-storage.com/visited.txt');
+            if (response.ok) {
+                const text = await response.text();
+                if (text.trim()) {
+                    const visitors = JSON.parse(text);
+                    this.count = visitors.length;
+                    this.updateCount(this.count);
+                    console.log(`📊 Current count: ${this.count}`);
+                }
+            }
+        } catch (e) {
+            console.log('Could not fetch initial count:', e);
+            // Start with 0
+            this.updateCount(0);
         }
     }
 
@@ -80,59 +109,34 @@ class VisitorTracker {
         if (countElement) {
             // Animate the count update
             countElement.textContent = newCount;
-            countElement.classList.add('pulse');
-            setTimeout(() => countElement.classList.remove('pulse'), 300);
+            countElement.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                countElement.style.transform = 'scale(1)';
+            }, 300);
         }
     }
 
-    // Method to get current count (public)
     getCount() {
         return this.count;
     }
 }
 
-// Initialize tracker when page loads
-let visitorTracker;
+// Create and initialize tracker
+const visitorTracker = new VisitorTracker();
 
+// Initialize when page loads
 if (typeof window !== 'undefined') {
     window.addEventListener('load', () => {
-        visitorTracker = new VisitorTracker();
+        visitorTracker.init();
+    });
 
-        // Also fetch current count from file
-        fetchCurrentCount();
+    // Also track when page becomes visible again
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+            setTimeout(() => visitorTracker.trackVisitor(), 2000);
+        }
     });
 }
 
-// Function to fetch current count directly from blob
-async function fetchCurrentCount() {
-    try {
-        const response = await fetch('https://qq2nxd209l2mgsh8.public.blob.vercel-storage.com/visited.txt');
-        if (response.ok) {
-            const text = await response.text();
-            if (text.trim()) {
-                const visitors = JSON.parse(text);
-                const countElement = document.getElementById('user_count');
-                if (countElement) {
-                    countElement.textContent = visitors.length;
-                }
-            }
-        }
-    } catch (e) {
-        console.log('Could not fetch count:', e);
-    }
-}
-
-// CSS for animation
-const style = document.createElement('style');
-style.textContent = `
-    .pulse {
-        animation: pulse 0.3s ease-in-out;
-    }
-
-    @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.1); }
-        100% { transform: scale(1); }
-    }
-`;
-document.head.appendChild(style);
+// Make tracker available globally
+window.visitorTracker = visitorTracker;
