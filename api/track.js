@@ -1,4 +1,4 @@
-import { put, list, get } from '@vercel/blob';
+import { put, list } from "@vercel/blob";
 
 export default async function handler(req, res) {
     if (req.method !== "POST") {
@@ -14,18 +14,16 @@ export default async function handler(req, res) {
             req.socket?.remoteAddress ||
             "unknown";
 
-        // 1️⃣ Get all visit files
+        // 1️⃣ List all visit files
         const { blobs } = await list({
             prefix: "visits/visits_",
             token: process.env.BLOB_READ_WRITE_TOKEN,
         });
 
-        // 2️⃣ Check if IP already exists
+        // 2️⃣ Check duplicate IP
         for (const blob of blobs) {
-            const file = await get(blob.pathname, {
-                token: process.env.BLOB_READ_WRITE_TOKEN,
-            });
-            const text = await file.text();
+            const response = await fetch(blob.url);
+            const text = await response.text();
 
             if (text.includes(`IP: ${ip}`)) {
                 return res.status(200).json({
@@ -41,7 +39,7 @@ export default async function handler(req, res) {
         const nextId = blobs.length + 1;
         const filename = `visits/visits_${nextId}.txt`;
 
-        // 4️⃣ File content
+        // 4️⃣ Content
         const content = `
 ID: ${nextId}
 IP: ${ip}
@@ -53,7 +51,7 @@ Time: ${time}
 -------------------------
 `;
 
-        // 5️⃣ Save new visit
+        // 5️⃣ Save file
         await put(filename, content, {
             access: "public",
             contentType: "text/plain",
