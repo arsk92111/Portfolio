@@ -26,7 +26,7 @@ export default async function handler(req, res) {
             req.socket?.remoteAddress ||
             "unknown";
 
-        // 1️⃣ Read existing visits file
+        // 🔹 1️⃣ Read existing visits.json
         let visitors = [];
         try {
             const blob = await get("visits.txt", {
@@ -35,14 +35,14 @@ export default async function handler(req, res) {
             const text = await blob.text();
             visitors = JSON.parse(text);
         } catch (err) {
-        // file doesn't exist or empty = first visitor
-            visitors = [];
+            visitors = []; // file doesn't exist yet
         }
 
-        // 2️⃣ Check duplicate: IP + Device both same
+        // 🔹 2️⃣ Check duplicate: only skip if BOTH IP + Device match
         const isDuplicate = visitors.some(
             (v) => v.ip === ip && v.device === device
         );
+
         if (isDuplicate) {
             return res.status(200).json({
                 success: false,
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
             });
         }
 
-        // 3️⃣ New visitor object
+        // 🔹 3️⃣ New visitor object
         const newVisitor = {
             id: visitors.length + 1,
             vid,
@@ -69,10 +69,10 @@ export default async function handler(req, res) {
             time,
         };
 
-        // 4️⃣ Append new visitor
+        // 🔹 4️⃣ Append new visitor
         visitors.push(newVisitor);
 
-        // 5️⃣ Save back to same file
+        // 🔹 5️⃣ Save back to same file (overwrite entire array)
         await put("visits.txt", JSON.stringify(visitors, null, 2), {
             access: "public",
             contentType: "application/json",
