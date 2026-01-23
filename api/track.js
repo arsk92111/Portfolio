@@ -17,7 +17,7 @@ export default async function handler(req, res) {
             language,
             timezone,
             page,
-            referrer
+            referrer,
         } = req.body || {};
 
         const time = new Date().toISOString();
@@ -26,31 +26,32 @@ export default async function handler(req, res) {
             req.socket?.remoteAddress ||
             "unknown";
 
-        // 1️⃣ Read existing file
+        // 1️⃣ Read existing visits file
         let visitors = [];
         try {
-            const blob = await get("visited.txt", {
+            const blob = await get("visits.txt", {
                 token: process.env.BLOB_READ_WRITE_TOKEN,
             });
             const text = await blob.text();
-            visitors = JSON.parse(text || "[]");
-        } catch {
+            visitors = JSON.parse(text);
+        } catch (err) {
+        // file doesn't exist or empty = first visitor
             visitors = [];
         }
 
-        // 2️⃣ Check duplicate (IP + Device)
+        // 2️⃣ Check duplicate: IP + Device both same
         const isDuplicate = visitors.some(
             (v) => v.ip === ip && v.device === device
         );
         if (isDuplicate) {
             return res.status(200).json({
                 success: false,
-                message: "Duplicate IP & Device – not saved",
+                message: "Duplicate visitor (IP + Device), not saved",
                 count: visitors.length,
             });
         }
 
-        // 3️⃣ Append new visitor
+        // 3️⃣ New visitor object
         const newVisitor = {
             id: visitors.length + 1,
             vid,
@@ -67,21 +68,23 @@ export default async function handler(req, res) {
             referrer,
             time,
         };
+
+        // 4️⃣ Append new visitor
         visitors.push(newVisitor);
 
-        // 4️⃣ Save back to visits.txt
-        await put("visited.txt", JSON.stringify(visitors, null, 2), {
+        // 5️⃣ Save back to same file
+        await put("visits.txt", JSON.stringify(visitors, null, 2), {
             access: "public",
             contentType: "application/json",
             allowOverwrite: true,
             token: process.env.BLOB_READ_WRITE_TOKEN,
         });
 
-        // 5️⃣ Return visitor count
         res.status(200).json({
             success: true,
+            saved: true,
             count: visitors.length,
-            newVisitor,
+            visitor: newVisitor,
         });
     } catch (e) {
         console.error(e);
