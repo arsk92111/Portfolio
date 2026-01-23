@@ -29,7 +29,7 @@ export default async function handler(req, res) {
         // 1️⃣ Read existing file
         let visitors = [];
         try {
-            const blob = await get("visits.txt", {
+            const blob = await get("visited.txt", {
                 token: process.env.BLOB_READ_WRITE_TOKEN,
             });
             const text = await blob.text();
@@ -70,7 +70,7 @@ export default async function handler(req, res) {
         visitors.push(newVisitor);
 
         // 4️⃣ Save back to visits.txt
-        await put("visits.txt", JSON.stringify(visitors, null, 2), {
+        await put("visited.txt", JSON.stringify(visitors, null, 2), {
             access: "public",
             contentType: "application/json",
             allowOverwrite: true,
