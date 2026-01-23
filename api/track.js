@@ -26,51 +26,75 @@ export default async function handler(req, res) {
             req.socket?.remoteAddress ||
             "unknown";
 
-        // ---- Read existing visits file ----
-        let existing = '';
+        // ---- Read existing file ----
+        let existingText = '';
         try {
             const blob = await get('visits.txt', { token: process.env.BLOB_READ_WRITE_TOKEN });
-            existing = await blob.text();
+            existingText = await blob.text();
         } catch {
-            existing = ''; // first visitor
+            existingText = ''; // first visitor
         }
 
+        // ---- Convert file data to JSON array ----
+        // Split by separator and parse each block
+        const records = existingText
+            ? existingText
+                .split('-------------------------')
+                .map(block => block.trim())
+                .filter(Boolean)
+                .map(block => {
+                    const lines = block.split('\n').map(l => l.trim());
+                    const obj = {};
+                    lines.forEach(line => {
+                        const [key, ...rest] = line.split(':');
+                        if (key && rest) obj[key.trim()] = rest.join(':').trim();
+                    });
+                    return obj;
+                })
+            : [];
+
         // ---- Check duplicate (IP + Device) ----
-        if (existing.includes(`IP: ${ip}`) && existing.includes(`Device: ${device}`)) {
+        const duplicate = records.find(r => r.IP === ip && r.Device === device);
+        if (duplicate) {
             return res.status(200).json({
                 success: false,
                 message: "Duplicate IP + Device – data not saved",
-                count: existing.trim().split('\n').filter(line => line.startsWith('ID:')).length
+                count: records.length
             });
         }
 
-        // ---- Generate new ID ----
-        const count = existing.trim().split('\n').filter(line => line.startsWith('ID:')).length;
-        const id = count + 1;
+        // ---- Add new record ----
+        const id = records.length + 1;
+        const newRecord = {
+            ID: String(id),
+            VisitorID: vid,
+            IP: ip,
+            City: city,
+            Country: country,
+            "IP Local": ip_local,
+            Device: device,
+            Browser: browser,
+            Screen: screen,
+            Language: language,
+            Timezone: timezone,
+            Page: page,
+            Referrer: referrer,
+            Time: time
+        };
 
-        // ---- Append new visitor ----
-        const row = `
-ID: ${id}
-VisitorID: ${vid}
-IP: ${ip}
-City: ${city}
-Country: ${country}
-IP Local: ${ip_local}
-Device: ${device}
-Browser: ${browser}
-Screen: ${screen}
-Language: ${language}
-Timezone: ${timezone}
-Page: ${page}
-Referrer: ${referrer}
-Time: ${time}
--------------------------
-`;
+        records.push(newRecord);
 
-        const updated = existing + row;
+        // ---- Convert back to human-readable text ----
+        const updatedText = records
+            .map(r =>
+                Object.entries(r)
+                    .map(([k, v]) => `${k}: ${v}`)
+                    .join('\n') + '\n-------------------------\n'
+            )
+            .join('');
 
         // ---- Save back ----
-        await put('visits.txt', updated, {
+        await put('visits.txt', updatedText, {
             access: "public",
             contentType: "text/plain",
             allowOverwrite: true,
@@ -81,9 +105,8 @@ Time: ${time}
             success: true,
             saved: true,
             id,
-            count: id
+            count: records.length
         });
-
     } catch (e) {
         console.error(e);
         res.status(500).json({ error: e.message });
