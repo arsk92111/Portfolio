@@ -830,6 +830,7 @@ How are You!</textarea>
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
     });
+    document.getElementById("user_count").innerText = data.count || 0;
   }
 
   track();
