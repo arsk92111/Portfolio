@@ -1,7 +1,7 @@
 import { get, put } from '@vercel/blob';
 
 export default async function handler(req, res) {
-    // Enable CORS
+    // Allow CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -10,160 +10,134 @@ export default async function handler(req, res) {
         return res.status(200).end();
     }
 
-    if (req.method !== "POST") {
-        return res.status(405).json({ error: "Method not allowed" });
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method not allowed' });
     }
 
     try {
-        // Get data from request
-        const {
-            vid,
-            device,
-            browser,
-            screen,
-            language,
-            timezone,
-            page,
-            referrer,
-            city = "Unknown",
-            country = "Unknown",
-            ip_local = "Unknown"
-        } = req.body || {};
+        // Get data from frontend
+        const data = req.body;
+        console.log('📨 Received data:', data);
 
-        const time = new Date().toISOString();
+        // Get IP from Vercel headers (MOST IMPORTANT)
+        let ip = req.headers['x-real-ip'] ||
+            req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
+            req.socket?.remoteAddress ||
+            'unknown';
 
-        // ✅ **EXACT IP EXTRACTION METHOD FOR VERCEL**
-        // This is the MOST IMPORTANT PART
-        let ip = "unknown";
+        console.log('🌐 IP Address:', ip);
 
-        // Method 1: Check x-real-ip (most reliable)
-        if (req.headers['x-real-ip']) {
-            ip = req.headers['x-real-ip'];
-        }
-        // Method 2: Check x-forwarded-for
-        else if (req.headers['x-forwarded-for']) {
-            const forwarded = req.headers['x-forwarded-for'].split(',');
-            ip = forwarded[0].trim();
-        }
-        // Method 3: Check cf-connecting-ip (Cloudflare)
-        else if (req.headers['cf-connecting-ip']) {
-            ip = req.headers['cf-connecting-ip'];
-        }
-        // Method 4: Socket remote address
-        else if (req.socket?.remoteAddress) {
-            ip = req.socket.remoteAddress;
-        }
+        // Device info from frontend
+        const device = data.device || 'Unknown';
+        console.log('📱 Device:', device);
 
-        // Clean IP (remove IPv6 prefix)
-        if (ip.startsWith('::ffff:')) {
-            ip = ip.substring(7);
-        }
-        // Handle localhost
-        if (ip === '::1') {
-            ip = '127.0.0.1';
-        }
-
-        console.log("✅ IP Extracted:", ip);
-        console.log("✅ Device:", device);
-
-        // 🔹 **READ EXISTING DATA**
-        let visitors = [];
-
+        // Read existing data
+        let existingData = [];
         try {
-            // First check if file exists
             const blob = await get('visited.txt');
             const text = await blob.text();
+            console.log('📖 File content length:', text.length);
 
-            if (text && text.trim() !== '') {
-                visitors = JSON.parse(text);
-                console.log(`📄 Read ${visitors.length} existing visitors`);
+            if (text.trim()) {
+                existingData = JSON.parse(text);
+                console.log(`📊 Found ${existingData.length} existing visitors`);
             }
-        } catch (err) {
-            console.log("📄 Creating new file (first visitor)");
-            visitors = [];
+        } catch (error) {
+            console.log('📝 No existing file or error, starting fresh');
+            existingData = [];
         }
 
-        // 🔹 **DUPLICATE CHECK: IP + DEVICE MUST BE SAME**
-        const isDuplicate = visitors.some(v =>
-            v.ip === ip && v.device === device
-        );
+        // Check for duplicate (IP + Device must BOTH match to skip)
+        let isDuplicate = false;
+        let duplicateIndex = -1;
 
-        console.log("🔍 Duplicate Check Result:", {
-            ip: ip,
-            device: device,
-            isDuplicate: isDuplicate,
-            existingMatches: visitors.filter(v => v.ip === ip && v.device === device).length
-        });
+        for (let i = 0; i < existingData.length; i++) {
+            const visitor = existingData[i];
+            if (visitor.ip === ip && visitor.device === device) {
+                isDuplicate = true;
+                duplicateIndex = i;
+                break;
+            }
+        }
 
+        console.log('🔍 Duplicate check:');
+        console.log('- IP:', ip);
+        console.log('- Device:', device);
+        console.log('- Is duplicate?', isDuplicate);
+        console.log('- Existing visitors with same IP+Device:',
+            existingData.filter(v => v.ip === ip && v.device === device).length);
+
+        // If duplicate (same IP + same device), DO NOT SAVE
         if (isDuplicate) {
-            console.log("⏭️ Skipping duplicate (IP+Device already exists)");
-            return res.status(200).json({
+            console.log('⏭️ Skipping - Same IP and Device already exists');
+            return res.json({
                 success: false,
-                message: "Duplicate: Same IP and Device",
-                count: visitors.length,
+                message: 'Visitor already exists (same IP + device)',
+                count: existingData.length,
                 duplicate: true
             });
         }
 
-        // 🔹 **CREATE NEW VISITOR**
-        const newId = visitors.length > 0 ?
-            Math.max(...visitors.map(v => v.id)) + 1 : 1;
-
+        // Create new visitor entry
         const newVisitor = {
-            id: newId,
-            vid: vid || `visitor_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+            id: existingData.length + 1,
+            vid: data.vid || `vid_${Date.now()}`,
             ip: ip,
-            city: city,
-            country: country,
-            ip_local: ip_local,
+            city: data.city || 'Unknown',
+            country: data.country || 'Unknown',
+            ip_local: data.ip_local || ip,
             device: device,
-            browser: browser || navigator.userAgent,
-            screen: screen || "Unknown",
-            language: language || "Unknown",
-            timezone: timezone || "Unknown",
-            page: page || "/",
-            referrer: referrer || "direct",
-            time: time,
-            timestamp: Date.now()
+            browser: data.browser || 'Unknown',
+            screen: data.screen || 'Unknown',
+            language: data.language || 'Unknown',
+            timezone: data.timezone || 'Unknown',
+            page: data.page || '/',
+            referrer: data.referrer || 'direct',
+            time: new Date().toISOString()
         };
 
-        console.log("🆕 New Visitor Data:", newVisitor);
+        console.log('🆕 New visitor to add:', newVisitor);
 
-        // 🔹 **APPEND TO EXISTING ARRAY**
-        visitors.push(newVisitor);
-        console.log(`✅ Total visitors after append: ${visitors.length}`);
+        // Append to existing array
+        existingData.push(newVisitor);
+        console.log(`✅ Total visitors after adding: ${existingData.length}`);
 
-        // 🔹 **SAVE BACK TO FILE**
+        // Save to file
         try {
-            await put('visited.txt', JSON.stringify(visitors, null, 2), {
+            const jsonData = JSON.stringify(existingData, null, 2);
+            console.log('💾 Saving data, size:', jsonData.length, 'bytes');
+
+            await put('visited.txt', jsonData, {
                 access: 'public',
                 contentType: 'application/json',
                 token: process.env.BLOB_READ_WRITE_TOKEN,
                 allowOverwrite: true
             });
-            console.log("💾 File saved successfully!");
-        } catch (error) {
-            console.error("❌ Save error:", error);
+
+            console.log('💾 File saved successfully!');
+        } catch (saveError) {
+            console.error('❌ Error saving file:', saveError);
             return res.status(500).json({
-                error: "Failed to save",
-                details: error.message
+                error: 'Failed to save data',
+                details: saveError.message
             });
         }
 
-        return res.status(200).json({
+        // Return success
+        return res.json({
             success: true,
             saved: true,
-            count: visitors.length,
+            count: existingData.length,
             visitor: newVisitor,
             duplicate: false,
-            message: `Added visitor #${newId}. Total: ${visitors.length}`
+            message: `Added visitor #${newVisitor.id}. Total: ${existingData.length}`
         });
 
     } catch (error) {
-        console.error("🚨 Server Error:", error);
+        console.error('🚨 Server error:', error);
         return res.status(500).json({
-            error: "Server error",
-            message: error.message
+            error: 'Server error',
+            details: error.message
         });
     }
 }
