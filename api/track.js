@@ -21,10 +21,7 @@ export default async function handler(req, res) {
         } = req.body || {};
 
         const time = new Date().toISOString();
-        const ip =
-            req.headers["x-forwarded-for"]?.split(",")[0] ||
-            req.socket?.remoteAddress ||
-            "unknown";
+        const ip = req.headers["x-forwarded-for"]?.split(",")[0] || req.socket?.remoteAddress || "unknown";
 
         // 🔍 list all visit files
         const { blobs } = await list({
@@ -32,15 +29,15 @@ export default async function handler(req, res) {
             token: process.env.BLOB_READ_WRITE_TOKEN
         });
 
-        // 🔁 duplicate check (IP + Device)
+        // 🔁 duplicate check (VID or IP+Device)
         for (const blob of blobs) {
-            const text = await fetch(blob.url).then(r => r.text());
-
-            if (text.includes(`IP: ${ip}`) && text.includes(`Device: ${device}`)) {
+            const blobText = await fetch(blob.url).then(r => r.text());
+            if (blobText.includes(`VisitorID: ${vid}`) ||
+                (blobText.includes(`IP Local: ${ip_local}`) && blobText.includes(`Device: ${device}`))) {
                 return res.status(200).json({
                     success: false,
-                    message: "Duplicate IP & Device – not saved",
-                    count: id,
+                    message: "Duplicate visitor – not saved",
+                    count: blobs.length
                 });
             }
         }
@@ -77,7 +74,7 @@ Time: ${time}
             success: true,
             saved: true,
             id,
-            count: id,
+            count: id
         });
 
     } catch (e) {
@@ -85,3 +82,4 @@ Time: ${time}
         res.status(500).json({ error: e.message });
     }
 }
+
