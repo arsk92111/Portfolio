@@ -39,7 +39,8 @@ export default async function handler(req, res) {
             if (text.includes(`IP: ${ip}`) && text.includes(`Device: ${device}`)) {
                 return res.status(200).json({
                     success: false,
-                    message: "Duplicate IP & Device – not saved"
+                    message: "Duplicate IP & Device – not saved",
+                    id: id,
                 });
             }
         }
