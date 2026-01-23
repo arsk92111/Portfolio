@@ -1,4 +1,4 @@
-import { put, get } from "@vercel/blob";
+import { get, put } from "@vercel/blob";
 
 export default async function handler(req, res) {
     if (req.method !== "POST") {
@@ -26,33 +26,33 @@ export default async function handler(req, res) {
             req.socket?.remoteAddress ||
             "unknown";
 
-        // 1️⃣ Read existing data
-        let existingData = [];
+        // 1️⃣ Read existing file
+        let visitors = [];
         try {
-            const blob = await get("visits.txt", { token: process.env.BLOB_READ_WRITE_TOKEN });
+            const blob = await get("visits.txt", {
+                token: process.env.BLOB_READ_WRITE_TOKEN,
+            });
             const text = await blob.text();
-            existingData = JSON.parse(text);
-            if (!Array.isArray(existingData)) existingData = [];
-        } catch (err) {
-            existingData = [];
+            visitors = JSON.parse(text || "[]");
+        } catch {
+            visitors = [];
         }
 
-        // 2️⃣ Duplicate check (IP + Device)
-        const duplicate = existingData.find(
-            entry => entry.ip === ip && entry.device === device
+        // 2️⃣ Check duplicate (IP + Device)
+        const isDuplicate = visitors.some(
+            (v) => v.ip === ip && v.device === device
         );
-
-        if (duplicate) {
+        if (isDuplicate) {
             return res.status(200).json({
                 success: false,
-                message: "Duplicate IP + Device – not saved",
-                count: existingData.length
+                message: "Duplicate IP & Device – not saved",
+                count: visitors.length,
             });
         }
 
-        // 3️⃣ Append new record
-        const newRecord = {
-            id: existingData.length + 1,
+        // 3️⃣ Append new visitor
+        const newVisitor = {
+            id: visitors.length + 1,
             vid,
             ip,
             city,
@@ -65,25 +65,24 @@ export default async function handler(req, res) {
             timezone,
             page,
             referrer,
-            time
+            time,
         };
+        visitors.push(newVisitor);
 
-        existingData.push(newRecord);
-
-        // 4️⃣ Save back to same file
-        await put("visits.txt", JSON.stringify(existingData, null, 2), {
+        // 4️⃣ Save back to visits.txt
+        await put("visits.txt", JSON.stringify(visitors, null, 2), {
             access: "public",
             contentType: "application/json",
             allowOverwrite: true,
-            token: process.env.BLOB_READ_WRITE_TOKEN
+            token: process.env.BLOB_READ_WRITE_TOKEN,
         });
 
+        // 5️⃣ Return visitor count
         res.status(200).json({
             success: true,
-            saved: true,
-            count: existingData.length
+            count: visitors.length,
+            newVisitor,
         });
-
     } catch (e) {
         console.error(e);
         res.status(500).json({ error: e.message });
