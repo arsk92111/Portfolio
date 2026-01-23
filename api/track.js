@@ -35,17 +35,15 @@ export default async function handler(req, res) {
             existingText = ''; // first visitor
         }
 
-        // ---- Convert file data to JSON array ----
-        // Split by separator and parse each block
+        // ---- Convert existing data to JSON array ----
         const records = existingText
             ? existingText
                 .split('-------------------------')
                 .map(block => block.trim())
                 .filter(Boolean)
                 .map(block => {
-                    const lines = block.split('\n').map(l => l.trim());
                     const obj = {};
-                    lines.forEach(line => {
+                    block.split('\n').forEach(line => {
                         const [key, ...rest] = line.split(':');
                         if (key && rest) obj[key.trim()] = rest.join(':').trim();
                     });
@@ -53,9 +51,9 @@ export default async function handler(req, res) {
                 })
             : [];
 
-        // ---- Check duplicate (IP + Device) ----
-        const duplicate = records.find(r => r.IP === ip && r.Device === device);
-        if (duplicate) {
+        // ---- Duplicate check ----
+        const isDuplicate = records.some(r => r.IP === ip && r.Device === device);
+        if (isDuplicate) {
             return res.status(200).json({
                 success: false,
                 message: "Duplicate IP + Device – data not saved",
@@ -63,7 +61,7 @@ export default async function handler(req, res) {
             });
         }
 
-        // ---- Add new record ----
+        // ---- Add new visitor ----
         const id = records.length + 1;
         const newRecord = {
             ID: String(id),
@@ -84,7 +82,7 @@ export default async function handler(req, res) {
 
         records.push(newRecord);
 
-        // ---- Convert back to human-readable text ----
+        // ---- Convert back to text with separators ----
         const updatedText = records
             .map(r =>
                 Object.entries(r)
@@ -93,7 +91,7 @@ export default async function handler(req, res) {
             )
             .join('');
 
-        // ---- Save back ----
+        // ---- Save back to the same file (append effectively) ----
         await put('visits.txt', updatedText, {
             access: "public",
             contentType: "text/plain",
