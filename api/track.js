@@ -1,7 +1,7 @@
-// Import using require for CommonJS
-const { get, put } = require('@vercel/blob');
+// Use ES modules or CommonJS consistently
+import { get, put } from '@vercel/blob';
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
     // Set CORS headers
     res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -36,30 +36,38 @@ module.exports = async function handler(req, res) {
         } = req.body || {};
 
         const time = new Date().toISOString();
-        const ip =
-            req.headers["x-forwarded-for"]?.split(",")[0]?.trim() ||
+
+        // Get IP address (Vercel specific)
+        const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
+            req.headers['x-real-ip'] ||
+            req.connection?.remoteAddress ||
             req.socket?.remoteAddress ||
             "unknown";
 
-        console.log(`🔍 Tracking: IP=${ip}, Device=${device}`);
+        console.log(`🔍 Tracking request from IP: ${ip}, Device: ${device}`);
 
-        // 🔹 1️⃣ Read existing visitors.txt file
+        // 🔹 1️⃣ Read existing visited.txt file
         let visitors = [];
         try {
-            // Try to read the file
-            const blob = await get('visited.txt');
-            const text = await blob.text();
+            const { url, downloadUrl } = await get('visited.txt');
+            console.log(`📄 File URL: ${url}`);
 
-            if (text && text.trim() !== '') {
-                visitors = JSON.parse(text);
-                console.log(`📊 Found ${visitors.length} existing visitors`);
+            const response = await fetch(downloadUrl);
+            if (response.ok) {
+                const text = await response.text();
+                if (text && text.trim() !== '') {
+                    visitors = JSON.parse(text);
+                    console.log(`📊 Found ${visitors.length} existing visitors`);
+                } else {
+                    visitors = [];
+                    console.log('📄 File is empty, starting fresh');
+                }
             } else {
+                console.log('📄 File does not exist, starting fresh');
                 visitors = [];
-                console.log('📄 File is empty, starting fresh');
             }
         } catch (err) {
-            // If file doesn't exist or other error, start fresh
-            console.log('📄 No existing file or error, starting fresh:', err.message);
+            console.log('📄 Error reading file, starting fresh:', err.message);
             visitors = [];
         }
 
@@ -86,7 +94,7 @@ module.exports = async function handler(req, res) {
         // 🔹 4️⃣ New visitor object
         const newVisitor = {
             id: newId,
-            vid: vid || `visitor_${Date.now()}`,
+            vid: vid || `visitor_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
             ip,
             city: city || "Unknown",
             country: country || "Unknown",
@@ -108,15 +116,16 @@ module.exports = async function handler(req, res) {
         visitors.push(newVisitor);
         console.log(`✅ Total visitors now: ${visitors.length}`);
 
-        // 🔹 6️⃣ Save back to visited.txt
+        // 🔹 6️⃣ Save back to visited.txt WITH allowOverwrite: true
         try {
             const jsonString = JSON.stringify(visitors, null, 2);
             console.log(`💾 Saving ${visitors.length} visitors to visited.txt`);
 
-            // Save the file
             const blob = await put('visited.txt', jsonString, {
                 access: 'public',
                 contentType: 'application/json',
+                token: process.env.BLOB_READ_WRITE_TOKEN,
+                allowOverwrite: true  // ✅ THIS IS CRITICAL
             });
 
             console.log('✅ File saved successfully:', blob.url);
@@ -145,4 +154,4 @@ module.exports = async function handler(req, res) {
             message: e.message
         });
     }
-};
+}
