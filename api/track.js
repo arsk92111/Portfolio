@@ -1,4 +1,4 @@
-import { put, list } from "@vercel/blob";
+import { put, get } from "@vercel/blob";
 
 export default async function handler(req, res) {
     if (req.method !== "POST") {
@@ -21,32 +21,35 @@ export default async function handler(req, res) {
         } = req.body || {};
 
         const time = new Date().toISOString();
-        const ip = req.headers["x-forwarded-for"]?.split(",")[0] || req.socket?.remoteAddress || "unknown";
+        const ip =
+            req.headers["x-forwarded-for"]?.split(",")[0] ||
+            req.socket?.remoteAddress ||
+            "unknown";
 
-        // 🔍 list all visit files
-        const { blobs } = await list({
-            prefix: "visits/",
-            token: process.env.BLOB_READ_WRITE_TOKEN
-        });
-
-        // 🔁 duplicate check (VID or IP+Device)
-        for (const blob of blobs) {
-            const blobText = await fetch(blob.url).then(r => r.text());
-            if (blobText.includes(`VisitorID: ${vid}`) ||
-                (blobText.includes(`IP Local: ${ip_local}`) && blobText.includes(`Device: ${device}`))) {
-                return res.status(200).json({
-                    success: false,
-                    message: "Duplicate visitor – not saved",
-                    count: blobs.length
-                });
-            }
+        // ---- Read existing visits file ----
+        let existing = '';
+        try {
+            const blob = await get('visits.txt', { token: process.env.BLOB_READ_WRITE_TOKEN });
+            existing = await blob.text();
+        } catch {
+            existing = ''; // first visitor
         }
 
-        // 🆕 new file
-        const id = blobs.length + 1;
-        const filename = `visits/visits_${id}.txt`;
+        // ---- Check duplicate (IP + Device) ----
+        if (existing.includes(`IP: ${ip}`) && existing.includes(`Device: ${device}`)) {
+            return res.status(200).json({
+                success: false,
+                message: "Duplicate IP + Device – data not saved",
+                count: existing.trim().split('\n').filter(line => line.startsWith('ID:')).length
+            });
+        }
 
-        const content = `
+        // ---- Generate new ID ----
+        const count = existing.trim().split('\n').filter(line => line.startsWith('ID:')).length;
+        const id = count + 1;
+
+        // ---- Append new visitor ----
+        const row = `
 ID: ${id}
 VisitorID: ${vid}
 IP: ${ip}
@@ -64,9 +67,13 @@ Time: ${time}
 -------------------------
 `;
 
-        await put(filename, content, {
+        const updated = existing + row;
+
+        // ---- Save back ----
+        await put('visits.txt', updated, {
             access: "public",
             contentType: "text/plain",
+            allowOverwrite: true,
             token: process.env.BLOB_READ_WRITE_TOKEN
         });
 
@@ -82,4 +89,3 @@ Time: ${time}
         res.status(500).json({ error: e.message });
     }
 }
-
