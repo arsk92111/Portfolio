@@ -798,36 +798,43 @@ How are You!</textarea>
 
 
 <script>
-async function trackUser(email = "") {
-  // Check localStorage for unique ID
-  let visitorId = localStorage.getItem("visitorId");
-  if (!visitorId) {
-    visitorId = crypto.randomUUID();
-    localStorage.setItem("visitorId", visitorId);
-  }
+  async function track() {
+    // Unique visitor ID
+    let vid = localStorage.getItem("vid");
+    if (!vid) {
+      vid = crypto.randomUUID();
+      localStorage.setItem("vid", vid);
+    }
 
-  // Geo lookup (optional)
-  const geo = await fetch("https://ipwho.is/").then(r => r.json());
+    // Geo
+    const geo = await fetch("https://ipwho.is/")
+      .then(r => r.json())
+      .catch(() => ({}));
 
-  // Send data to server
-  const res = await fetch("/api/track", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      uniqueId: visitorId,
-      email: email,
+    const data = {
+      vid,
       city: geo.city || "",
       country: geo.country || "",
-      ip_local: geo.ip || ""
-    })
-  });
+      ip_local: geo.ip || "",
+      device: /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
+      browser: navigator.userAgent,
+      screen: `${screen.width}x${screen.height}`,
+      language: navigator.language,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      page: location.pathname,
+      referrer: document.referrer
+    };
 
-  const data = await res.json();
-  document.getElementById("user_count").innerText = data.count || 0;
-}
+    await fetch("/api/track", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+  }
 
-trackUser(); // call this when page loads
+  track();
 </script>
+
 
 
 </body>

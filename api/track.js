@@ -1,4 +1,4 @@
-import { put, list } from "@vercel/blob";
+import { put, list, get } from "@vercel/blob";
 
 export default async function handler(req, res) {
     if (req.method !== "POST") {
@@ -6,65 +6,80 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { email = "", city = "", country = "", ip_local = "" } = req.body || {};
-        const time = new Date().toISOString();
+        const {
+            vid,
+            city,
+            country,
+            ip_local,
+            device,
+            browser,
+            screen,
+            language,
+            timezone,
+            page,
+            referrer
+        } = req.body || {};
 
+        const time = new Date().toISOString();
         const ip =
             req.headers["x-forwarded-for"]?.split(",")[0] ||
             req.socket?.remoteAddress ||
             "unknown";
 
-        // 1️⃣ List all visit files
+        // 🔍 Check existing files
         const { blobs } = await list({
-            prefix: "visits/visits_",
-            token: process.env.BLOB_READ_WRITE_TOKEN,
+            prefix: "visits/",
+            token: process.env.BLOB_READ_WRITE_TOKEN
         });
 
-        // 2️⃣ Check duplicate IP
-        for (const blob of blobs) {
-            const response = await fetch(blob.url);
-            const text = await response.text();
+        for (const file of blobs) {
+            const old = await get(file.pathname, {
+                token: process.env.BLOB_READ_WRITE_TOKEN
+            });
+            const text = await old.text();
 
-            if (text.includes(`IP: ${ip}`)) {
+            // 🚫 SAME IP + SAME DEVICE → DO NOT SAVE
+            if (text.includes(`IP: ${ip}`) && text.includes(`Device: ${device}`)) {
                 return res.status(200).json({
                     success: false,
-                    message: "IP already exists, visit not recorded",
-                    ip,
-                    count: blobs.length,
+                    message: "Duplicate IP & Device – not saved"
                 });
             }
         }
 
-        // 3️⃣ Next file number
-        const nextId = blobs.length + 1;
-        const filename = `visits/visits_${nextId}.txt`;
+        // 🆕 New file
+        const id = blobs.length + 1;
+        const filename = `visits/visits_${id}.txt`;
 
-        // 4️⃣ Content
         const content = `
-ID: ${nextId}
+ID: ${id}
+VisitorID: ${vid}
 IP: ${ip}
 City: ${city}
 Country: ${country}
-Email: ${email}
 IP Local: ${ip_local}
+Device: ${device}
+Browser: ${browser}
+Screen: ${screen}
+Language: ${language}
+Timezone: ${timezone}
+Page: ${page}
+Referrer: ${referrer}
 Time: ${time}
--------------------------
+------------------------
 `;
 
-        // 5️⃣ Save file
         await put(filename, content, {
             access: "public",
             contentType: "text/plain",
-            token: process.env.BLOB_READ_WRITE_TOKEN,
+            token: process.env.BLOB_READ_WRITE_TOKEN
         });
 
         res.status(200).json({
             success: true,
-            id: nextId,
-            file: filename,
-            count: nextId,
+            saved: true,
+            id
         });
-
     } catch (e) {
         console.error(e);
         res.status(500).json({ error: e.message });
