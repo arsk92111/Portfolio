@@ -1,11 +1,16 @@
+
 async function track() {
-    let vid = localStorage.getItem("vid");
+        // Unique visitor ID
+        let vid = localStorage.getItem("vid");
     if (!vid) {
         vid = crypto.randomUUID();
         localStorage.setItem("vid", vid);
     }
 
-    const geo = await fetch("https://ipwho.is/").then(r => r.json()).catch(() => ({}));
+        // Geo + IP info
+        const geo = await fetch("https://ipwho.is/")
+            .then(r => r.json())
+            .catch(() => ({}));
 
     const data = {
         vid,
@@ -26,9 +31,12 @@ async function track() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
     });
+
     const new_data = await res.json();
 
+        // Display user count
     document.getElementById("user_count").innerText = new_data.count || 0;
 }
 
 track();
+
