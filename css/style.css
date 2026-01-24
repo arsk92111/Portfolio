@@ -204,7 +204,7 @@ html {
     cursor: pointer
 }
 
-.soundtogglebuttoncontainer,
+.soundtogglebuttoncontainer,.filetogglebuttoncontainer
 .visualmodetogglebuttoncontainer {
     align-items: center;
     width: fit-content;
@@ -260,8 +260,14 @@ html {
     justify-content: center;
     transform: translate(-130px) scale(0)
 }
+.filetogglebuttoncontainer {
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    transform: translate(-130px) scale(0)
+}
 
-#labelforsound,
+#labelforsound, #labelforfile
 #preloader {
     display: flex;
     align-items: center;
@@ -293,6 +299,23 @@ html {
 #switchforsound:checked+#labelforsound {
     transition-duration: .5s;
     background-image: url("../images/Speaker_Icon.svg");
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center
+}
+
+#labelforfile {
+    position: relative;
+    justify-content: center;
+    width: 40px;
+    background-image: url("../images/File_Icon.png");
+    cursor: pointer;
+    transition-duration: .5s
+}
+
+#switchfordownloadfile:checked+#labelforfile {
+    transition-duration: .5s;
+    background-image: url("../images/FileDownload_Icon.png");
     background-size: 50%;
     background-repeat: no-repeat;
     background-position: center
