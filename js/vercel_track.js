@@ -1,4 +1,4 @@
-// Professional Business Tracking
+// Professional Business Tracking WITHOUT External APIs
 class ProfessionalTracker {
     constructor () {
         this.data = {};
@@ -17,14 +17,14 @@ class ProfessionalTracker {
         this.data.session_id = 'session_' + Date.now();
         this.data.timestamp = new Date().toISOString();
 
-        // 2. COMPANY/ORGANIZATION DATA (from IP)
-        this.data.company = await this.getCompanyInfo();
+        // 2. COMPANY/ORGANIZATION DATA (estimated from IP pattern)
+        this.data.company = this.estimateCompanyFromIP();
 
         // 3. NETWORK & CONNECTION
         this.data.network = this.getNetworkDetails();
         this.data.connection = this.getConnectionType();
 
-        // 4. DEVICE FINGERPRINTING (for unique identification)
+        // 4. DEVICE FINGERPRINTING
         this.data.fingerprint = this.generateFingerprint();
 
         // 5. PROFESSIONAL DETAILS
@@ -36,9 +36,7 @@ class ProfessionalTracker {
         this.data.security = {
             cookies_enabled: navigator.cookieEnabled,
             do_not_track: navigator.doNotTrack || 'unspecified',
-            privacy_mode: this.isPrivateBrowsing(),
-            secure_connection: window.location.protocol === 'https:',
-            vpn_detected: await this.detectVPN()
+            secure_connection: window.location.protocol === 'https:'
         };
 
         // 7. BUSINESS INTELLIGENCE
@@ -64,7 +62,7 @@ class ProfessionalTracker {
 
         // 9. PERFORMANCE METRICS
         this.data.performance = {
-            connection_speed: navigator.connection ? navigator.connection.downlink + ' Mbps' : 'Unknown',
+            connection_speed: navigator.connection ? (navigator.connection.downlink || 0) + ' Mbps' : 'Unknown',
             screen_resolution: window.screen.width + 'x' + window.screen.height,
             color_depth: window.screen.colorDepth + ' bit',
             pixel_ratio: window.devicePixelRatio,
@@ -83,53 +81,82 @@ class ProfessionalTracker {
         return vid;
     }
 
-    async getCompanyInfo() {
-        try {
-            // Try multiple IP intelligence services
-            const responses = await Promise.race([
-                fetch('https://ipapi.co/json/'),
-                fetch('https://ipwho.is/'),
-                fetch('https://ipinfo.io/json')
-            ]);
+    estimateCompanyFromIP() {
+        // Simple company estimation based on user agent and other clues
+        const ua = navigator.userAgent.toLowerCase();
 
-            const geo = await responses.json();
-
-            return {
-                ip_address: geo.ip || '',
-                isp: geo.org || geo.isp || '',
-                asn: geo.asn || '',
-                company: geo.org || geo.company || '',
-                hosting: this.isHostingProvider(geo.org),
-                proxy: geo.proxy || false,
-                vpn: geo.vpn || false,
-                tor: geo.tor || false,
-                city: geo.city || '',
-                region: geo.region || '',
-                country: geo.country || '',
-                country_code: geo.country_code || '',
-                latitude: geo.latitude || '',
-                longitude: geo.longitude || ''
-            };
-        } catch {
-            return { ip_address: 'unknown', isp: 'unknown' };
+        let company = 'Unknown';
+        if (ua.includes('chrome') && ua.includes('google')) {
+            company = 'Google';
+        } else if (ua.includes('firefox')) {
+            company = 'Mozilla';
+        } else if (ua.includes('safari') && ua.includes('apple')) {
+            company = 'Apple';
+        } else if (ua.includes('edge') || ua.includes('edg/')) {
+            company = 'Microsoft';
+        } else if (ua.includes('opera')) {
+            company = 'Opera';
         }
+
+        // Check for corporate network patterns
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const isCorporateHours = (new Date().getHours() >= 9 && new Date().getHours() <= 17);
+        const isWeekday = (new Date().getDay() >= 1 && new Date().getDay() <= 5);
+
+        return {
+            name: company,
+            isp: 'Unknown',
+            asn: '',
+            hosting: false,
+            proxy: false,
+            vpn: false,
+            tor: false,
+            city: this.guessCityFromTimezone(timezone),
+            region: 'Unknown',
+            country: this.guessCountryFromLanguage(),
+            country_code: this.getCountryCode(),
+            latitude: '',
+            longitude: ''
+        };
     }
 
-    isHostingProvider(org) {
-        if (!org) return false;
-        const hostingKeywords = ['digitalocean', 'aws', 'amazon', 'google', 'cloud', 'azure', 'linode', 'vultr', 'ovh', 'host', 'server'];
-        return hostingKeywords.some(keyword => org.toLowerCase().includes(keyword));
+    guessCityFromTimezone(timezone) {
+        const timezoneMap = {
+            'Asia/Karachi': 'Karachi',
+            'Asia/Kolkata': 'Mumbai',
+            'Asia/Dubai': 'Dubai',
+            'America/New_York': 'New York',
+            'America/Los_Angeles': 'Los Angeles',
+            'Europe/London': 'London',
+            'Europe/Paris': 'Paris',
+            'Asia/Singapore': 'Singapore',
+            'Asia/Tokyo': 'Tokyo',
+            'Australia/Sydney': 'Sydney'
+        };
+        return timezoneMap[timezone] || 'Unknown';
     }
 
-    async detectVPN() {
-        try {
-            // Check for common VPN IP ranges or use a service
-            const response = await fetch('https://vpnapi.io/api/' + this.data.company.ip_address);
-            const data = await response.json();
-            return data.security && (data.security.vpn || data.security.proxy || data.security.tor);
-        } catch {
-            return false;
-        }
+    guessCountryFromLanguage() {
+        const lang = navigator.language;
+        if (lang.includes('en')) return 'United States';
+        if (lang.includes('ur')) return 'Pakistan';
+        if (lang.includes('hi')) return 'India';
+        if (lang.includes('ar')) return 'Saudi Arabia';
+        if (lang.includes('es')) return 'Spain';
+        if (lang.includes('fr')) return 'France';
+        if (lang.includes('de')) return 'Germany';
+        if (lang.includes('ja')) return 'Japan';
+        if (lang.includes('zh')) return 'China';
+        return 'Unknown';
+    }
+
+    getCountryCode() {
+        const lang = navigator.language;
+        if (lang.includes('en')) return 'US';
+        if (lang.includes('ur')) return 'PK';
+        if (lang.includes('hi')) return 'IN';
+        if (lang.includes('ar')) return 'SA';
+        return 'Unknown';
     }
 
     getNetworkDetails() {
@@ -144,30 +171,29 @@ class ProfessionalTracker {
     }
 
     getConnectionType() {
-        // Detect connection type (WiFi, 4G, Ethernet, etc.)
         const connection = navigator.connection;
         if (!connection) return 'unknown';
 
         if (connection.type === 'wifi') return 'WiFi';
         if (connection.type === 'cellular') return 'Mobile Data';
         if (connection.type === 'ethernet') return 'Ethernet';
-        if (connection.type === 'bluetooth') return 'Bluetooth';
-        if (connection.type === 'wimax') return 'WiMAX';
 
         return connection.type || 'unknown';
     }
 
     generateFingerprint() {
-        // Create a unique device fingerprint
+        // Create a unique device fingerprint WITHOUT external calls
         const components = [
             navigator.userAgent,
             navigator.platform,
             navigator.language,
-            screen.colorDepth,
-            (new Date()).getTimezoneOffset(),
-            navigator.hardwareConcurrency || 'unknown',
-            navigator.deviceMemory || 'unknown',
-            navigator.maxTouchPoints || 'unknown'
+            screen.colorDepth.toString(),
+            (new Date()).getTimezoneOffset().toString(),
+            (navigator.hardwareConcurrency || 'unknown').toString(),
+            (navigator.deviceMemory || 'unknown').toString(),
+            (navigator.maxTouchPoints || 'unknown').toString(),
+            window.screen.width.toString(),
+            window.screen.height.toString()
         ].join('|');
 
         // Simple hash
@@ -178,20 +204,21 @@ class ProfessionalTracker {
             hash = hash & hash;
         }
 
-        return Math.abs(hash).toString(36);
+        return 'fp_' + Math.abs(hash).toString(36);
     }
 
     getReferralSource() {
         const referrer = document.referrer;
         if (!referrer) return 'Direct';
 
-        if (referrer.includes('google')) return 'Google Search';
-        if (referrer.includes('bing')) return 'Bing Search';
-        if (referrer.includes('yahoo')) return 'Yahoo Search';
+        if (referrer.includes('google')) return 'Google';
+        if (referrer.includes('bing')) return 'Bing';
+        if (referrer.includes('yahoo')) return 'Yahoo';
         if (referrer.includes('facebook')) return 'Facebook';
         if (referrer.includes('twitter')) return 'Twitter';
         if (referrer.includes('linkedin')) return 'LinkedIn';
         if (referrer.includes('github')) return 'GitHub';
+        if (referrer.includes('vercel')) return 'Vercel';
 
         return 'Other Website';
     }
@@ -209,14 +236,15 @@ class ProfessionalTracker {
 
     isBusinessHours() {
         const hour = new Date().getHours();
-        return hour >= 9 && hour <= 17;
+        const isWeekday = new Date().getDay() >= 1 && new Date().getDay() <= 5;
+        return isWeekday && hour >= 9 && hour <= 17;
     }
 
     getBrowserEngine() {
         const ua = navigator.userAgent;
-        if (ua.includes('Chrome')) return 'Blink (Chrome/Edge)';
-        if (ua.includes('Firefox')) return 'Gecko (Firefox)';
-        if (ua.includes('Safari')) return 'WebKit (Safari)';
+        if (ua.includes('Chrome') || ua.includes('Edg')) return 'Blink';
+        if (ua.includes('Firefox')) return 'Gecko';
+        if (ua.includes('Safari')) return 'WebKit';
         return 'Unknown';
     }
 
@@ -228,23 +256,6 @@ class ProfessionalTracker {
         } catch {
             return false;
         }
-    }
-
-    isPrivateBrowsing() {
-        // Check if in incognito/private mode
-        return new Promise((resolve) => {
-            const fs = window.RequestFileSystem || window.webkitRequestFileSystem;
-            if (!fs) {
-                resolve(false);
-                return;
-            }
-
-            fs(window.TEMPORARY, 100, () => {
-                resolve(false);
-            }, () => {
-                resolve(true);
-            });
-        });
     }
 
     async sendData() {
@@ -272,8 +283,16 @@ class ProfessionalTracker {
 
     updateCounter(result) {
         const counter = document.getElementById('user_count');
-        if (counter && result.count) {
-            counter.textContent = result.count;
+        if (counter) {
+            if (result.count !== undefined) {
+                counter.textContent = result.count;
+            } else {
+                // Increment local counter if API fails
+                let localCount = parseInt(localStorage.getItem('local_visitor_count') || '0');
+                localCount++;
+                localStorage.setItem('local_visitor_count', localCount.toString());
+                counter.textContent = localCount;
+            }
 
             // Professional animation
             counter.style.fontSize = '18px';
@@ -292,8 +311,8 @@ class ProfessionalTracker {
         // Track time spent
         setInterval(() => {
             const timeSpent = Math.floor((Date.now() - this.startTime) / 1000);
-            if (timeSpent % 30 === 0) { // Every 30 seconds
-                console.log(`⏱️ Time on page: ${timeSpent} seconds`);
+            if (timeSpent % 60 === 0) { // Every 60 seconds
+                console.log(`⏱️ Time on page: ${Math.floor(timeSpent / 60)} minutes`);
             }
         }, 1000);
 
@@ -305,8 +324,20 @@ class ProfessionalTracker {
     }
 }
 
-// Initialize
+// Initialize when page loads
 document.addEventListener('DOMContentLoaded', () => {
-    const tracker = new ProfessionalTracker();
-    setTimeout(() => tracker.init(), 1500);
+    console.log('🚀 Professional tracker initializing...');
+
+    // Show current count from localStorage as fallback
+    const counter = document.getElementById('user_count');
+    if (counter) {
+        const localCount = localStorage.getItem('local_visitor_count') || '0';
+        counter.textContent = localCount;
+    }
+
+    // Start tracking after delay
+    setTimeout(() => {
+        const tracker = new ProfessionalTracker();
+        tracker.init();
+    }, 1500);
 });

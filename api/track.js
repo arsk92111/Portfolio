@@ -1,5 +1,22 @@
 import { get, put } from '@vercel/blob';
 
+// Helper function outside handler
+function calculateDataCompleteness(data) {
+    const fields = [
+        'company', 'location', 'device_profile',
+        'acquisition', 'security_assessment', 'technology'
+    ];
+
+    let filledFields = 0;
+    fields.forEach(field => {
+        if (data[field] && Object.keys(data[field]).length > 0) {
+            filledFields++;
+        }
+    });
+
+    return Math.round((filledFields / fields.length) * 100);
+}
+
 export default async function handler(req, res) {
     // Professional headers
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -24,6 +41,7 @@ export default async function handler(req, res) {
         // Get actual IP (considering Vercel proxy)
         let ip = req.headers['x-real-ip'] ||
             req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
+            req.socket?.remoteAddress ||
             'unknown';
 
         console.log(`📊 Professional tracking v${trackingVersion} from IP: ${ip}`);
@@ -37,10 +55,11 @@ export default async function handler(req, res) {
                 const text = await response.text();
                 if (text.trim()) {
                     allVisitors = JSON.parse(text);
+                    console.log(`📄 Read ${allVisitors.length} existing visitors`);
                 }
             }
         } catch (error) {
-            console.log('Starting fresh database');
+            console.log('📝 Starting fresh database');
         }
 
         // Professional duplicate check (IP + Fingerprint)
@@ -48,15 +67,17 @@ export default async function handler(req, res) {
         const visitorFingerprint = visitorData.fingerprint || 'unknown';
 
         for (const visitor of allVisitors) {
-            const sameIP = visitor.ip === ip;
+            const sameIP = visitor.ip_address === ip;
             const sameFingerprint = visitor.fingerprint === visitorFingerprint;
-            const sameCompany = visitor.company?.company === visitorData.company?.company;
+            const sameCompany = visitor.company?.name === visitorData.company?.name;
 
             if (sameIP && (sameFingerprint || sameCompany)) {
                 isDuplicate = true;
                 break;
             }
         }
+
+        console.log(`🔍 Duplicate check: ${isDuplicate ? 'Duplicate found' : 'New visitor'}`);
 
         if (isDuplicate) {
             return res.json({
@@ -72,15 +93,15 @@ export default async function handler(req, res) {
         const professionalVisitor = {
             // IDENTIFICATION
             id: `BIZ-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
-            visitor_id: visitorData.visitor_id,
-            session_id: visitorData.session_id,
+            visitor_id: visitorData.visitor_id || 'unknown',
+            session_id: visitorData.session_id || 'unknown',
             fingerprint: visitorFingerprint,
             timestamp: new Date().toISOString(),
 
             // COMPANY & ORGANIZATION
             ip_address: ip,
             company: {
-                name: visitorData.company?.company || 'Unknown',
+                name: visitorData.company?.name || 'Unknown',
                 isp: visitorData.company?.isp || 'Unknown',
                 asn: visitorData.company?.asn || '',
                 hosting_provider: visitorData.company?.hosting || false,
@@ -147,12 +168,13 @@ export default async function handler(req, res) {
             status: {
                 visitor_type: visitorData.visitor_id ? 'Returning' : 'New',
                 tracking_version: trackingVersion,
-                data_completeness: this.calculateDataCompleteness(visitorData)
+                data_completeness: calculateDataCompleteness(visitorData)
             }
         };
 
         // Add to database
         allVisitors.push(professionalVisitor);
+        console.log(`✅ Added new visitor. Total: ${allVisitors.length}`);
 
         // Save with professional formatting
         const jsonData = JSON.stringify(allVisitors, null, 2);
@@ -194,21 +216,4 @@ export default async function handler(req, res) {
             timestamp: new Date().toISOString()
         });
     }
-}
-
-// Helper function
-function calculateDataCompleteness(data) {
-    const fields = [
-        'company', 'location', 'device_profile',
-        'acquisition', 'security_assessment', 'technology'
-    ];
-
-    let filledFields = 0;
-    fields.forEach(field => {
-        if (data[field] && Object.keys(data[field]).length > 0) {
-            filledFields++;
-        }
-    });
-
-    return Math.round((filledFields / fields.length) * 100);
 }
