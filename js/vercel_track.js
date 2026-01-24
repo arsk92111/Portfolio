@@ -103,11 +103,9 @@ async function getCurrentCount() {
     }
 }
 
-// Initialize when page loads
 document.addEventListener('DOMContentLoaded', function () {
     console.log('🏁 Page loaded, initializing tracker...');
 
-    // First, show current count
     getCurrentCount();
 
     // Then track visitor after delay
