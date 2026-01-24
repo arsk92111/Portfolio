@@ -4,7 +4,7 @@
     background-position: center
 }
 
-#labelforsetting,
+#labelforsetting,#labelfordownloadfile,
 #labelforsound {
     height: 40px;
     background-size: 60%
@@ -189,7 +189,7 @@ html {
     margin-left: 50px;
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 14px;
     padding: 20px 0
 }
 
@@ -204,7 +204,7 @@ html {
     cursor: pointer
 }
 
-.soundtogglebuttoncontainer,.filetogglebuttoncontainer
+.soundtogglebuttoncontainer,.downloadfiletogglebuttoncontainer,
 .visualmodetogglebuttoncontainer {
     align-items: center;
     width: fit-content;
@@ -227,7 +227,7 @@ html {
     transform: translate(0) scale(1)
 }
 
-#switchforsetting,#switchforsound,#switchforvisualmode,.hamburger,
+#switchforsetting,#switchforsound,#switchforvisualmode,.hamburger,#switchfordownloadfile,
 .mobiletogglemenu {
     display: none
 }
@@ -260,14 +260,14 @@ html {
     justify-content: center;
     transform: translate(-130px) scale(0)
 }
-.filetogglebuttoncontainer {
+.downloadfiletogglebuttoncontainer {
     height: fit-content;
     display: flex;
     justify-content: center;
     transform: translate(-130px) scale(0)
 }
 
-#labelforsound, #labelforfile
+#labelforsound, #labelfordownloadfile, 
 #preloader {
     display: flex;
     align-items: center;
@@ -275,7 +275,7 @@ html {
     background-position: center
 }
 
-.soundmodeshow {
+.soundmodeshow, .downloadfilemodeshow {
     transition-delay: .1s;
     transition-duration: .5s;
     display: inline-block;
@@ -304,7 +304,7 @@ html {
     background-position: center
 }
 
-#labelforfile {
+#labelfordownloadfile {
     position: relative;
     justify-content: center;
     width: 40px;
@@ -313,7 +313,7 @@ html {
     transition-duration: .5s
 }
 
-#switchfordownloadfile:checked+#labelforfile {
+#switchfordownloadfile:checked+#labelfordownloadfile {
     transition-duration: .5s;
     background-image: url("../images/FileDownload_Icon.png");
     background-size: 50%;
@@ -2775,5 +2775,9 @@ textarea{
         width: 45px;
         height: 45px;
     }
+    
+.setting-container { 
+    gap: 14px; 
+}
 }
   

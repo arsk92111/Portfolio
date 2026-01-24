@@ -1,17 +1,20 @@
 
 var audio = document.getElementById("audioPlayer"); var loader = document.getElementById("preloader"); window.addEventListener("load", function () { loader.style.display = "none"; document.querySelector('.hey').classList.add('popup') })
-function settingtoggle() { document.getElementById("setting-container").classList.toggle('settingactivate'); document.getElementById("visualmodetogglebuttoncontainer").classList.toggle('visualmodeshow'); document.getElementById("soundtogglebuttoncontainer").classList.toggle('soundmodeshow') }
+function settingtoggle() { document.getElementById("setting-container").classList.toggle('settingactivate'); document.getElementById("visualmodetogglebuttoncontainer").classList.toggle('visualmodeshow'); document.getElementById("soundtogglebuttoncontainer").classList.toggle('soundmodeshow'); document.getElementById("downloadfiletogglebuttoncontainer").classList.toggle('downloadfilemodeshow') }
 function playpause() { if (document.getElementById('switchforsound').checked == !1) { audio.pause() } else { audio.play() } }
+var donwloaded = document.getElementById("audioPlayer");
 function downloadfile() {
-    if (document.getElementById('switchfordownloadfile').checked == !1) {
-        const url = "https://qq2nxd209l2mgsh8.public.blob.vercel-storage.com/visited.txt";
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "visits.txt";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    }
+    const checkbox = document.getElementById("switchfordownloadfile");
+    if (!checkbox.checked) return;
+    const url = "https://qq2nxd209l2mgsh8.public.blob.vercel-storage.com/visited.txt";
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "visits.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a); 
+    checkbox.checked = false;
 }
 function visualmode() { document.body.classList.toggle('light-mode'); var elements = document.querySelectorAll('.needtobeinvert'); elements.forEach(function (element) { element.classList.toggle('invertapplied') }) }
 let emptyArea = document.getElementById("emptyarea"); let mobileTogglemenu = document.getElementById("mobiletogglemenu"); function hamburgerMenu() { document.body.classList.toggle("stopscrolling"); document.getElementById("mobiletogglemenu").classList.toggle("show-toggle-menu"); document.getElementById("burger-bar1").classList.toggle("hamburger-animation1"); document.getElementById("burger-bar2").classList.toggle("hamburger-animation2"); document.getElementById("burger-bar3").classList.toggle("hamburger-animation3") }
