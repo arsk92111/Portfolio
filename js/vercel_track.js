@@ -1,4 +1,17 @@
-// Simple Tracking Function
+// Device detection function
+function getDeviceType() {
+    const ua = navigator.userAgent;
+
+    if (/Tablet|iPad/i.test(ua)) {
+        return 'Tablet';
+    }
+    if (/Mobi|Android|iPhone|iPod/i.test(ua)) {
+        return 'Mobile';
+    }
+    return 'Desktop';
+}
+
+// Main tracking function
 async function trackVisitor() {
     console.log('🚀 Starting visitor tracking...');
 
@@ -6,40 +19,30 @@ async function trackVisitor() {
         // Get or create visitor ID
         let vid = localStorage.getItem('visitor_id');
         if (!vid) {
-            vid = 'visitor_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            vid = 'vid_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
             localStorage.setItem('visitor_id', vid);
-            console.log('🆕 Created new visitor ID:', vid);
-        } else {
-            console.log('🔑 Using existing visitor ID:', vid);
         }
 
-        // Detect device
-        const userAgent = navigator.userAgent;
-        let device = 'Desktop';
-        if (/Mobi|Android|iPhone|iPad|iPod/i.test(userAgent)) {
-            device = 'Mobile';
-        }
-        if (/Tablet|iPad/i.test(userAgent)) {
-            device = 'Tablet';
-        }
+        // Get device type
+        const device = getDeviceType();
+        console.log('📱 Device detected:', device);
 
-        // Collect data
+        // Prepare data
         const data = {
             vid: vid,
             device: device,
-            browser: navigator.userAgent.substring(0, 100),
+            browser: navigator.userAgent.substring(0, 200),
             screen: window.screen.width + 'x' + window.screen.height,
             language: navigator.language,
             timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
             page: window.location.pathname,
             referrer: document.referrer || 'direct',
-            // We'll get IP and location from backend
             city: 'Unknown',
             country: 'Unknown',
             ip_local: 'Unknown'
         };
 
-        console.log('📤 Sending data:', data);
+        console.log('📤 Sending data to API...');
 
         // Send to API
         const response = await fetch('/api/track', {
@@ -51,30 +54,39 @@ async function trackVisitor() {
         });
 
         const result = await response.json();
-        console.log('📥 Response:', result);
+        console.log('📥 API Response:', result);
 
-        // Update counter on page
-        const counterElement = document.getElementById('user_count');
-        if (counterElement) {
-            const oldCount = parseInt(counterElement.textContent) || 0;
-            counterElement.textContent = result.count || oldCount;
-
-            // Add animation
-            if (result.success && result.saved) {
-                counterElement.style.color = '#4CAF50';
-                counterElement.style.fontWeight = 'bold';
-                setTimeout(() => {
-                    counterElement.style.color = '';
-                    counterElement.style.fontWeight = '';
-                }, 1000);
-            }
-        }
+        // Update counter
+        updateCounter(result);
 
         return result;
 
     } catch (error) {
-        console.error('❌ Tracking failed:', error);
+        console.error('❌ Tracking error:', error);
         return { success: false, error: error.message };
+    }
+}
+
+// Update counter display
+function updateCounter(result) {
+    const counterElement = document.getElementById('user_count');
+    if (!counterElement) return;
+
+    if (result.count !== undefined) {
+        counterElement.textContent = result.count;
+
+        // Add animation
+        if (result.saved) {
+            counterElement.style.color = '#4CAF50';
+            counterElement.style.fontWeight = 'bold';
+            counterElement.style.transform = 'scale(1.2)';
+
+            setTimeout(() => {
+                counterElement.style.color = '';
+                counterElement.style.fontWeight = '';
+                counterElement.style.transform = 'scale(1)';
+            }, 500);
+        }
     }
 }
 
@@ -86,14 +98,11 @@ async function getCurrentCount() {
             const text = await response.text();
             if (text.trim()) {
                 const data = JSON.parse(text);
-                const count = data.length;
-
-                const counterElement = document.getElementById('user_count');
-                if (counterElement) {
-                    counterElement.textContent = count;
+                const countElement = document.getElementById('user_count');
+                if (countElement) {
+                    countElement.textContent = data.length;
                 }
-
-                return count;
+                return data.length;
             }
         }
         return 0;
@@ -103,13 +112,15 @@ async function getCurrentCount() {
     }
 }
 
+// Initialize when page loads
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('🏁 Page loaded, initializing tracker...');
+    console.log('🏁 Page loaded');
 
+    // Show current count
     getCurrentCount();
 
-    // Then track visitor after delay
+    // Track after 1 second
     setTimeout(() => {
         trackVisitor();
-    }, 1500);
+    }, 1000);
 });
