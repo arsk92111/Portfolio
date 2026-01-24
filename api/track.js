@@ -1,45 +1,36 @@
 import { get, put } from '@vercel/blob';
 
-export default async function handler(req, res) { 
+export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
 
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
-    }
+    if (req.method === 'OPTIONS') return res.status(200).end();
+    if (req.method !== 'POST') return res.status(405).json({ error: 'Only POST allowed' });
 
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Only POST allowed' });
-    }
-
-    try {  
-        const { vid, ip_local, city, country, device, page, referrer, language, screen, browser, timezone } = req.body;
+    try {
+        const {
+            vid, ip_local, city, country, device, page, page_title,
+            referrer, language, screen, browser, timezone,
+            prefers_dark, visit_type, network_type, downlink
+        } = req.body;
 
         let ip = 'unknown';
-        if (req.headers['x-forwarded-for']) {
-            ip = req.headers['x-forwarded-for'].split(',')[0].trim();
-        }
+        if (req.headers['x-forwarded-for']) ip = req.headers['x-forwarded-for'].split(',')[0].trim();
 
         let allVisitors = [];
 
-        try { 
+        try {
             const blobUrl = 'https://qq2nxd209l2mgsh8.public.blob.vercel-storage.com/visited.txt';
             const response = await fetch(blobUrl);
-
             if (response.ok) {
-                const text = await response.text(); 
-
-                if (text && text.trim() !== '') {
-                    allVisitors = JSON.parse(text); 
-                }
-            } else {
-                console.log('📝 File does not exist or empty');
+                const text = await response.text();
+                if (text && text.trim() !== '') allVisitors = JSON.parse(text);
             }
         } catch (err) {
             console.log('❌ Error reading file:', err.message);
         }
 
+        // Duplicate check (IP + Device)
         let alreadyExists = false;
-
         for (let i = 0; i < allVisitors.length; i++) {
             if (allVisitors[i].ip === ip && allVisitors[i].device === device) {
                 alreadyExists = true;
@@ -65,16 +56,21 @@ export default async function handler(req, res) {
             country: country || '',
             device: device || 'Unknown',
             page: page || '/',
+            page_title: page_title || '',
             referrer: referrer || 'direct',
             language: language || 'Unknown',
             screen: screen || 'Unknown',
             browser: browser || 'Unknown',
             timezone: timezone || 'Unknown',
+            prefers_dark: prefers_dark || false,
+            visit_type: visit_type || 'new',
+            network_type: network_type || '',
+            downlink: downlink || 0,
             time: new Date().toISOString(),
             timestamp: Date.now()
         };
 
-        allVisitors.push(newVisitor); 
+        allVisitors.push(newVisitor);
         const jsonData = JSON.stringify(allVisitors, null, 2);
 
         await put('visited.txt', jsonData, {
@@ -92,7 +88,7 @@ export default async function handler(req, res) {
             duplicate: false
         });
 
-    } catch (error) { 
+    } catch (error) {
         res.status(500).json({ error: error.message });
     }
 }

@@ -8,13 +8,16 @@ function getDeviceType() {
 }
 
 // Main tracking function
-async function trackVisitor() { 
-    try { 
+async function trackVisitor() {
+    try {
+        // Visitor ID
         let vid = localStorage.getItem('visitor_id');
         if (!vid) {
             vid = 'visitor_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
             localStorage.setItem('visitor_id', vid);
         }
+
+        // Geo
         let geo = {};
         try {
             const res = await fetch("https://ipwho.is/");
@@ -23,35 +26,44 @@ async function trackVisitor() {
             geo = {};
         }
 
-        const device = getDeviceType(); 
+        const device = getDeviceType();
+
+        // Extra useful fields
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const connection = navigator.connection || {};
+        const visitType = localStorage.getItem('visitor_id') ? 'returning' : 'new';
+
         const data = {
-            vid: vid, 
+            vid: vid,
             ip_local: geo.ip || "",
             city: geo.city || "",
-            country: geo.country || "", 
-            device: device, 
+            country: geo.country || "",
+            device: device,
             page: window.location.pathname,
+            page_title: document.title || '',
             referrer: document.referrer || 'direct',
             language: navigator.language,
             screen: window.screen.width + 'x' + window.screen.height,
             browser: navigator.userAgent,
-            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            prefers_dark: prefersDark,
+            visit_type: visitType,
+            network_type: connection.effectiveType || '',
+            downlink: connection.downlink || 0
         };
 
         const response = await fetch('/api/track', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
 
-        const result = await response.json(); 
+        const result = await response.json();
         updateCounter(result);
 
         return result;
 
-    } catch (error) { 
+    } catch (error) {
         return { error: error.message };
     }
 }
@@ -75,30 +87,8 @@ function updateCounter(result) {
     }
 }
 
-async function getCurrentCount() {
-    try {
-        const response = await fetch('https://qq2nxd209l2mgsh8.public.blob.vercel-storage.com/visited.txt');
-        if (response.ok) {
-            const text = await response.text();
-            if (text.trim()) {
-                const data = JSON.parse(text);
-                const counter = document.getElementById('user_count');
-                if (counter) {
-                    counter.textContent = data.length;
-                }
-                return data.length;
-            }
-        }
-        return 0;
-    } catch (e) {
-        console.log('Could not get count:', e);
-        return 0;
-    }
-}
-
 // Initialize
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('📊 Page loaded'); 
-    getCurrentCount(); 
+    console.log('📊 Page loaded');
     setTimeout(trackVisitor, 1000);
 });
