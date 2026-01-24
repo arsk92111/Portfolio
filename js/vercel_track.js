@@ -8,35 +8,29 @@ function getDeviceType() {
 }
 
 // Main tracking function
-async function trackVisitor() {
-    console.log('🚀 Starting tracking...');
-
-    try {
-        // Get or create visitor ID
+async function trackVisitor() { 
+    try { 
         let vid = localStorage.getItem('visitor_id');
         if (!vid) {
             vid = 'visitor_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
             localStorage.setItem('visitor_id', vid);
         }
 
-        // Get device
-        const device = getDeviceType();
-
-        // Prepare data
+        const device = getDeviceType(); 
         const data = {
-            vid: vid,
-            device: device,
-            browser: navigator.userAgent,
-            screen: window.screen.width + 'x' + window.screen.height,
-            language: navigator.language,
-            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            vid: vid, 
+            ip_local: geo.ip || "",
+            city: geo.city || "",
+            country: geo.country || "", 
+            device: device, 
             page: window.location.pathname,
-            referrer: document.referrer || 'direct'
+            referrer: document.referrer || 'direct',
+            language: navigator.language,
+            screen: window.screen.width + 'x' + window.screen.height,
+            browser: navigator.userAgent,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
         };
 
-        console.log('📤 Sending data:', data);
-
-        // Send to API
         const response = await fetch('/api/track', {
             method: 'POST',
             headers: {
@@ -45,16 +39,12 @@ async function trackVisitor() {
             body: JSON.stringify(data)
         });
 
-        const result = await response.json();
-        console.log('📥 API Response:', result);
-
-        // Update counter
+        const result = await response.json(); 
         updateCounter(result);
 
         return result;
 
-    } catch (error) {
-        console.error('❌ Error:', error);
+    } catch (error) { 
         return { error: error.message };
     }
 }
@@ -78,7 +68,6 @@ function updateCounter(result) {
     }
 }
 
-// Get current count from file
 async function getCurrentCount() {
     try {
         const response = await fetch('https://qq2nxd209l2mgsh8.public.blob.vercel-storage.com/visited.txt');
@@ -102,11 +91,7 @@ async function getCurrentCount() {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('📊 Page loaded');
-
-    // Show current count
-    getCurrentCount();
-
-    // Track after delay
+    console.log('📊 Page loaded'); 
+    getCurrentCount(); 
     setTimeout(trackVisitor, 1000);
 });

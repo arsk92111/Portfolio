@@ -1,7 +1,6 @@
 import { get, put } from '@vercel/blob';
 
-export default async function handler(req, res) {
-    // CORS headers
+export default async function handler(req, res) { 
     res.setHeader('Access-Control-Allow-Origin', '*');
 
     if (req.method === 'OPTIONS') {
@@ -12,33 +11,25 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: 'Only POST allowed' });
     }
 
-    try {
-        // 1. Get data from frontend
-        const { vid, device, browser, screen, language, timezone, page, referrer } = req.body;
+    try {  
+        const { vid, ip_local, city, country, device, page, referrer, language, screen, browser, timezone } = req.body;
 
-        // 2. Get IP address
         let ip = 'unknown';
         if (req.headers['x-forwarded-for']) {
             ip = req.headers['x-forwarded-for'].split(',')[0].trim();
         }
 
-        console.log('📡 New request - IP:', ip, 'Device:', device);
-
-        // 3. Try to read existing data
         let allVisitors = [];
 
-        try {
-            // First try direct fetch from blob URL
+        try { 
             const blobUrl = 'https://qq2nxd209l2mgsh8.public.blob.vercel-storage.com/visited.txt';
             const response = await fetch(blobUrl);
 
             if (response.ok) {
-                const text = await response.text();
-                console.log('📄 Raw file content:', text);
+                const text = await response.text(); 
 
                 if (text && text.trim() !== '') {
-                    allVisitors = JSON.parse(text);
-                    console.log(`✅ Read ${allVisitors.length} existing visitors`);
+                    allVisitors = JSON.parse(text); 
                 }
             } else {
                 console.log('📝 File does not exist or empty');
@@ -47,7 +38,6 @@ export default async function handler(req, res) {
             console.log('❌ Error reading file:', err.message);
         }
 
-        // 4. Check if this IP+Device already exists
         let alreadyExists = false;
 
         for (let i = 0; i < allVisitors.length; i++) {
@@ -57,13 +47,6 @@ export default async function handler(req, res) {
             }
         }
 
-        console.log('🔍 Duplicate check:');
-        console.log('- Current IP:', ip);
-        console.log('- Current Device:', device);
-        console.log('- Already exists?', alreadyExists);
-        console.log('- Total existing visitors:', allVisitors.length);
-
-        // 5. If already exists, don't save
         if (alreadyExists) {
             return res.json({
                 success: false,
@@ -73,29 +56,25 @@ export default async function handler(req, res) {
             });
         }
 
-        // 6. Create new visitor
         const newVisitor = {
             id: allVisitors.length + 1,
             vid: vid || `visitor_${Date.now()}`,
             ip: ip,
+            ip_local: ip_local || '',
+            city: city || '',
+            country: country || '',
             device: device || 'Unknown',
-            browser: browser || 'Unknown',
-            screen: screen || 'Unknown',
-            language: language || 'Unknown',
-            timezone: timezone || 'Unknown',
             page: page || '/',
             referrer: referrer || 'direct',
+            language: language || 'Unknown',
+            screen: screen || 'Unknown',
+            browser: browser || 'Unknown',
+            timezone: timezone || 'Unknown',
             time: new Date().toISOString(),
             timestamp: Date.now()
         };
 
-        console.log('🆕 Creating new visitor:', newVisitor);
-
-        // 7. Add to array
-        allVisitors.push(newVisitor);
-        console.log(`✅ After adding: ${allVisitors.length} total visitors`);
-
-        // 8. Save to file
+        allVisitors.push(newVisitor); 
         const jsonData = JSON.stringify(allVisitors, null, 2);
 
         await put('visited.txt', jsonData, {
@@ -105,9 +84,6 @@ export default async function handler(req, res) {
             allowOverwrite: true
         });
 
-        console.log('💾 File saved successfully!');
-
-        // 9. Send response
         res.json({
             success: true,
             saved: true,
@@ -116,8 +92,7 @@ export default async function handler(req, res) {
             duplicate: false
         });
 
-    } catch (error) {
-        console.error('🚨 Error:', error);
+    } catch (error) { 
         res.status(500).json({ error: error.message });
     }
 }
