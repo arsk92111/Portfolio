@@ -1,134 +1,162 @@
 import { get, put } from '@vercel/blob';
 
 export default async function handler(req, res) {
+    // Professional headers
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Tracking-Version');
 
-    if (req.method === 'OPTIONS') return res.status(200).end();
-    if (req.method !== 'POST') return res.status(405).json({ error: 'Only POST allowed' });
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+
+    if (req.method !== 'POST') {
+        return res.status(405).json({
+            error: 'Method not allowed',
+            allowed_methods: ['POST']
+        });
+    }
 
     try {
-        // Get ALL data from frontend
-        const data = req.body;
+        const visitorData = req.body;
+        const trackingVersion = req.headers['x-tracking-version'] || '1.0';
 
-        // Get IP from headers
-        let ip = 'unknown';
-        if (req.headers['x-forwarded-for']) {
-            ip = req.headers['x-forwarded-for'].split(',')[0].trim();
-        }
+        // Get actual IP (considering Vercel proxy)
+        let ip = req.headers['x-real-ip'] ||
+            req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
+            'unknown';
 
-        // Read existing data
+        console.log(`📊 Professional tracking v${trackingVersion} from IP: ${ip}`);
+
+        // Read existing professional data
         let allVisitors = [];
         try {
             const blobUrl = 'https://qq2nxd209l2mgsh8.public.blob.vercel-storage.com/visited.txt';
             const response = await fetch(blobUrl);
             if (response.ok) {
                 const text = await response.text();
-                if (text && text.trim() !== '') {
+                if (text.trim()) {
                     allVisitors = JSON.parse(text);
                 }
             }
-        } catch (err) {
-            console.log('Error reading file:', err.message);
+        } catch (error) {
+            console.log('Starting fresh database');
         }
 
-        // Duplicate check (IP + Device Type)
-        let alreadyExists = false;
-        for (let visitor of allVisitors) {
-            if (visitor.ip === ip && visitor.device_type === data.device_type) {
-                alreadyExists = true;
+        // Professional duplicate check (IP + Fingerprint)
+        let isDuplicate = false;
+        const visitorFingerprint = visitorData.fingerprint || 'unknown';
+
+        for (const visitor of allVisitors) {
+            const sameIP = visitor.ip === ip;
+            const sameFingerprint = visitor.fingerprint === visitorFingerprint;
+            const sameCompany = visitor.company?.company === visitorData.company?.company;
+
+            if (sameIP && (sameFingerprint || sameCompany)) {
+                isDuplicate = true;
                 break;
             }
         }
 
-        if (alreadyExists) {
+        if (isDuplicate) {
             return res.json({
                 success: false,
-                message: 'IP+Device already exists',
+                status: 'DUPLICATE',
+                message: 'Professional visitor already tracked',
                 count: allVisitors.length,
-                duplicate: true
+                visitor_type: 'Returning'
             });
         }
 
-        // Create new visitor with all data
-        const newVisitor = {
-            id: allVisitors.length + 1,
-            timestamp: Date.now(),
-            time: new Date().toISOString(),
-            ip: ip,
+        // Create professional visitor record
+        const professionalVisitor = {
+            // IDENTIFICATION
+            id: `BIZ-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
+            visitor_id: visitorData.visitor_id,
+            session_id: visitorData.session_id,
+            fingerprint: visitorFingerprint,
+            timestamp: new Date().toISOString(),
 
-            // Basic info
-            vid: data.vid || '',
-            visit_type: data.visit_type || 'new',
+            // COMPANY & ORGANIZATION
+            ip_address: ip,
+            company: {
+                name: visitorData.company?.company || 'Unknown',
+                isp: visitorData.company?.isp || 'Unknown',
+                asn: visitorData.company?.asn || '',
+                hosting_provider: visitorData.company?.hosting || false,
+                proxy_used: visitorData.company?.proxy || false,
+                vpn_detected: visitorData.company?.vpn || false
+            },
 
-            // Device info
-            device_type: data.device_type || 'Unknown',
-            browser_name: data.browser_name || 'Unknown',
-            operating_system: data.operating_system || 'Unknown',
-            browser: data.browser || 'Unknown',
+            // BUSINESS INTELLIGENCE
+            location: {
+                city: visitorData.company?.city || 'Unknown',
+                region: visitorData.company?.region || 'Unknown',
+                country: visitorData.company?.country || 'Unknown',
+                country_code: visitorData.company?.country_code || '',
+                coordinates: {
+                    lat: visitorData.company?.latitude || '',
+                    lng: visitorData.company?.longitude || ''
+                }
+            },
 
-            // Screen info
-            screen: data.screen || 'Unknown',
-            screen_details: data.screen_details || {},
+            // TECHNICAL PROFILE
+            device_profile: {
+                user_agent: visitorData.user_agent || '',
+                platform: visitorData.platform || '',
+                vendor: visitorData.vendor || '',
+                browser_engine: visitorData.tech_stack?.browser_engine || '',
+                connection_type: visitorData.connection || 'unknown',
+                network_speed: visitorData.performance?.connection_speed || 'unknown'
+            },
 
-            // Location info
-            ip_local: data.ip_local || '',
-            city: data.city || '',
-            region: data.region || '',
-            country: data.country || '',
-            country_code: data.country_code || '',
-            latitude: data.latitude || '',
-            longitude: data.longitude || '',
-            timezone: data.timezone || 'Unknown',
+            // MARKETING & ACQUISITION
+            acquisition: {
+                referral_source: visitorData.business?.referral_source || 'Direct',
+                campaign: visitorData.business?.campaign_data || {},
+                landing_page: visitorData.business?.landing_page || '',
+                entry_time: visitorData.business?.entry_time || '',
+                day_of_week: visitorData.business?.day_of_week || '',
+                hour_of_day: visitorData.business?.hour_of_day || 0,
+                business_hours: visitorData.business?.is_business_hours || false
+            },
 
-            // Network info
-            network_type: data.network_type || '',
-            network_details: data.network_details || {},
+            // SECURITY ASSESSMENT
+            security_assessment: {
+                cookies_enabled: visitorData.security?.cookies_enabled || false,
+                secure_connection: visitorData.security?.secure_connection || false,
+                privacy_mode: visitorData.security?.privacy_mode || false,
+                vpn_used: visitorData.security?.vpn_detected || false,
+                do_not_track: visitorData.security?.do_not_track || 'unspecified'
+            },
 
-            // Page info
-            page: data.page || '/',
-            page_url: data.page_url || '',
-            page_title: data.page_title || '',
-            referrer: data.referrer || 'direct',
+            // TECHNOLOGY STACK
+            technology: {
+                webgl_support: visitorData.tech_stack?.webgl_support || false,
+                websocket_support: visitorData.tech_stack?.websocket_support || false,
+                service_worker_support: visitorData.tech_stack?.service_worker_support || false,
+                push_support: visitorData.tech_stack?.push_notification_support || false,
+                screen_resolution: visitorData.performance?.screen_resolution || '',
+                color_depth: visitorData.performance?.color_depth || '',
+                timezone: visitorData.performance?.timezone || '',
+                language: visitorData.performance?.language || '',
+                pixel_ratio: visitorData.performance?.pixel_ratio || 1
+            },
 
-            // Language info
-            language: data.language || 'Unknown',
-            languages: data.languages || [],
-
-            // User preferences
-            prefers_dark: data.prefers_dark || false,
-            user_preferences: data.user_preferences || {},
-
-            // Time info
-            time_details: data.time_details || {},
-
-            // Performance
-            performance: data.performance || {},
-
-            // Session info
-            session: data.session || {},
-
-            // Additional
-            cookies_enabled: data.cookies_enabled || false,
-            online_status: data.online_status || true,
-            platform: data.platform || '',
-            vendor: data.vendor || '',
-            product: data.product || '',
-            app_version: data.app_version || '',
-            do_not_track: data.do_not_track || 'unspecified',
-
-            // Engagement (initially 0)
-            engagement: {
-                scroll_depth: 0,
-                time_on_page: 0,
-                interactions: 0
+            // VISITOR STATUS
+            status: {
+                visitor_type: visitorData.visitor_id ? 'Returning' : 'New',
+                tracking_version: trackingVersion,
+                data_completeness: this.calculateDataCompleteness(visitorData)
             }
         };
 
-        // Add to array
-        allVisitors.push(newVisitor);
+        // Add to database
+        allVisitors.push(professionalVisitor);
 
-        // Save to file
+        // Save with professional formatting
         const jsonData = JSON.stringify(allVisitors, null, 2);
+
         await put('visited.txt', jsonData, {
             access: 'public',
             contentType: 'application/json',
@@ -136,15 +164,51 @@ export default async function handler(req, res) {
             allowOverwrite: true
         });
 
+        // Professional response
         res.json({
             success: true,
-            saved: true,
+            status: 'RECORDED',
+            message: 'Professional visitor data recorded',
             count: allVisitors.length,
-            visitor: newVisitor,
-            duplicate: false
+            visitor: {
+                id: professionalVisitor.id,
+                company: professionalVisitor.company.name,
+                location: `${professionalVisitor.location.city}, ${professionalVisitor.location.country}`,
+                type: professionalVisitor.status.visitor_type,
+                timestamp: professionalVisitor.timestamp
+            },
+            analytics: {
+                total_visitors: allVisitors.length,
+                new_visitors: allVisitors.filter(v => v.status.visitor_type === 'New').length,
+                returning_visitors: allVisitors.filter(v => v.status.visitor_type === 'Returning').length,
+                unique_companies: [...new Set(allVisitors.map(v => v.company.name))].length
+            }
         });
 
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error('Professional tracking error:', error);
+        res.status(500).json({
+            error: 'Professional tracking failed',
+            error_code: 'TRACKING_ERROR',
+            details: error.message,
+            timestamp: new Date().toISOString()
+        });
     }
+}
+
+// Helper function
+function calculateDataCompleteness(data) {
+    const fields = [
+        'company', 'location', 'device_profile',
+        'acquisition', 'security_assessment', 'technology'
+    ];
+
+    let filledFields = 0;
+    fields.forEach(field => {
+        if (data[field] && Object.keys(data[field]).length > 0) {
+            filledFields++;
+        }
+    });
+
+    return Math.round((filledFields / fields.length) * 100);
 }

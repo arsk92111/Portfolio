@@ -1,362 +1,312 @@
-// Device detection with more details
-function getDeviceInfo() {
-    const ua = navigator.userAgent;
-    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(ua);
-    const isTablet = /Tablet|iPad/i.test(ua);
-    const isDesktop = !isMobile && !isTablet;
-
-    let deviceType = 'Desktop';
-    if (isTablet) deviceType = 'Tablet';
-    if (isMobile) deviceType = 'Mobile';
-
-    // Browser detection
-    let browser = 'Unknown';
-    if (ua.includes('Chrome')) browser = 'Chrome';
-    else if (ua.includes('Firefox')) browser = 'Firefox';
-    else if (ua.includes('Safari')) browser = 'Safari';
-    else if (ua.includes('Edge')) browser = 'Edge';
-    else if (ua.includes('Opera')) browser = 'Opera';
-
-    // OS detection
-    let os = 'Unknown';
-    if (ua.includes('Windows')) os = 'Windows';
-    else if (ua.includes('Mac OS')) os = 'Mac OS';
-    else if (ua.includes('Linux')) os = 'Linux';
-    else if (ua.includes('Android')) os = 'Android';
-    else if (ua.includes('iOS')) os = 'iOS';
-
-    return {
-        device_type: deviceType,
-        browser_name: browser,
-        operating_system: os,
-        is_mobile: isMobile,
-        is_tablet: isTablet,
-        is_desktop: isDesktop
-    };
-}
-
-// Network information
-function getNetworkInfo() {
-    const connection = navigator.connection || {};
-    return {
-        effective_type: connection.effectiveType || 'unknown',
-        downlink: connection.downlink || 0,
-        rtt: connection.rtt || 0,
-        save_data: connection.saveData || false,
-        network_type: connection.type || 'unknown'
-    };
-}
-
-// Screen information
-function getScreenInfo() {
-    return {
-        width: window.screen.width,
-        height: window.screen.height,
-        avail_width: window.screen.availWidth,
-        avail_height: window.screen.availHeight,
-        color_depth: window.screen.colorDepth,
-        pixel_depth: window.screen.pixelDepth,
-        orientation: window.screen.orientation?.type || 'unknown',
-        is_landscape: window.innerWidth > window.innerHeight
-    };
-}
-
-// Time information
-function getTimeInfo() {
-    const now = new Date();
-    return {
-        local_time: now.toLocaleString(),
-        hour: now.getHours(),
-        day: now.getDay(),
-        month: now.getMonth(),
-        year: now.getFullYear(),
-        day_of_week: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][now.getDay()],
-        is_weekend: [0, 6].includes(now.getDay())
-    };
-}
-
-// User preferences
-function getUserPreferences() {
-    return {
-        prefers_dark: window.matchMedia('(prefers-color-scheme: dark)').matches,
-        prefers_reduced_motion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-        prefers_reduced_transparency: window.matchMedia('(prefers-reduced-transparency: reduce)').matches,
-        prefers_contrast: window.matchMedia('(prefers-contrast: more)').matches ? 'more' :
-            window.matchMedia('(prefers-contrast: less)').matches ? 'less' : 'no-preference',
-        language_preference: navigator.language,
-        languages: navigator.languages || [navigator.language]
-    };
-}
-
-// Performance metrics
-function getPerformanceMetrics() {
-    const perf = window.performance;
-    if (!perf || !perf.timing) return {};
-
-    const timing = perf.timing;
-    return {
-        page_load_time: timing.loadEventEnd - timing.navigationStart,
-        dom_load_time: timing.domContentLoadedEventEnd - timing.navigationStart,
-        tcp_connect_time: timing.connectEnd - timing.connectStart,
-        server_response_time: timing.responseEnd - timing.requestStart,
-        dom_interactive_time: timing.domInteractive - timing.navigationStart
-    };
-}
-
-// Session information
-function getSessionInfo() {
-    let session_start = sessionStorage.getItem('session_start');
-    if (!session_start) {
-        session_start = Date.now();
-        sessionStorage.setItem('session_start', session_start);
+// Professional Business Tracking
+class ProfessionalTracker {
+    constructor () {
+        this.data = {};
+        this.startTime = Date.now();
     }
 
-    const now = Date.now();
-    const session_duration = Math.floor((now - parseInt(session_start)) / 1000); // in seconds
+    async init() {
+        await this.collectAllData();
+        await this.sendData();
+        this.trackEngagement();
+    }
 
-    return {
-        session_id: 'session_' + session_start,
-        session_start: new Date(parseInt(session_start)).toISOString(),
-        session_duration: session_duration,
-        page_views: (parseInt(sessionStorage.getItem('page_views') || 0)) + 1
-    };
-}
+    async collectAllData() {
+        // 1. BASIC IDENTIFICATION
+        this.data.visitor_id = this.getVisitorId();
+        this.data.session_id = 'session_' + Date.now();
+        this.data.timestamp = new Date().toISOString();
 
-// Main tracking function
-async function trackVisitor() {
-    try {
-        // Visitor ID
-        let vid = localStorage.getItem('visitor_id');
-        if (!vid) {
-            vid = 'visitor_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-            localStorage.setItem('visitor_id', vid);
-        }
+        // 2. COMPANY/ORGANIZATION DATA (from IP)
+        this.data.company = await this.getCompanyInfo();
 
-        // Update session page views
-        let pageViews = parseInt(sessionStorage.getItem('page_views') || 0);
-        sessionStorage.setItem('page_views', pageViews + 1);
+        // 3. NETWORK & CONNECTION
+        this.data.network = this.getNetworkDetails();
+        this.data.connection = this.getConnectionType();
 
-        // Collect all data
-        const deviceInfo = getDeviceInfo();
-        const networkInfo = getNetworkInfo();
-        const screenInfo = getScreenInfo();
-        const timeInfo = getTimeInfo();
-        const userPrefs = getUserPreferences();
-        const perfMetrics = getPerformanceMetrics();
-        const sessionInfo = getSessionInfo();
+        // 4. DEVICE FINGERPRINTING (for unique identification)
+        this.data.fingerprint = this.generateFingerprint();
 
-        // Geo location (optional - might fail due to rate limits)
-        let geo = {};
-        try {
-            const res = await fetch("https://ipapi.co/json/");
-            if (res.ok) geo = await res.json();
-        } catch {
-            // Fallback to free API
-            try {
-                const res = await fetch("https://ipwhois.pro/free/?key=free&output=json");
-                if (res.ok) geo = await res.json();
-            } catch {
-                geo = {};
-            }
-        }
+        // 5. PROFESSIONAL DETAILS
+        this.data.user_agent = navigator.userAgent;
+        this.data.platform = navigator.platform;
+        this.data.vendor = navigator.vendor || 'Unknown';
 
-        // Visit type
-        const visitType = localStorage.getItem('visitor_id') ? 'returning' : 'new';
-
-        // Prepare data
-        const data = {
-            // Basic info
-            vid: vid,
-            visit_type: visitType,
-
-            // Device info
-            device_type: deviceInfo.device_type,
-            browser_name: deviceInfo.browser_name,
-            operating_system: deviceInfo.operating_system,
-            browser: navigator.userAgent.substring(0, 500),
-
-            // Screen info
-            screen: `${screenInfo.width}x${screenInfo.height}`,
-            screen_details: {
-                width: screenInfo.width,
-                height: screenInfo.height,
-                avail_width: screenInfo.avail_width,
-                avail_height: screenInfo.avail_height,
-                color_depth: screenInfo.color_depth,
-                orientation: screenInfo.orientation,
-                is_landscape: screenInfo.is_landscape
-            },
-
-            // Location info
-            ip_local: geo.ip || "",
-            city: geo.city || "",
-            region: geo.region || "",
-            country: geo.country_name || "",
-            country_code: geo.country_code || "",
-            latitude: geo.latitude || "",
-            longitude: geo.longitude || "",
-            timezone: geo.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone,
-
-            // Network info
-            network_type: networkInfo.effective_type,
-            network_details: {
-                effective_type: networkInfo.effective_type,
-                downlink: networkInfo.downlink,
-                rtt: networkInfo.rtt,
-                save_data: networkInfo.save_data
-            },
-
-            // Page info
-            page: window.location.pathname,
-            page_url: window.location.href,
-            page_title: document.title || '',
-            referrer: document.referrer || 'direct',
-
-            // Language info
-            language: navigator.language,
-            languages: navigator.languages || [navigator.language],
-
-            // User preferences
-            prefers_dark: userPrefs.prefers_dark,
-            user_preferences: userPrefs,
-
-            // Time info
-            time_details: timeInfo,
-
-            // Performance
-            performance: perfMetrics,
-
-            // Session info
-            session: sessionInfo,
-
-            // Additional
+        // 6. SECURITY & PRIVACY
+        this.data.security = {
             cookies_enabled: navigator.cookieEnabled,
-            online_status: navigator.onLine,
-            platform: navigator.platform,
-            vendor: navigator.vendor || '',
-            product: navigator.product || '',
-            app_version: navigator.appVersion.substring(0, 200),
             do_not_track: navigator.doNotTrack || 'unspecified',
-
-            // Engagement (will be updated later)
-            scroll_depth: 0,
-            time_on_page: 0,
-            interactions: 0
+            privacy_mode: this.isPrivateBrowsing(),
+            secure_connection: window.location.protocol === 'https:',
+            vpn_detected: await this.detectVPN()
         };
 
-        console.log('📊 Collected data:', data);
+        // 7. BUSINESS INTELLIGENCE
+        this.data.business = {
+            referral_source: this.getReferralSource(),
+            campaign_data: this.getUTMParameters(),
+            landing_page: window.location.href,
+            entry_time: new Date().toLocaleTimeString(),
+            day_of_week: new Date().toLocaleDateString('en-US', { weekday: 'long' }),
+            hour_of_day: new Date().getHours(),
+            is_business_hours: this.isBusinessHours()
+        };
 
-        // Send to API
-        const response = await fetch('/api/track', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
+        // 8. TECHNOLOGY STACK DETECTION
+        this.data.tech_stack = {
+            browser_engine: this.getBrowserEngine(),
+            javascript_enabled: true,
+            webgl_support: this.hasWebGL(),
+            websocket_support: 'WebSocket' in window,
+            service_worker_support: 'serviceWorker' in navigator,
+            push_notification_support: 'PushManager' in window
+        };
 
-        const result = await response.json();
-
-        // Update counter
-        updateCounter(result);
-
-        // Track engagement (start tracking after page loads)
-        setTimeout(() => trackEngagement(data.vid), 1000);
-
-        return result;
-
-    } catch (error) {
-        console.error('❌ Tracking error:', error);
-        return { error: error.message };
+        // 9. PERFORMANCE METRICS
+        this.data.performance = {
+            connection_speed: navigator.connection ? navigator.connection.downlink + ' Mbps' : 'Unknown',
+            screen_resolution: window.screen.width + 'x' + window.screen.height,
+            color_depth: window.screen.colorDepth + ' bit',
+            pixel_ratio: window.devicePixelRatio,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            language: navigator.language,
+            languages: navigator.languages
+        };
     }
-}
 
-// Track user engagement
-function trackEngagement(vid) {
-    let scrollDepth = 0;
-    let interactions = 0;
-    let startTime = Date.now();
-
-    // Track scrolling
-    window.addEventListener('scroll', () => {
-        const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-        if (scrollPercent > scrollDepth) {
-            scrollDepth = Math.round(scrollPercent);
-            // You can send this data to your backend if needed
-            console.log('📈 Scroll depth:', scrollDepth + '%');
+    getVisitorId() {
+        let vid = localStorage.getItem('pro_visitor_id');
+        if (!vid) {
+            vid = 'biz_' + Date.now() + '_' + Math.random().toString(36).substr(2, 12);
+            localStorage.setItem('pro_visitor_id', vid);
         }
-    });
+        return vid;
+    }
 
-    // Track clicks
-    document.addEventListener('click', () => {
-        interactions++;
-        console.log('🖱️ Interactions:', interactions);
-    });
+    async getCompanyInfo() {
+        try {
+            // Try multiple IP intelligence services
+            const responses = await Promise.race([
+                fetch('https://ipapi.co/json/'),
+                fetch('https://ipwho.is/'),
+                fetch('https://ipinfo.io/json')
+            ]);
 
-    // Track time on page when user leaves
-    window.addEventListener('beforeunload', () => {
-        const timeOnPage = Math.round((Date.now() - startTime) / 1000); // in seconds
+            const geo = await responses.json();
 
-        // Send engagement data (optional)
-        const engagementData = {
-            vid: vid,
-            scroll_depth: scrollDepth,
-            time_on_page: timeOnPage,
-            interactions: interactions,
-            exit_time: new Date().toISOString()
+            return {
+                ip_address: geo.ip || '',
+                isp: geo.org || geo.isp || '',
+                asn: geo.asn || '',
+                company: geo.org || geo.company || '',
+                hosting: this.isHostingProvider(geo.org),
+                proxy: geo.proxy || false,
+                vpn: geo.vpn || false,
+                tor: geo.tor || false,
+                city: geo.city || '',
+                region: geo.region || '',
+                country: geo.country || '',
+                country_code: geo.country_code || '',
+                latitude: geo.latitude || '',
+                longitude: geo.longitude || ''
+            };
+        } catch {
+            return { ip_address: 'unknown', isp: 'unknown' };
+        }
+    }
+
+    isHostingProvider(org) {
+        if (!org) return false;
+        const hostingKeywords = ['digitalocean', 'aws', 'amazon', 'google', 'cloud', 'azure', 'linode', 'vultr', 'ovh', 'host', 'server'];
+        return hostingKeywords.some(keyword => org.toLowerCase().includes(keyword));
+    }
+
+    async detectVPN() {
+        try {
+            // Check for common VPN IP ranges or use a service
+            const response = await fetch('https://vpnapi.io/api/' + this.data.company.ip_address);
+            const data = await response.json();
+            return data.security && (data.security.vpn || data.security.proxy || data.security.tor);
+        } catch {
+            return false;
+        }
+    }
+
+    getNetworkDetails() {
+        const connection = navigator.connection || {};
+        return {
+            effective_type: connection.effectiveType || 'unknown',
+            downlink: connection.downlink || 'unknown',
+            rtt: connection.rtt || 'unknown',
+            save_data: connection.saveData || false,
+            type: connection.type || 'unknown'
         };
+    }
 
-        // You can send this to another endpoint if needed
-        console.log('📊 Engagement data:', engagementData);
-    });
-}
+    getConnectionType() {
+        // Detect connection type (WiFi, 4G, Ethernet, etc.)
+        const connection = navigator.connection;
+        if (!connection) return 'unknown';
 
-// Update counter on page
-function updateCounter(result) {
-    const counter = document.getElementById('user_count');
-    if (!counter) return;
+        if (connection.type === 'wifi') return 'WiFi';
+        if (connection.type === 'cellular') return 'Mobile Data';
+        if (connection.type === 'ethernet') return 'Ethernet';
+        if (connection.type === 'bluetooth') return 'Bluetooth';
+        if (connection.type === 'wimax') return 'WiMAX';
 
-    if (result.count !== undefined) {
-        counter.textContent = result.count;
+        return connection.type || 'unknown';
+    }
 
-        if (result.saved) {
-            counter.style.color = '#4CAF50';
+    generateFingerprint() {
+        // Create a unique device fingerprint
+        const components = [
+            navigator.userAgent,
+            navigator.platform,
+            navigator.language,
+            screen.colorDepth,
+            (new Date()).getTimezoneOffset(),
+            navigator.hardwareConcurrency || 'unknown',
+            navigator.deviceMemory || 'unknown',
+            navigator.maxTouchPoints || 'unknown'
+        ].join('|');
+
+        // Simple hash
+        let hash = 0;
+        for (let i = 0; i < components.length; i++) {
+            const char = components.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash;
+        }
+
+        return Math.abs(hash).toString(36);
+    }
+
+    getReferralSource() {
+        const referrer = document.referrer;
+        if (!referrer) return 'Direct';
+
+        if (referrer.includes('google')) return 'Google Search';
+        if (referrer.includes('bing')) return 'Bing Search';
+        if (referrer.includes('yahoo')) return 'Yahoo Search';
+        if (referrer.includes('facebook')) return 'Facebook';
+        if (referrer.includes('twitter')) return 'Twitter';
+        if (referrer.includes('linkedin')) return 'LinkedIn';
+        if (referrer.includes('github')) return 'GitHub';
+
+        return 'Other Website';
+    }
+
+    getUTMParameters() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return {
+            source: urlParams.get('utm_source') || 'direct',
+            medium: urlParams.get('utm_medium') || 'none',
+            campaign: urlParams.get('utm_campaign') || 'none',
+            term: urlParams.get('utm_term') || 'none',
+            content: urlParams.get('utm_content') || 'none'
+        };
+    }
+
+    isBusinessHours() {
+        const hour = new Date().getHours();
+        return hour >= 9 && hour <= 17;
+    }
+
+    getBrowserEngine() {
+        const ua = navigator.userAgent;
+        if (ua.includes('Chrome')) return 'Blink (Chrome/Edge)';
+        if (ua.includes('Firefox')) return 'Gecko (Firefox)';
+        if (ua.includes('Safari')) return 'WebKit (Safari)';
+        return 'Unknown';
+    }
+
+    hasWebGL() {
+        try {
+            const canvas = document.createElement('canvas');
+            return !!(window.WebGLRenderingContext &&
+                (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+        } catch {
+            return false;
+        }
+    }
+
+    isPrivateBrowsing() {
+        // Check if in incognito/private mode
+        return new Promise((resolve) => {
+            const fs = window.RequestFileSystem || window.webkitRequestFileSystem;
+            if (!fs) {
+                resolve(false);
+                return;
+            }
+
+            fs(window.TEMPORARY, 100, () => {
+                resolve(false);
+            }, () => {
+                resolve(true);
+            });
+        });
+    }
+
+    async sendData() {
+        try {
+            const response = await fetch('/api/track', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Tracking-Version': '2.0'
+                },
+                body: JSON.stringify(this.data)
+            });
+
+            const result = await response.json();
+
+            // Update visitor counter
+            this.updateCounter(result);
+
+            return result;
+        } catch (error) {
+            console.error('Professional tracking failed:', error);
+            return { error: error.message };
+        }
+    }
+
+    updateCounter(result) {
+        const counter = document.getElementById('user_count');
+        if (counter && result.count) {
+            counter.textContent = result.count;
+
+            // Professional animation
+            counter.style.fontSize = '18px';
             counter.style.fontWeight = 'bold';
-            counter.style.transform = 'scale(1.1)';
+            counter.style.color = '#2196F3';
+            counter.style.transition = 'all 0.3s';
 
             setTimeout(() => {
+                counter.style.fontSize = '';
                 counter.style.color = '';
-                counter.style.fontWeight = '';
-                counter.style.transform = 'scale(1)';
             }, 500);
         }
     }
-}
 
-// Show current count from file
-async function showCurrentCount() {
-    try {
-        const response = await fetch('https://qq2nxd209l2mgsh8.public.blob.vercel-storage.com/visited.txt');
-        if (response.ok) {
-            const text = await response.text();
-            if (text.trim()) {
-                const data = JSON.parse(text);
-                const counter = document.getElementById('user_count');
-                if (counter) {
-                    counter.textContent = data.length;
-                }
+    trackEngagement() {
+        // Track time spent
+        setInterval(() => {
+            const timeSpent = Math.floor((Date.now() - this.startTime) / 1000);
+            if (timeSpent % 30 === 0) { // Every 30 seconds
+                console.log(`⏱️ Time on page: ${timeSpent} seconds`);
             }
-        }
-    } catch (e) {
-        console.log('Could not fetch count:', e);
+        }, 1000);
+
+        // Track exit
+        window.addEventListener('beforeunload', () => {
+            const totalTime = Math.floor((Date.now() - this.startTime) / 1000);
+            console.log(`👋 Visitor spent ${totalTime} seconds on site`);
+        });
     }
 }
 
 // Initialize
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('🚀 Page loaded');
-
-    // Show current count
-    showCurrentCount();
-
-    // Track visitor after delay
-    setTimeout(trackVisitor, 1000);
+document.addEventListener('DOMContentLoaded', () => {
+    const tracker = new ProfessionalTracker();
+    setTimeout(() => tracker.init(), 1500);
 });
