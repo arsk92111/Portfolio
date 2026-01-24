@@ -1,50 +1,34 @@
-// Device detection function
-function getDeviceType() {
-    const ua = navigator.userAgent;
-
-    if (/Tablet|iPad/i.test(ua)) {
-        return 'Tablet';
-    }
-    if (/Mobi|Android|iPhone|iPod/i.test(ua)) {
-        return 'Mobile';
-    }
-    return 'Desktop';
-}
-
-// Main tracking function
-async function trackVisitor() {
-    console.log('🚀 Starting visitor tracking...');
+// Simple tracking function
+async function trackVisit() {
+    console.log('📊 Tracking visitor...');
 
     try {
-        // Get or create visitor ID
-        let vid = localStorage.getItem('visitor_id');
+        // 1. Create or get visitor ID
+        let vid = localStorage.getItem('myVisitorId');
         if (!vid) {
-            vid = 'vid_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-            localStorage.setItem('visitor_id', vid);
+            vid = 'visitor_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('myVisitorId', vid);
         }
 
-        // Get device type
-        const device = getDeviceType();
-        console.log('📱 Device detected:', device);
+        // 2. Detect device type
+        const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+        const device = isMobile ? 'Mobile' : 'Desktop';
 
-        // Prepare data
+        // 3. Prepare data
         const data = {
             vid: vid,
             device: device,
-            browser: navigator.userAgent.substring(0, 200),
+            browser: navigator.userAgent.substring(0, 150),
             screen: window.screen.width + 'x' + window.screen.height,
             language: navigator.language,
             timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
             page: window.location.pathname,
-            referrer: document.referrer || 'direct',
-            city: 'Unknown',
-            country: 'Unknown',
-            ip_local: 'Unknown'
+            referrer: document.referrer || 'direct'
         };
 
-        console.log('📤 Sending data to API...');
+        console.log('📤 Sending:', data);
 
-        // Send to API
+        // 4. Send to API
         const response = await fetch('/api/track', {
             method: 'POST',
             headers: {
@@ -54,43 +38,35 @@ async function trackVisitor() {
         });
 
         const result = await response.json();
-        console.log('📥 API Response:', result);
+        console.log('📥 Response:', result);
 
-        // Update counter
-        updateCounter(result);
+        // 5. Update counter on page
+        if (result.count !== undefined) {
+            const counter = document.getElementById('user_count');
+            if (counter) {
+                counter.textContent = result.count;
+
+                // Add simple animation
+                if (result.saved) {
+                    counter.style.color = '#4CAF50';
+                    counter.style.fontWeight = 'bold';
+                    setTimeout(() => {
+                        counter.style.color = '';
+                        counter.style.fontWeight = '';
+                    }, 1000);
+                }
+            }
+        }
 
         return result;
 
     } catch (error) {
         console.error('❌ Tracking error:', error);
-        return { success: false, error: error.message };
+        return { error: error.message };
     }
 }
 
-// Update counter display
-function updateCounter(result) {
-    const counterElement = document.getElementById('user_count');
-    if (!counterElement) return;
-
-    if (result.count !== undefined) {
-        counterElement.textContent = result.count;
-
-        // Add animation
-        if (result.saved) {
-            counterElement.style.color = '#4CAF50';
-            counterElement.style.fontWeight = 'bold';
-            counterElement.style.transform = 'scale(1.2)';
-
-            setTimeout(() => {
-                counterElement.style.color = '';
-                counterElement.style.fontWeight = '';
-                counterElement.style.transform = 'scale(1)';
-            }, 500);
-        }
-    }
-}
-
-// Get current count from file
+// Function to get current count from file
 async function getCurrentCount() {
     try {
         const response = await fetch('https://qq2nxd209l2mgsh8.public.blob.vercel-storage.com/visited.txt');
@@ -98,29 +74,27 @@ async function getCurrentCount() {
             const text = await response.text();
             if (text.trim()) {
                 const data = JSON.parse(text);
-                const countElement = document.getElementById('user_count');
-                if (countElement) {
-                    countElement.textContent = data.length;
+                const counter = document.getElementById('user_count');
+                if (counter) {
+                    counter.textContent = data.length;
                 }
                 return data.length;
             }
         }
         return 0;
-    } catch (error) {
-        console.log('Could not fetch count:', error);
+    } catch (e) {
+        console.log('Could not get count:', e);
         return 0;
     }
 }
 
-// Initialize when page loads
+// When page loads
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('🏁 Page loaded');
+    console.log('🚀 Page loaded');
 
-    // Show current count
+    // First show current count
     getCurrentCount();
 
-    // Track after 1 second
-    setTimeout(() => {
-        trackVisitor();
-    }, 1000);
+    // Then track after 1 second
+    setTimeout(trackVisit, 1000);
 });
