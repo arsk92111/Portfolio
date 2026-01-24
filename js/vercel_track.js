@@ -15,6 +15,13 @@ async function trackVisitor() {
             vid = 'visitor_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
             localStorage.setItem('visitor_id', vid);
         }
+        let geo = {};
+        try {
+            const res = await fetch("https://ipwho.is/");
+            geo = await res.json();
+        } catch {
+            geo = {};
+        }
 
         const device = getDeviceType(); 
         const data = {
