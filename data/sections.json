@@ -1,0 +1,56 @@
+{
+  "sections": [
+    {
+      "id": "home",
+      "sectionClass": "home-page-container",
+      "aos": "fade-up",
+      "type": "home",
+      "heading":{
+        "text": "# Home",
+        "aria": "My introduction heading"
+      }
+    },
+
+    {
+      "id": "experience",
+      "sectionClass": "experience-section-container",
+      "aos": "fade-up",
+      "type": "experience",
+      "heading": {
+        "text": "if Experience:",
+        "aria": "Experience me heading"
+      }
+    },
+
+    {
+      "id": "about",
+      "sectionClass": "about-section-container",
+      "aos": "fade-up",
+      "type": "about",
+      "heading": {
+        "text": "def AboutMe():",
+        "aria": "About me heading"
+      }
+    },
+
+    {
+      "id": "skills",
+      "sectionClass": "skills-section-container",
+      "type": "skills",
+      "heading": {
+        "text": "class Skills:"
+      }
+    },
+
+    {
+      "id": "projects",
+      "sectionClass": "projects-section-container light-mode",
+      "aos": "fade-up",
+      "type": "projects",
+      "heading": {
+        "text": "for project in Projects:",
+        "aria": "My projects starts from here"
+      }
+    }
+  ]
+}

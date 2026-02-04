@@ -12,11 +12,13 @@ function renderSkills(categories) {
     categories.forEach(category => {
         const skillsHTML = category.skills.map(skill => `
       <li class="tech-stack-box" data-aos="fade-up">
+      <a href="${skill.logo}" title="download image">
         <img 
           src="${skill.logo}" 
           alt="${skill.alt}" 
           class="tech-stack-logo ${skill.invert ? "needtobeinvert" : ""}" 
         />
+        </a>
         <span class="tooltip">${skill.name}</span>
       </li>
     `).join("");
