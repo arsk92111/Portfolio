@@ -1,0 +1,165 @@
+{
+  "section_title": "Projects",
+  "projects": [
+    {
+      "id": 1,
+      "name": "Earn9Game",
+      "favicon": "images/project/earn9game_icon.png",
+      "description": "Earn9Game is a live gaming platform where users can play and earn rewards through interactive gameplay.",
+      "github": {
+        "url": "https://github.com/arsk92111/Earn9Game",
+        "label": "Visit Earn9Game on GitHub",
+        "icon": "images/github.svg"
+      },
+      "live": {
+        "url": "https://weatherwizard.vercel.app/",
+        "label": "Visit Earn9Game Live",
+        "visible": false
+      },
+      "image": {
+        "src": "images/project/earn9game.png",
+        "alt": "Earn9Game website preview image"
+      }
+    },
+    {
+      "id": 2,
+      "name": "Portfolio Arshad",
+      "favicon": "images/project/portfolio_icon.png",
+      "description": "Personal portfolio showcasing my skills, projects, and professional journey as a backend developer.",
+      "github": {
+        "url": "https://github.com/arsk92111/Portfolio",
+        "label": "Visit Portfolio on GitHub",
+        "icon": "images/github.svg"
+      },
+      "live": {
+        "url": "https://arshadali.vercel.app/",
+        "label": "Visit Portfolio Live",
+        "visible": true
+      },
+      "image": {
+        "src": "images/project/portfolio.png",
+        "alt": "Portfolio website preview image"
+      }
+    },
+    {
+      "id": 3,
+      "name": "Lofin App Store",
+      "favicon": "images/project/lofin_icon.png",
+      "description": "Final year university project featuring an app store system with backend APIs and structured data handling.",
+      "github": {
+        "url": "https://github.com/arsk92111/LofinAppStore",
+        "label": "Visit Lofin App on GitHub",
+        "icon": "images/github.svg"
+      },
+      "live": {
+        "url": "https://trackmyjob.vercel.app/",
+        "label": "Visit Lofin App Live",
+        "visible": false
+      },
+      "image": {
+        "src": "images/project/lofinStore.png",
+        "alt": "Lofin App website preview image"
+      }
+    },
+    {
+      "id": 4,
+      "name": "Blog News",
+      "favicon": "images/project/blog_icon.png",
+      "description": "A blogging platform where users can share thoughts, read posts, and interact with content dynamically.",
+      "github": {
+        "url": "https://github.com/arsk92111/BlogNews",
+        "label": "Visit Blog News on GitHub",
+        "icon": "images/github.svg"
+      },
+      "live": {
+        "url": "https://weatherwizard.vercel.app/",
+        "label": "Visit Blog News Live",
+        "visible": false
+      },
+      "image": {
+        "src": "images/project/blogNews.png",
+        "alt": "Blog News website preview image"
+      }
+    },
+    {
+      "id": 5,
+      "name": "Pin Store Ecommerce",
+      "favicon": "images/project/pinstore_icon.png",
+      "description": "E-commerce platform where users can browse, purchase products, and manage orders securely.",
+      "github": {
+        "url": "https://github.com/arsk92111/PinStoreEcommerce",
+        "label": "Visit Pin Store on GitHub",
+        "icon": "images/github.svg"
+      },
+      "live": {
+        "url": "https://weatherwizard.vercel.app/",
+        "label": "Visit Pin Store Live",
+        "visible": false
+      },
+      "image": {
+        "src": "images/project/pinStore.png",
+        "alt": "Pin Store website preview image"
+      }
+    },
+    {
+      "id": 6,
+      "name": "Pharma Pill",
+      "favicon": "images/project/pharmapill_icon.png",
+      "description": "POS-style e-commerce system for pharmacy products with inventory and order management.",
+      "github": {
+        "url": "https://github.com/arsk92111/PharmaPill",
+        "label": "Visit Pharma Pill on GitHub",
+        "icon": "images/github.svg"
+      },
+      "live": {
+        "url": "https://weatherwizard.vercel.app/",
+        "label": "Visit Pharma Pill Live",
+        "visible": false
+      },
+      "image": {
+        "src": "images/project/pharmaPill.png",
+        "alt": "Pharma Pill website preview image"
+      }
+    },
+    {
+      "id": 7,
+      "name": "WhatSoft Chat",
+      "favicon": "images/project/whatsoft_icon.png",
+      "description": "Social-media-style chat application with real-time messaging and user interaction.",
+      "github": {
+        "url": "https://github.com/arsk92111/WhatSoft_Chat",
+        "label": "Visit WhatSoft Chat on GitHub",
+        "icon": "images/github.svg"
+      },
+      "live": {
+        "url": "https://weatherwizard.vercel.app/",
+        "label": "Visit WhatSoft Chat Live",
+        "visible": false
+      },
+      "image": {
+        "src": "images/project/whatSoft.png",
+        "alt": "WhatSoft chat website preview image"
+      }
+    },
+    {
+      "id": 8,
+      "name": "Multi Task",
+      "favicon": "images/project/multitask_icon.png",
+      "description": "Multi-tasking utility project featuring camera usage, image capture, and format conversions.",
+      "github": {
+        "url": "https://github.com/arsk92111/MultiTaskProject",
+        "label": "Visit Multi-Task on GitHub",
+        "icon": "images/github.svg"
+      },
+      "live": {
+        "url": "https://weatherwizard.vercel.app/",
+        "label": "Visit Multi Task Live",
+        "visible": false
+      },
+      "image": {
+        "src": "images/project/multiTask.png",
+        "alt": "Multi Task website preview image"
+      }
+    }
+  ]
+}

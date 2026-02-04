@@ -1,0 +1,47 @@
+{
+  "heyText": "Hey!",
+  "logoSrc": "images/nav-avatar.png",
+  "navbarTabs": [
+  {
+    "id": "home-mobile-tab",
+    "class": "home activeThistab",
+    "href": "#home",
+    "text": "# Home",
+    "dataAosDelay": 100,
+    "active": true
+  },
+  {
+    "id": "experience-mobile-tab",
+    "class": "experience",
+    "href": "#experience",
+    "text": "if Experience:",
+    "dataAosDelay": 300,
+    "active": false
+  },
+  {
+    "id": "aboutme-mobile-tab",
+    "class": "about",
+    "href": "#about",
+    "text": "def AboutMe():",
+    "dataAosDelay": 300,
+    "active": false
+  },
+  {
+    "id": "skills-mobile-tab",
+    "class": "skills",
+    "href": "#skills",
+    "text": "class Skills:",
+    "dataAosDelay": 500,
+    "active": false
+  },
+  {
+    "id": "projects-mobile-tab",
+    "class": "projects",
+    "href": "#projects",
+    "text": "for project in Projects:",
+    "dataAosDelay": 700,
+    "active": false
+  }
+]
+}
+ 

@@ -41,53 +41,24 @@
   <div id="preloader"></div>
   <noscript>Allow Javascript</noscript>
 
-  <header>
-    <div class="cursor-inner" id="cursor-inner"></div>
-    <div class="cursor-outer" id="cursor-outer"></div>
+ <header>
+  <div class="cursor-inner" id="cursor-inner"></div>
+  <div class="cursor-outer" id="cursor-outer"></div>
 
-    <div class="navbar" id="navbar">
-      <div class="hey">Hey!</div>
-      <div class="logo" tabindex="0" aria-label="vinod jangid logo">
-        <div class="logo-top">
-          <img src="images/nav-avatar.png" alt="animation-head" />
-        </div>
+  <div class="navbar" id="navbar">
+    <div class="hey" id="hey-text"></div>
+
+    <div class="logo" tabindex="0" aria-label="vinod jangid logo">
+      <div class="logo-top">
+        <img id="logo-img" alt="animation-head" />
       </div>
-      <div class="navbar-tabs" id="navbar-tabs">
-        <ul class="navbar-tabs-ul">
-          <li class="home activeThistab" class="navbar-tabs-li" data-aos="fade-down" data-aos-delay="100">
-            <a href="#home" tabindex="0" aria-label="Home menu button">
-              # Home
-            </a>
-          </li>
-
-          <li class="experience" class="navbar-tabs-li" data-aos="fade-down" data-aos-delay="300">
-            <a href="#experience" aria-label="experience menu button">
-              if Experience:
-            </a>
-          </li>
-
-          <li class="about" class="navbar-tabs-li" data-aos="fade-down" data-aos-delay="300">
-            <a href="#about" aria-label="about menu button">
-              def AboutMe():
-            </a>
-          </li>
-
-          <li class="skills" class="navbar-tabs-li" data-aos="fade-down" data-aos-delay="500">
-            <a href="#skills" aria-label="skills menu button">
-              class Skills:
-            </a>
-          </li>
-
-          <li class="projects" class="navbar-tabs-li" data-aos="fade-down" data-aos-delay="700">
-            <a href="#projects" aria-label="projects menu button">
-              for project in Projects:
-            </a>
-          </li>
-        </ul>
-      </div>
-      <!-- navbar tabs ends -->
     </div>
-  </header>
+
+    <div class="navbar-tabs" id="navbar-tabs">
+      <ul class="navbar-tabs-ul" id="navbar-tabs-ul"></ul>
+    </div>
+  </div>
+</header>
   <!-- header ends here -->
 
   <main>
@@ -102,176 +73,30 @@
       </div>
     </div>
     <!-- hamburger -->
-    <div class="mobiletogglemenu" id="mobiletogglemenu">
+     <div class="mobiletogglemenu" id="mobiletogglemenu">
       <ul class="mobile-navbar-tabs-ul" id="mobile-ul">
-        <li id="home-mobile-tab" class="mobile-navbar-tabs-li home activeThismobiletab" onclick="hidemenubyli()">
-          <a href="#home" tabindex="0" aria-label="Home menu button">
-            # Home
-          </a>
-        </li>
-
-        <li id="experience-mobile-tab" class="mobile-navbar-tabs-li experience" onclick="hidemenubyli()">
-          <a href="#experience" tabindex="0" aria-label="experience menu button">
-            if Experience:
-          </a>
-        </li>
-
-        <li id="aboutme-mobile-tab" class="mobile-navbar-tabs-li about" onclick="hidemenubyli()">
-          <a href="#about" tabindex="0" aria-label="about menu button">
-            def Aboutme():
-          </a>
-        </li>
-        <li id="skills-mobile-tab" class="mobile-navbar-tabs-li skills" onclick="hidemenubyli()">
-          <a href="#skills" tabindex="0" aria-label="skills menu button">
-            class Skills:
-          </a>
-        </li>
-        <li id="projects-mobile-tab" class="mobile-navbar-tabs-li projects" onclick="hidemenubyli()">
-          <a href="#projects" tabindex="0" aria-label="projects menu button">
-            for project in Project:
-          </a>
-        </li>
+        <!-- JS will render li items here -->
       </ul>
     </div>
     <!-- mobile toggle menu ends -->
 
-    <section class="landing-page-container" id="home" data-aos="fade-up"> 
+    <section class="home-page-container" id="home" data-aos="fade-up">
       <div class="home-section">
-      <!-- <div class="blob">
-        
-      </div> -->
-      <div class="info-dp-section"> 
-        <div class="text-content">
-          <article id="hello-friend" data-aos="fade-up" data-aos-delay="0">
-            <p class="jello">h</p>
-            <p class="jello">e</p>
-            <p class="jello">l</p>
-            <p class="jello">l</p>
-            <p class="jello">o</p>
-            <p class="jello">(</p>
-            <p class="jello">)</p>
-            <p class="jello">:</p>
-            &nbsp;
-            <p class="jello">I</p>
-            <p class="jello">'</p>
-            <p class="jello">m</p>
-          </article>
-          <article id="name" data-aos="fade-up" data-aos-delay="200">
-            <p class="jello">A</p>
-            <p class="jello">r</p>
-            <p class="jello">s</p>
-            <p class="jello">h</p>
-            <p class="jello">a</p>
-            <p class="jello">d</p>
-            &nbsp;
-            <p class="jello">A</p>
-            <p class="jello">l</p> 
-            <p class="jello">i</p> 
-            <p class="jello">.</p>
-          </article>
+        <div class="info-dp-section">
+          <div class="text-content"> 
 
-          <article id="work" data-aos="fade-up" data-aos-delay="400">
-            <div>
-              <p class="jello">P</p>
-              <p class="jello">y</p>
-              <p class="jello">t</p>
-              <p class="jello">h</p>
-              <p class="jello">o</p>
-              <p class="jello">n</p>
+            <div id="home-data"></div> 
+            <div class="contact-btn-div" data-aos="fade-up" data-aos-delay="800"> 
             </div>
-            <div>
-              <p class="jello">d</p>
-              <p class="jello">e</p>
-              <p class="jello">v</p>
-            </div>
-            <div>
-              <p class="jello">w</p>
-              <p class="jello">i</p>
-              <p class="jello">t</p>
-              <p class="jello">h</p>
-            </div>
-            <div>
-              <p class="jello">D</p>
-              <p class="jello">j</p>
-              <p class="jello"></p>
-              <p class="jello">a</p>
-              <p class="jello">n</p>
-              <p class="jello">g</p>
-              <p class="jello">o</p> 
-            </div>
-            <div>
-              <p class="jello">v</p>
-              <p class="jello">i</p>
-              <p class="jello">s</p>
-              <p class="jello">i</p>
-              <p class="jello">o</p>
-              <p class="jello">n</p>
-              <p class="jello">.</p>
-            </div>
-          </article>
-          <p id="info-para" data-aos="fade-up" data-aos-delay="600">
-            Experienced in building robust, scalable web applications using <strong>Python, Django </strong>, and modern tools like <strong>Docker and PostgreSQl</strong>. I strive to merge solid backend development with intelligent systems, aiming to create impactful, AI-enhanced solutions.  <br />
-            <br />
-            Driven by innovation and a passion for clean, efficient code, I focus on developing solutions that are both functional and forward-thinking.
-          </p>
-          
-          <div class="contact-btn-div" data-aos="fade-up" data-aos-delay="800">
-             <a href="https://wa.me/+923401710232?text=Let's Talk! Arshad Ali about your experience" tabindex="-1">
-              <button class="letsTalkBtn">
-                <p class="letsTalkBtn-text">Open To Work!</p>
-                <span class="letsTalkBtn-BG"></span>
-              </button></a>
-              
-               
-            <div class="setting-container" id="setting-container">
-              <input type="checkbox" id="switchforsetting" onclick="settingtoggle()" />
 
-              <label for="switchforsetting" class="needtobeinvert" id="labelforsetting" tabindex="0"
-                aria-label="settings for sound and appearance"></label>
-
-              <div class="visualmodetogglebuttoncontainer" id="visualmodetogglebuttoncontainer">
-                <input type="checkbox" id="switchforvisualmode" onclick="visualmode()" />
-                <label for="switchforvisualmode" id="labelforvisualmode" tabindex="0"
-                  aria-label="switch appearance"></label>
-              </div>
-
-              <div class="soundtogglebuttoncontainer" id="soundtogglebuttoncontainer">
-                <input type="checkbox" id="switchforsound" onclick="playpause()" />
-                <label for="switchforsound" id="labelforsound" tabindex="0" aria-label="switch sound"
-                  class="needtobeinvert"></label>
-              </div>
-               
-              <div class="downloadfiletogglebuttoncontainer" id="downloadfiletogglebuttoncontainer">
-                <input type="checkbox" id="switchfordownloadfile" onclick="downloadfile()" />
-                <label for="switchfordownloadfile" id="labelfordownloadfile" tabindex="0" aria-label="download file"
-                  class="needtobeinvert"></label>
-              </div>
-            </div>
-              <a  tabindex="-1">
-              <button class="letsTalkBtn">
-                <p class="letsTalkBtn-text">User Visitor :<span id="user_count"></span></p>
-                <span class="letsTalkBtn-BG"></span>
-              </button></a>
-              <!-- <h4 class="letsTalkBtn">
-                <p class="letsTalkBtn-text letsTalkBtn-BG">User Visitor :<span id="user_count"></span> </p>
-              </h4>  -->
-          
           </div>
-          <!-- contact-btn-div -->
+ 
+          <div class="dp" data-aos="fade-up"></div>
         </div>
-
-          <div class="dp" data-aos="fade-up">
-            <a href="images/Arshad_Photo.webp" title="download image">  
-              <img src="images/Arshad_Photo.webp" alt="Arshad Ali" tabindex="0" aria-label="image of Arshad Ali" />
-            </a>
-          </div>
       </div>
-       
-      </div>
-     
     </section>
+    <!-- home page ends here -->
 
-    <!-- landing page ends here -->
     <section class="experience-section-container" id="experience" data-aos="fade-up">
       <div class="about-section">
         <div class="section-heading">
@@ -280,184 +105,26 @@
           </h2>
           <p class="sectionHeadingP"></p>
         </div>
-
-        <div class="info-dp-section">  
-            <div class="row" data-aos="fade-up">
-              <div class="col-12 col-md-6">
-                <div class="experience-card">
-                  <div class="experience-header">
-                      <div class="company-row">
-                       <div style="display: flex; align-items: center;">
-                          <h3 class="company-name" style="margin: 0; padding: 0; font-weight: 600;">
-                            MDT Solutions
-                          </h3>
-
-                          <button class="company-btn" id="resume-btn"  onclick="openURL_Company1()"
-                            style="display: flex; align-items: center; margin-left: 8px;">
-                            
-                              <div class="sign-company">
-                                <svg fill="#326cb8" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" stroke="#326cb8"
-                                  style="width: 20px; height: 20px; margin-right: 4px;">
-                                  <path
-                                    d="M27.9999 51.9062C41.0546 51.9062 51.9063 41.0547 51.9063 28C51.9063 14.9219 41.0312 4.0938 27.9765 4.0938C14.8983 4.0938 4.0937 14.9219 4.0937 28C4.0937 41.0547 14.9218 51.9062 27.9999 51.9062ZM38.4062 17.1016C41.3124 19.9844 41.0546 23.5469 37.703 26.875L33.6718 30.9297C33.9999 29.8047 33.9765 28.4922 33.6014 27.6016L35.9687 25.2344C38.2655 22.9844 38.5234 20.6172 36.6952 18.8125C34.8905 17.0313 32.5234 17.3125 30.2733 19.5625L26.9218 22.8672C24.6014 25.2109 24.2968 27.6016 26.1249 29.3828C26.664 29.9453 27.4609 30.2969 28.4921 30.4844C28.1405 31.2344 27.414 32.1016 26.7343 32.5703C26.0312 32.4531 25.1405 31.8906 24.3905 31.1172C21.4843 28.2344 21.789 24.625 25.1874 21.2031L28.6093 17.8047C31.9609 14.4531 35.5234 14.2187 38.4062 17.1016ZM16.7499 38.7578C13.8436 35.875 14.1014 32.3125 17.4765 28.9844L21.5077 24.9297C21.1562 26.0547 21.1796 27.3672 21.5546 28.2578L19.1874 30.625C16.8905 32.8516 16.6327 35.2422 18.4609 37.0469C20.2655 38.8281 22.6562 38.5469 24.8827 36.2969L28.2343 32.9922C30.5546 30.6484 30.8593 28.2578 29.0312 26.4766C28.4921 25.914 27.6952 25.5625 26.664 25.375C27.0155 24.625 27.7421 23.7578 28.4218 23.2891C29.1249 23.4062 30.0155 23.9687 30.789 24.7422C33.6718 27.625 33.3671 31.2109 29.9687 34.6328L26.5468 38.0547C23.1952 41.4063 19.6327 41.6406 16.7499 38.7578Z">
-                                  </path>
-                                </svg>
-                                 <div class="text-company">Visit Company</div>
-                            </div>
-                          </button>
-                        </div>
-                      </div>
-
-                    </div>
-                    <div class="placed">
-                      <p class="duration">📅 December 2024 — Present</p>
-                      <p class="location">📍 Raya Defense, DHA Phase 6, Lahore</p>
-                    </div> 
-                  </div>
-                  👩‍💻 <strong class="strong_text">1 Year  — </strong> <p class="role"> Python / Django Backend Developer</p> 
-                  <div class="experience-description">
-                    <p>
-                      I’ve been working as a backend developer at MDT Solutions, contributing to high-quality and scalable Django-based systems. 
-                      My work focuses on API design, database optimization, and real-time application logic. I’ve actively collaborated on multiple key products including:
-                    </p>
-                    <ul class="project-list">
-                      <li>💼 <strong>PriorCash</strong> — POS type where Order Food & Fast Food E-commerce platform</li>
-                      <li>🍝 <strong>Clap&Go</strong> — Order Food/Fast food , with variety of food long Chain B2B and management system</li>
-                      <li>🎟️ <strong>EventCombo</strong> — event handling and ticketing, Speaker, Party , badges, schedule system</li>
-                    </ul>
-                  </div>
-                </div>
-              </div> 
- 
-              <div class="dp" data-aos="fade-up"> 
-                <a href="images/mdts_logo.webp" title="download image"> 
-                  <img src="images/mdts_logo.webp" alt="MDT Solution" tabindex="0" aria-label="image of MDTS" />
-                </a>
-              </div>
-        
-            </div>
-          
-        <div class="info-dp-section">  
-            <div class="row" data-aos="fade-up">
-              <div class="col-12 col-md-6">
-                <div class="experience-card">
-                  <div class="experience-header">
-                      <div class="company-row">
-                       <div style="display: flex; align-items: center;">
-                          <h3 class="company-name" style="margin: 0; padding: 0; font-weight: 600;">
-                            Kz ProjectZ
-                          </h3>
- 
-                          <button class="company-btn" id="resume-btn"  onclick="openURL_Company2()"
-                            style="display: flex; align-items: center; margin-left: 8px;">
-                            
-                              <div class="sign-company">
-                                <svg fill="#326cb8" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" stroke="#326cb8"
-                                  style="width: 20px; height: 20px; margin-right: 4px;">
-                                  <path
-                                    d="M27.9999 51.9062C41.0546 51.9062 51.9063 41.0547 51.9063 28C51.9063 14.9219 41.0312 4.0938 27.9765 4.0938C14.8983 4.0938 4.0937 14.9219 4.0937 28C4.0937 41.0547 14.9218 51.9062 27.9999 51.9062ZM38.4062 17.1016C41.3124 19.9844 41.0546 23.5469 37.703 26.875L33.6718 30.9297C33.9999 29.8047 33.9765 28.4922 33.6014 27.6016L35.9687 25.2344C38.2655 22.9844 38.5234 20.6172 36.6952 18.8125C34.8905 17.0313 32.5234 17.3125 30.2733 19.5625L26.9218 22.8672C24.6014 25.2109 24.2968 27.6016 26.1249 29.3828C26.664 29.9453 27.4609 30.2969 28.4921 30.4844C28.1405 31.2344 27.414 32.1016 26.7343 32.5703C26.0312 32.4531 25.1405 31.8906 24.3905 31.1172C21.4843 28.2344 21.789 24.625 25.1874 21.2031L28.6093 17.8047C31.9609 14.4531 35.5234 14.2187 38.4062 17.1016ZM16.7499 38.7578C13.8436 35.875 14.1014 32.3125 17.4765 28.9844L21.5077 24.9297C21.1562 26.0547 21.1796 27.3672 21.5546 28.2578L19.1874 30.625C16.8905 32.8516 16.6327 35.2422 18.4609 37.0469C20.2655 38.8281 22.6562 38.5469 24.8827 36.2969L28.2343 32.9922C30.5546 30.6484 30.8593 28.2578 29.0312 26.4766C28.4921 25.914 27.6952 25.5625 26.664 25.375C27.0155 24.625 27.7421 23.7578 28.4218 23.2891C29.1249 23.4062 30.0155 23.9687 30.789 24.7422C33.6718 27.625 33.3671 31.2109 29.9687 34.6328L26.5468 38.0547C23.1952 41.4063 19.6327 41.6406 16.7499 38.7578Z">
-                                  </path>
-                                </svg>
-                                 <div class="text-company">Visit Company</div>
-                            </div>
-                          </button>
-                        </div>
-                      </div>
-
-                    </div>
-                    <div class="placed">
-                      <p class="duration">📅 February 2024 — May 2024</p>
-                      <p class="location">📍 NAYAB PARK، Salamatpura, Sharif Garden, Lahore</p>
-                    </div> 
-                  </div>
-                  👩‍💻 <strong class="strong_text">Internship  — </strong> <p class="role">  Python / Django Backend Developer  </p> 
-                  <div class="experience-description">
-                    <p>
-                      I’ve served as a Internship backend developer at ProjectZ , contributing to high-quality Automation and scalable Django-based systems. 
-                      My work focuses on API design, database optimization, and real-time application logic, with Fingure , Card , Sound Lock system.Product base project assined.
-                    </p>
-                    <ul class="project-list">
-                      <li>💼 <strong>HomeSifu</strong> —  rentals of houses, apartments, buildings, and rooms. It features AIoT integration with Lock Card and Scan Fingure with safe automtical handle House</li> 
-                    </ul>
-                  </div>
-                  
-              </div> 
-            </div>
-              <div class="dp" data-aos="fade-up"> 
-                <a href="images/projectz_logo.webp" title="download image"> 
-                  <img src="images/projectz_logo.webp" alt="Kz ProjectZ" tabindex="0" aria-label="image of ProjectZ" />
-                </a>
-              </div>
+        <div class="info-dp-section"> 
+          <div id="experience-container"></div>
         </div>
-       
       </div>
     </section>
     <!-- experience section ends  -->
 
-    <section class="about-section-container" id="about" data-aos="fade-up">
-      <div class="about-section">
+    <section class="about-section-container" id="about" data-aos="fade-up"> 
+      <div class="about-section"> 
         <div class="section-heading">
-          <h2 class="section-heading-article" tabindex="0" aria-label="About me heading">
-            def AboutMe():
-          </h2>
-          <p class="sectionHeadingP"></p>
+          <h2 class="section-heading-article" tabindex="0" aria-label="About me heading"> def AboutMe(): </h2> 
+          <p class="sectionHeadingP"></p> 
         </div>
 
         <div class="info-dp-section">
-          <div class="about-info">
-            <p tabindex="0">
-              Hello, I’m Arshad Ali – a Python developer specializing in Backend Engineering and Django, RESTApi, with expertise in Python, SQL, Django, and Docker.
-              Since 2023, I’ve been building scalable systems and exploring Django technologies through project-based learning.
-            </p>
-            <br />
-            <p tabindex="0">
-              Key projects include a real-time Gaming application, chatbots, E-commerce  store, Pharmacy, App store, Blog App, Social Media, and Django task management apps.
-              I’ve faced challenges in deployment and migrating local databases to the other Platform of Database. 
-              These experiences drive me to enhance my skills in Database Platform technologies and backend API development.
-            </p>
-            <br />
-            <p tabindex="0">
-              I am seeking opportunities in Python and Djano Backend Development where I can leverage my skills and advance my expertise in API's , RESTApi and FastApi.
-              Driven by a passion for overcoming challenges, I aim to make significant contributions to projects that inspire innovation.
-            </p>
-            
-            <div class="row" data-aos="fade-up">
-              <div class="col-12">
-                
-                <div class="btn-row">
-                  
-                  <button class="resume-btn" onclick="openURL()">
-                    <div class="sign">
-                      <svg viewBox="0 0 640 512">
-                        <path d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-167l80 80c9.4 9.4 24.6 9.4 33.9 0l80-80c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-39 39V184c0-13.3-10.7-24-24-24s-24 10.7-24 24V318.1l-39-39c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9z"/>
-                      </svg>
-                    </div>
-                    <div class="text">Resume</div>
-                  </button>
+          <div class="about-info" id="about-content"></div>
 
-                  <button class="cover-btn" onclick="openURLCover()">
-                    <div class="sign">
-                      <svg viewBox="0 0 640 512">
-                        <path d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-167l80 80c9.4 9.4 24.6 9.4 33.9 0l80-80c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-39 39V184c0-13.3-10.7-24-24-24s-24 10.7-24 24V318.1l-39-39c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9z"/>
-                      </svg>
-                    </div>
-                    <div class="text">Cover Letter</div>
-                  </button>
-
-                </div>
-
-              </div>
-            </div>
-
-
-            </div>
-
-          <div class="dp" data-aos="fade-up">
-            <a href="images/Arshad_Photo.webp" title="download image"> 
-              <img src="images/Arshad_Photo.webp" alt="Arshad Ali" tabindex="0" aria-label="image of Arshad Ali" />
-            </a>
-          </div>
+          <div class="dp" data-aos="fade-up" id="about-image"></div>
         </div>
+
       </div>
     </section>
     <!-- about section ends  -->
@@ -465,96 +132,16 @@
     <section class="skills-section-container" id="skills">
       <div class="skills-section">
         <div class="section-heading" data-aos="fade-up">
-          <h2 class="section-heading-article" tabindex="0" aria-label="skills heading">
-            class Skills:
-          </h2>
+          <h2 class="section-heading-article">class Skills:</h2>
           <p class="sectionHeadingP"></p>
         </div>
 
-        <div class="frontend-dev-section">
-          <h3 class="frontend-dev-heading" data-aos="fade-up" tabindex="0"
-            aria-label="As a frontend a developer these are the skills i have">
-            Tech Stack
-          </h3>
-          <ul class="tech-stack-wrapper">
-            <li class="tech-stack-box" data-aos="fade-up">
-              <img src="./images/pythonlogo.png" alt="Python Logo" class="tech-stack-logo" />
-              <span class="tooltip">Python</span>
-            </li>
-
-            <li class="tech-stack-box" data-aos="fade-up">
-              <img src="./images/djangologo.png" alt="Django Logo" class="tech-stack-logo" />
-              <span class="tooltip">Django</span>
-            </li> 
-
-            <li class="tech-stack-box" data-aos="fade-up">
-              <img src="./images/restapilogo.png" alt="REST APIs Logo" class="tech-stack-logo needtobeinvert" />
-              <span class="tooltip">REST APIs</span>
-            </li>
-
-            <li class="tech-stack-box" data-aos="fade-up">
-              <img src="./images/bootstraplogo.png" alt="Bootstrap Logo" class="tech-stack-logo needtobeinvert" />
-              <span class="tooltip">Bootstrap</span>
-            </li>
- 
-            <li class="tech-stack-box" data-aos="fade-up">
-              <img src="./images/mysqllogo.png" alt="MySQL Logo" class="tech-stack-logo" />
-              <span class="tooltip">MySQL</span>
-            </li>
-
-            <li class="tech-stack-box" data-aos="fade-up">
-              <img src="./images/postgresqllogo.png" alt="PostgreSQL Logo" class="tech-stack-logo" />
-              <span class="tooltip">PostgreSQL</span>
-            </li>
- 
-            
-            <li class="tech-stack-box" data-aos="fade-up">
-              <img src="./images/gitlogo.png" alt="GIT Logo" class="tech-stack-logo" />
-              <span class="tooltip">GIT</span>
-            </li>
-
-          </ul>
-        </div>
-        
-        <div class="frontend-dev-section">
-          <h3 class="frontend-dev-heading" data-aos="fade-up" tabindex="0"
-            aria-label="As a frontend a developer these are the skills i have">
-            Programming Tools
-          </h3>
-          <ul class="tech-stack-wrapper">
-            <li class="tech-stack-box" data-aos="fade-up">
-              <img src="./images/visual.png" alt="Visual Code Logo" class="tech-stack-logo" />
-              <span class="tooltip">Visual Code</span>
-            </li>
-
-            <li class="tech-stack-box" data-aos="fade-up">
-              <img src="./images/PyCharm.png" alt="PyCharm Logo" class="tech-stack-logo" />
-              <span class="tooltip">PyCharm</span>
-            </li> 
-
-            <li class="tech-stack-box" data-aos="fade-up">
-              <img src="./images/Sublime3.png" alt="Sublime3 Logo" class="tech-stack-logo needtobeinvert" />
-              <span class="tooltip">Sublime3</span>
-            </li>
-
-            <li class="tech-stack-box" data-aos="fade-up">
-              <img src="./images/Postman.png" alt="Postman Logo" class="tech-stack-logo needtobeinvert" />
-              <span class="tooltip">Postman</span>
-            </li>
-            
-            <li class="tech-stack-box" data-aos="fade-up">
-              <img src="./images/dockerlogo.png" alt="Docker Logo" class="tech-stack-logo needtobeinvert" />
-              <span class="tooltip">Docker</span>
-            </li> 
- 
-  
-          </ul>
-        </div>
-        
+        <div id="skills-container"></div>
       </div>
     </section>
     <!-- skills section ends -->
-    <section class="projects-section-container" id="projects">
+
+    <section class="projects-section-container light-mode" id="projects"  data-aos="fade-up">
       <div class="projects-section-div">
         <div class="section-heading" data-aos="fade-up">
           <h2 class="section-heading-article" tabindex="0" aria-label="My projects starts from here">
@@ -574,8 +161,20 @@
       </div>
     </section>
   </main>
+
   <!-- main ends here -->
-    <div class="social-media-container"> 
+  <footer id="footer">
+    <button class="fas" id="backtotopbutton" onclick="scrolltoTopfunction()">
+      <article aria-label="Back to top">&#8592;BACK TO TOP</article> 
+    </button>
+    <div class="footer-background">
+      <div class="footer-blob"></div>
+    </div>  
+      <div id="footer-container"></div> 
+  </footer>
+  <!-- footer ends here -->
+    
+  <div class="social-media-container"> 
       <a id="wa-float" class="SocialHandle"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="35"></a>
       <div id="wa-overlay"></div>
     </div>
@@ -621,134 +220,32 @@ How are You!</textarea>
 How are You!</textarea>
           <button class="bttn" onclick="openWhatsApp()">Start Chat</button>
         </div>
-    </div>
-
-  <footer id="footer">
-    <button class="fas" id="backtotopbutton" onclick="scrolltoTopfunction()">
-      <article aria-label="Back to top">&#8592;BACK TO TOP</article>
-      
-    </button>
-    <div class="footer-background">
-      <div class="footer-blob"></div>
-    </div>
-    <div class="footer-foreground">
-      <div class="footercontainer">
-        <div class="two-words">
-          <article tabindex="0" aria-label="Learning, Living, and Leveling Up, my quote">
-            "Learning, Living, and Leveling Up."
-          </article>
-        </div>
-        <div class="social-media-container">
-          <div class="getintouch-heading">
-            <article>GetinTouch():</article>
-          </div>
-          <div class="logos"> 
-              <div id="wa-overlay-touch"></div>
-            <a  title="WhatsApp Connect"  id="wa-float-touch" target="_blank" tabindex="0" aria-label="My Whatsapp Contact">
-               <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="35" />
-              </a> 
-                
-            <a href="tel:+923401710232" title="Phone Call" target="_blank" aria-label="Direct Call"> 
-              
-                <svg xmlns="http://www.w3.org/2000/svg" 
-                  width="40"
-                  height="40"
-                  fill="#fff"
-                  style="cursor:pointer; transition:0.3s;" viewBox="0 0 24 24"><path d="M21.384,17.752a2.108,2.108,0,0,1-.522,3.359,7.543,7.543,0,0,1-5.476.642C10.5,20.523,3.477,13.5,2.247,8.614a7.543,7.543,0,0,1,.642-5.476,2.108,2.108,0,0,1,3.359-.522L8.333,4.7a2.094,2.094,0,0,1,.445,2.328A3.877,3.877,0,0,1,8,8.2c-2.384,2.384,5.417,10.185,7.8,7.8a3.877,3.877,0,0,1,1.173-.781,2.092,2.092,0,0,1,2.328.445Z"/></svg> 
-              
-          </a>
-            <a href="https://www.linkedin.com/in/arshad-ali-0b4148123/"  title="Linkdin"  target="_blank"
-              aria-label="My Linkdin"><svg   viewBox="0 0 448 512"
-                  width="40"
-                  height="40"
-                  fill="#fff"
-                  style="cursor:pointer; transition:0.3s;">
-                <path
-                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
-              </svg></a>
-
-            <a href="https://github.com/arsk92111" title="GitHub"  target="_blank" aria-label="My github"><svg  viewBox="0 0 496 512"
-                  width="40"
-                  height="40"
-                  fill="#fff"
-                  style="cursor:pointer; transition:0.3s;"
-                 >
-                <path
-                  d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z" />
-              </svg></a>
-
-            <a href="mailto:arsk92110@gmail.com" 
-              target="_blank"  title="Gmail" 
-              aria-label="Send Email to Arsk92110">
-              <svg id="GmailLogo"
-                  viewBox="0 0 512 512"
-                  width="40"
-                  height="40"
-                  fill="#fff"
-                  style="cursor:pointer; transition:0.3s;">
-                <path d="M64 112c-8.8 0-16 7.2-16 16v22.1L220.5 291.7c20.7 17 50.4 17 71.1 0L464 150.1V128c0-8.8-7.2-16-16-16H64zM48 212.2V384c0 8.8 7.2 16 16 16H448c8.8 0 16-7.2 16-16V212.2L322 328.8c-38.4 31.5-93.7 31.5-132 0L48 212.2zM0 128C0 92.7 28.7 64 64 64H448c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128z"/>
-              </svg>
-            </a>
-            <a href="https://x.com/arsk92110_ali"  title="Twitter"  target="_blank" tabindex="0"
-              aria-label="My twitter"><svg viewBox="0 0 448 512" 
-                  width="40"
-                  height="40"
-                  fill="#fff"
-                  style="cursor:pointer; transition:0.3s;">
-                <path
-                d="M512 97.2c-18.8 8.4-39.1 14-60.2 16.5 21.6-13 38.2-33.6 46-58.2-20.4 12-42.8 20.8-66.7 25.5-19.2-20.4-46.6-33-76.9-33-58.1 0-105.1 47-105.1 105 0 8.2.9 16.2 2.7 23.9-87.4-4.4-164.9-46.2-216.7-109.9-9 15.6-14.1 33.6-14.1 52.8 0 36.3 18.5 68.4 46.7 87.1-17.2-.6-33.4-5.3-47.5-13.1-.1.4-.1.9-.1 1.4 0 50.6 36 92.6 83.7 102-8.8 2.4-18.2 3.7-27.8 3.7-6.8 0-13.4-.7-19.9-2 13.5 41.8 52.6 72.3 98.9 73-36 28.2-81.4 45-130.6 45-8.5 0-16.8-.5-25.1-1.5 46.6 29.8 101.8 47.2 161.1 47.2 193.2 0 298.9-160.1 298.9-298.9 0-4.6-.1-9.2-.3-13.7 20.5-14.8 38.2-33.3 52.2-54.4z" />
-              </svg></a>
-          </div>
-        </div>
-        <div class="footer-avatar-container">
-          <img src="images/footer-avatar.png" alt="animation-head" class="footer-avatar-img" />
-        </div>
-        <div class="footer-bottom">
-          <article>
-            Created by Arshad Ali
-            <i class="far fa-copyright"></i> 2024
-          </article>
-        </div>
-      </div>
-    </div>
-  </footer>
+  </div>
+ 
   <!-- footer ends here -->
-
-  <script src="js/main.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/landing.js"></script>
+  <script src="js/experience.js"></script>
+  <script src="js/about.js"></script>
+  <script src="js/skills.js"></script>
   <script src="js/projects.js"></script>
-  <script src="js/vercel_track.js"></script>
+  <script src="js/footer.js"></script>
+  <script src="js/mobile_navbar.js"></script>
 
+  <script src="js/vercel_track.js"></script> 
+  <script src="js/main.js"></script> 
   <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
   <script>
     AOS.init();
   </script>
 
-  <script>
-    function openURL() {
-      var url = "files/Arshad_Ali_Resume_1Exp_Lhr.pdf";
-
-      window.open(url, "_blank");
+  <script> 
+    function openCompany(btn) {
+    const url = btn.dataset.url;
+    window.open(url, "_blank");
     }
-     function openURLCover() {
-      var url = "files/Arshad_Ali_Cover_Letter.pdf";
-
-      window.open(url, "_blank");
-    }
-
-    function openURL_Company1() {
-      var url = "https://mdtsolution.net/";
-
-      window.open(url, "_blank");
-    }
-    
-    function openURL_Company2() {
-      var url = "https://www.projectz.io/";
-
-      window.open(url, "_blank");
-    }
-  </script>
-
-  <script>
+  
     const cursorInner = document.getElementById("cursor-inner");
     const cursorOuter = document.getElementById("cursor-outer");
     const links = document.querySelectorAll("a,label,button");
@@ -758,11 +255,7 @@ How are You!</textarea>
       const posY = e.clientY;
 
       cursorInner.style.left = `${posX}px`;
-      cursorInner.style.top = `${posY}px`;
-
-      // cursorOuter.style.left = `${posX}px`;
-      // cursorOuter.style.top = `${posY}px`;
-
+      cursorInner.style.top = `${posY}px`; 
       cursorOuter.animate(
         {
           left: `${posX}px`,
@@ -783,48 +276,7 @@ How are You!</textarea>
       });
     });
   </script>
-   
-  <script>
-    const floatBtn = document.getElementById("wa-float");
-    const popup = document.getElementById("wa-popup");
-    const overlay = document.getElementById("wa-overlay");
-    const closeBtn = document.getElementById("wa-close");
-
-    const floatBtn_touch = document.getElementById("wa-float-touch"); 
-    const popup_touch = document.getElementById("wa-popup-touch"); 
-    const overlay_touch = document.getElementById("wa-overlay-touch");
-    const closeBtn_touch = document.getElementById("wa-close-touch");
-
-    floatBtn.onclick = () => {
-      popup.style.display = "block";
-      overlay.style.display = "block";
-    };
     
-    floatBtn_touch.onclick = () => {
-      popup_touch.style.display = "block";
-      overlay_touch.style.display = "block";
-      floatBtn_touch.style.display = "none";
-    };
-
-    closeBtn_touch.onclick = overlay_touch.onclick = () => {
-      popup_touch.style.display = "none";
-      overlay_touch.style.display = "none"; 
-      floatBtn_touch.style.display = "block";
-    };
-
-    closeBtn.onclick = overlay.onclick = () => {
-      popup.style.display = "none";
-      overlay.style.display = "none"; 
-    };
-     
-    function openWhatsApp(){
-      const msg = document.getElementById("wa-msg").value || "Hello! Arshad Ali";
-      const phone = "+923401710232"; // <-- your number
-      const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-      window.open(url, "_blank");
-    }  
-  </script>
-  
 
 </body>
 </html>

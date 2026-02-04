@@ -1,0 +1,97 @@
+{
+  "hello": ["h","e","l","l","o","(",")",":"],
+  "intro": ["I","'","m"],
+  "name": ["A","r","s","h","a","d","&nbsp;","A","l","i","."],
+  "work": [
+    ["P","y","t","h","o","n"],
+    ["d","e","v"],
+    ["w","i","t","h"],
+    ["D","j","a","n","g","o"],
+    ["v","i","s","i","o","n","."]
+  ],
+  "infoPara": "Experienced in building robust, scalable web applications using <strong>Python, Django </strong>, and modern tools like <strong>Docker and PostgreSQL</strong>. I strive to merge solid backend development with intelligent systems, aiming to create impactful, AI-enhanced solutions. </br></br> Driven by innovation and a passion for clean, efficient code, I focus on developing solutions that are both functional and forward-thinking.",
+  
+  "contactElements": [
+    {
+      "type": "button",
+      "label": "Open To Work!",
+      "url": "https://wa.me/+923401710232?text=Let's Talk! Arshad Ali about your experience",
+      "class": "letsTalkBtn"
+    },
+    {
+      "type": "settings",
+      "class": "setting-container",
+      "id": "setting-container",
+      "children": [
+        {
+          "type": "input",
+          "inputType": "checkbox",
+          "id": "switchforsetting",
+          "onClick": "settingtoggle()"
+        },
+        {
+          "type": "label",
+          "for": "switchforsetting",
+          "class": "needtobeinvert",
+          "id": "labelforsetting",
+          "tabindex": 0,
+          "ariaLabel": "settings for sound and appearance"
+        },
+        {
+          "type": "input",
+          "inputType": "checkbox",
+          "id": "switchforvisualmode",
+          "onClick": "visualmode()"
+        },
+        {
+          "type": "label",
+          "for": "switchforvisualmode",
+          "id": "labelforvisualmode",
+          "tabindex": 0,
+          "ariaLabel": "switch appearance"
+        },
+        {
+          "type": "input",
+          "inputType": "checkbox",
+          "id": "switchforsound",
+          "onClick": "playpause()"
+        },
+        {
+          "type": "label",
+          "for": "switchforsound",
+          "id": "labelforsound",
+          "class": "needtobeinvert",
+          "tabindex": 0,
+          "ariaLabel": "switch sound"
+        },
+        {
+          "type": "input",
+          "inputType": "checkbox",
+          "id": "switchfordownloadfile",
+          "onClick": "downloadfile()"
+        },
+        {
+          "type": "label",
+          "for": "switchfordownloadfile",
+          "id": "labelfordownloadfile",
+          "class": "needtobeinvert",
+          "tabindex": 0,
+          "ariaLabel": "download file"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "label": "User Visitor",
+      "url": "#",
+      "class": "letsTalkBtn",
+      "id": "user_count_btn"
+    }
+  ],
+
+  "image": {
+    "src": "images/Arshad_Photo.webp",
+    "alt": "Arshad Ali",
+    "aria_label": "image of Arshad Ali"
+  }
+}

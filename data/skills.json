@@ -1,0 +1,89 @@
+{
+  "section_title": "Skills",
+  "categories": [
+    {
+      "title": "Tech Stack",
+      "aria_label": "As a backend developer these are the skills I have",
+      "skills": [
+        {
+          "name": "Python",
+          "logo": "./images/pythonlogo.png",
+          "alt": "Python Logo",
+          "invert": false
+        },
+        {
+          "name": "Django",
+          "logo": "./images/djangologo.png",
+          "alt": "Django Logo",
+          "invert": false
+        },
+        {
+          "name": "REST APIs",
+          "logo": "./images/restapilogo.png",
+          "alt": "REST APIs Logo",
+          "invert": true
+        },
+        {
+          "name": "Bootstrap",
+          "logo": "./images/bootstraplogo.png",
+          "alt": "Bootstrap Logo",
+          "invert": true
+        },
+        {
+          "name": "MySQL",
+          "logo": "./images/mysqllogo.png",
+          "alt": "MySQL Logo",
+          "invert": false
+        },
+        {
+          "name": "PostgreSQL",
+          "logo": "./images/postgresqllogo.png",
+          "alt": "PostgreSQL Logo",
+          "invert": false
+        },
+        {
+          "name": "Git",
+          "logo": "./images/gitlogo.png",
+          "alt": "GIT Logo",
+          "invert": false
+        }
+      ]
+    },
+    {
+      "title": "Programming Tools",
+      "aria_label": "Programming tools I use for development",
+      "skills": [
+        {
+          "name": "Visual Code",
+          "logo": "./images/visual.png",
+          "alt": "Visual Code Logo",
+          "invert": false
+        },
+        {
+          "name": "PyCharm",
+          "logo": "./images/PyCharm.png",
+          "alt": "PyCharm Logo",
+          "invert": false
+        },
+        {
+          "name": "Sublime3",
+          "logo": "./images/Sublime3.png",
+          "alt": "Sublime3 Logo",
+          "invert": true
+        },
+        {
+          "name": "Postman",
+          "logo": "./images/Postman.png",
+          "alt": "Postman Logo",
+          "invert": true
+        },
+        {
+          "name": "Docker",
+          "logo": "./images/dockerlogo.png",
+          "alt": "Docker Logo",
+          "invert": true
+        }
+      ]
+    }
+  ]
+}

@@ -576,7 +576,7 @@ noscript {
     }
 }
 
-.landing-page-container {
+.landing-page-container, .home-page-container {
     width: 100%;
     height: calc(100vh - 115px);
     display: flex;
@@ -584,6 +584,7 @@ noscript {
     align-items: center;
     justify-content: center
 }
+ 
 
 .text-content {
     display: flex;
@@ -1104,7 +1105,7 @@ noscript {
     justify-content: center
 }
 
-.experience-section
+.experience-section,
 .projects-section-div,
 .skills-section {
     width: 75%;
@@ -2125,7 +2126,7 @@ textarea{
         width: 80%
     }
 
-    .about-section{
+    .about-section {
         width: 80%;
         display: flex;
         flex-direction: column;
@@ -2466,158 +2467,7 @@ textarea{
     width: 100%;
   }
 }    
-/*  
-@media screen and (max-width:500px) {
-    html {
-        font-size: 45%
-    }
-
-    .hamburgerbase,
-    .navbar {
-        height: 70px
-    }
-
-    #hamburger {
-        margin-right: 20px;
-        height: 115px;
-        align-items: flex-end
-    }
-
-    #hello-friend,
-    .two-words article {
-        font-size: 2.5rem
-    }
-
-    .hey {
-        left: 70px
-    }
-
-    .logo:hover {
-        transform: translateY(200px);
-        transition-duration: 1s
-    }
-
-    .landing-page-container {
-        height: 85vh
-    }
-
-    .text-content {
-        justify-content: flex-start
-    }
-
-    .project-box {
-        height: 550px
-    }
-
-    .info-div {
-        height: 60%
-    }
-
-    .image-div {
-        height: 40%;
-        padding-left: 50px
-    }
-
-    .image-div img {
-        border-top-left-radius: 10px
-    }
-
-    .tech-stack-wrapper {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px
-    }
-
-    .tech-stack-box {
-        width: 100%;
-        height: calc(76vw/2)
-    }
-}
-
-@media screen and (max-width:430px) {
-    html {
-        font-size: 45%
-    }
-
-    .about-section,.home-section,
-    .projects-section-div,
-    .skills-section {
-        width: 80%
-    }
-
-    .experience-section
-    .projects-section-div,
-    .skills-section {
-        width: 80%
-    }
-
-    .info-div {
-        padding: 0 15px
-    }
-
-    .two-words article {
-        font-size: 2.2rem
-    }
-}
-
-@media screen and (max-width:375px) {
-    html {
-        font-size: 42%
-    }
-
-    .dp img {
-        width: 200px
-    }
-
-    .two-words {
-        height: 50px
-    }
-
-    .two-words article {
-        font-size: 2rem
-    }
-
-    .footer-bottom article {
-        font-size: 1.3rem
-    }
-
-    .logos {
-        gap: 20px
-    }
-}
-
-@media screen and (max-width:300px) {
-    html {
-        font-size: 42%
-    }
-
-    .language-name article {
-        text-align: center
-    }
-
-    .two-words {
-        align-items: flex-end;
-        height: 50px
-    }
-
-    .two-words article {
-        font-size: 1.5rem
-    }
-
-    .footer-bottom article {
-        font-size: 1rem
-    }
-
-    .social-media-container a {
-        width: 50px;
-        height: 50px
-    }
-
-    .logos {
-        gap: 20px
-    }
-}   
-   */
+ 
 
 /* ------------------------------------------           Mobile size     --------------------------------- */
 
@@ -2637,10 +2487,10 @@ textarea{
         height: 100vh; 
     }
     
-    .landing-page-container{
+    .landing-page-container, .home-page-container {
         height: calc(85vh - 115px); 
         width: 100%; 
-    }
+    } 
 
     #info-para {
         font-weight: 400;
@@ -2687,6 +2537,7 @@ textarea{
         width: 93%;
         margin-top: 50%;
     }
+
     .home-section{ 
         width: 93%;
         margin-top: 10%;

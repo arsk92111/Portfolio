@@ -1,0 +1,50 @@
+[
+  {
+    "company_name": "MDT Solutions",
+    "company_link": "https://mdtsolution.net/",
+    "company_logo": "images/mdts_logo.webp",
+    "time_frame": "December 2024 — Present",
+    "location": "Raya Defense, DHA Phase 6, Lahore",
+    "employment_type": "Full Time",
+    "experience_duration": "1 Year",
+    "role": "Python / Django Backend Developer",
+    "description": "I've been working as a backend developer at MDT Solutions, contributing to high-quality and scalable Django-based systems.My work focuses on API design, database optimization, and real-time application logic. I've actively collaborated on multiple key products including:",
+    "svg_file": "M27.9999 51.9062C41.0546 51.9062 51.9063 41.0547 51.9063 28C51.9063 14.9219 41.0312 4.0938 27.9765 4.0938C14.8983 4.0938 4.0937 14.9219 4.0937 28C4.0937 41.0547 14.9218 51.9062 27.9999 51.9062ZM38.4062 17.1016C41.3124 19.9844 41.0546 23.5469 37.703 26.875L33.6718 30.9297C33.9999 29.8047 33.9765 28.4922 33.6014 27.6016L35.9687 25.2344C38.2655 22.9844 38.5234 20.6172 36.6952 18.8125C34.8905 17.0313 32.5234 17.3125 30.2733 19.5625L26.9218 22.8672C24.6014 25.2109 24.2968 27.6016 26.1249 29.3828C26.664 29.9453 27.4609 30.2969 28.4921 30.4844C28.1405 31.2344 27.414 32.1016 26.7343 32.5703C26.0312 32.4531 25.1405 31.8906 24.3905 31.1172C21.4843 28.2344 21.789 24.625 25.1874 21.2031L28.6093 17.8047C31.9609 14.4531 35.5234 14.2187 38.4062 17.1016ZM16.7499 38.7578C13.8436 35.875 14.1014 32.3125 17.4765 28.9844L21.5077 24.9297C21.1562 26.0547 21.1796 27.3672 21.5546 28.2578L19.1874 30.625C16.8905 32.8516 16.6327 35.2422 18.4609 37.0469C20.2655 38.8281 22.6562 38.5469 24.8827 36.2969L28.2343 32.9922C30.5546 30.6484 30.8593 28.2578 29.0312 26.4766C28.4921 25.914 27.6952 25.5625 26.664 25.375C27.0155 24.625 27.7421 23.7578 28.4218 23.2891C29.1249 23.4062 30.0155 23.9687 30.789 24.7422C33.6718 27.625 33.3671 31.2109 29.9687 34.6328L26.5468 38.0547C23.1952 41.4063 19.6327 41.6406 16.7499 38.7578Z", 
+    "projects": [
+      {
+        "name": "PriorCash",
+        "icon": "💼",
+        "detail": "POS type where Order Food & Fast Food E-commerce platform"
+      },
+      {
+        "name": "Clap&Go",
+        "icon": "🍝",
+        "detail": "Order Food/Fast food with long-chain B2B management system"
+      },
+      {
+        "name": "EventCombo",
+        "icon": "🎟️",
+        "detail": "Event handling, ticketing, speakers, parties, badges and scheduling system"
+      }
+    ]
+  },
+  {
+    "company_name": "Kz ProjectZ",
+    "company_link": "https://www.projectz.io/",
+    "company_logo": "images/projectz_logo.webp",
+    "time_frame": "February 2024 — May 2024",
+    "location": "Nayab Park, Salamatpura, Sharif Garden, Lahore",
+    "employment_type": "Internship",
+    "experience_duration": "Internship",
+    "role": "Python / Django Backend Developer",
+    "description": "I’ve served as an internship backend developer at ProjectZ, contributing to automation-focused and scalable Django-based systems. My work included API development, database optimization, and AIoT-based product systems.",
+    "svg_file": "M27.9999 51.9062C41.0546 51.9062 51.9063 41.0547 51.9063 28C51.9063 14.9219 41.0312 4.0938 27.9765 4.0938C14.8983 4.0938 4.0937 14.9219 4.0937 28C4.0937 41.0547 14.9218 51.9062 27.9999 51.9062ZM38.4062 17.1016C41.3124 19.9844 41.0546 23.5469 37.703 26.875L33.6718 30.9297C33.9999 29.8047 33.9765 28.4922 33.6014 27.6016L35.9687 25.2344C38.2655 22.9844 38.5234 20.6172 36.6952 18.8125C34.8905 17.0313 32.5234 17.3125 30.2733 19.5625L26.9218 22.8672C24.6014 25.2109 24.2968 27.6016 26.1249 29.3828C26.664 29.9453 27.4609 30.2969 28.4921 30.4844C28.1405 31.2344 27.414 32.1016 26.7343 32.5703C26.0312 32.4531 25.1405 31.8906 24.3905 31.1172C21.4843 28.2344 21.789 24.625 25.1874 21.2031L28.6093 17.8047C31.9609 14.4531 35.5234 14.2187 38.4062 17.1016ZM16.7499 38.7578C13.8436 35.875 14.1014 32.3125 17.4765 28.9844L21.5077 24.9297C21.1562 26.0547 21.1796 27.3672 21.5546 28.2578L19.1874 30.625C16.8905 32.8516 16.6327 35.2422 18.4609 37.0469C20.2655 38.8281 22.6562 38.5469 24.8827 36.2969L28.2343 32.9922C30.5546 30.6484 30.8593 28.2578 29.0312 26.4766C28.4921 25.914 27.6952 25.5625 26.664 25.375C27.0155 24.625 27.7421 23.7578 28.4218 23.2891C29.1249 23.4062 30.0155 23.9687 30.789 24.7422C33.6718 27.625 33.3671 31.2109 29.9687 34.6328L26.5468 38.0547C23.1952 41.4063 19.6327 41.6406 16.7499 38.7578Z", 
+    "projects": [
+      {
+        "name": "HomeSifu",
+        "icon": "🏠",
+        "detail": "Rental platform for houses, apartments, and buildings with AIoT integration, lock cards, fingerprint scanning and automated security handling."
+      }
+    ]
+  }
+]
