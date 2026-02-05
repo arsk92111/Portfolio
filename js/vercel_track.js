@@ -27,8 +27,8 @@ async function trackVisitor() {
         const device = getDeviceType();
 
         // Extra useful fields
-        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const connection = navigator.connection || {};
+        // const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        // const connection = navigator.connection || {};
         const visitType = localStorage.getItem('visitor_id') ? 'returning' : 'new';
 
         const data = {
@@ -37,18 +37,19 @@ async function trackVisitor() {
             city: geo.city || "",
             country: geo.country || "",
             device: device,
-            page: window.location.pathname,
-            page_title: document.title || '',
-            referrer: document.referrer || 'direct',
             language: navigator.language,
-            screen: window.screen.width + 'x' + window.screen.height,
-            prefers_dark: prefersDark,
             visit_type: visitType,
-            network_type: connection.effectiveType || '',
-            downlink: connection.downlink || 0,
             timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
             browser: navigator.userAgent
+            // page: window.location.pathname,
+            // page_title: document.title || '',
+            // referrer: document.referrer || 'direct', 
+            // screen: window.screen.width + 'x' + window.screen.height,
+            // prefers_dark: prefersDark, 
+            // network_type: connection.effectiveType || '',
+            // downlink: connection.downlink || 0, 
         };
+         
 
         const response = await fetch('/api/track', {
             method: 'POST',

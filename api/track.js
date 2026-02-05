@@ -7,10 +7,14 @@ export default async function handler(req, res) {
     if (req.method !== 'POST') return res.status(405).json({ error: 'Only POST allowed' });
 
     try {  
+        // const {
+        //     vid, ip_local, city, country, device, page, page_title,
+        //     referrer, language, screen, prefers_dark, visit_type,
+        //     network_type, downlink, timezone, browser
+        // } = req.body;
+
         const {
-            vid, ip_local, city, country, device, page, page_title,
-            referrer, language, screen, prefers_dark, visit_type,
-            network_type, downlink, timezone, browser
+            ip_local, city, country, device, language, visit_type, timezone, browser
         } = req.body;
 
         let ip = 'unknown';
@@ -29,7 +33,6 @@ export default async function handler(req, res) {
             console.log('❌ Error reading file:', err.message);
         }
 
-        // Duplicate check (IP + Device)
         let alreadyExists = false;
         for (let i = 0; i < allVisitors.length; i++) {
             if (allVisitors[i].ip === ip && allVisitors[i].device === device) {
@@ -41,7 +44,7 @@ export default async function handler(req, res) {
         if (alreadyExists) {
             return res.json({
                 success: false,
-                message: 'IP+Device already exists',
+                message: 'IP + Device already exists',
                 count: allVisitors.length,
                 duplicate: true
             });
@@ -49,24 +52,14 @@ export default async function handler(req, res) {
 
         const newVisitor = {
             id: allVisitors.length + 1,
-            vid: vid || `visitor_${Date.now()}`,
+            // vid: vid || `visitor_${Date.now()}`,
             ip: ip,
             ip_local: ip_local || '',
-            city: city || '',
-            country: country || '',
-            device: device || 'Unknown',
-            page: page || '/',
-            page_title: page_title || '',
-            referrer: referrer || 'direct',
-            language: language || 'Unknown',
-            screen: screen || 'Unknown',
-            prefers_dark: prefers_dark || false,
-            visit_type: visit_type || 'new',
-            network_type: network_type || '',
-            downlink: downlink || 0,
-            timezone: timezone || 'Unknown',
-            time: new Date().toISOString(),
-            timestamp: Date.now(),
+            address: (city + ", " + country) || '',
+            device: device || 'Unknown',  
+            language: language || 'Unknown', 
+            visit_type: visit_type || 'new', 
+            timezone: timezone + " - " + new Date().toISOString() || 'Unknown', 
             browser: browser || 'Unknown'
         };
 
