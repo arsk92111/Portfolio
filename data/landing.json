@@ -9,7 +9,7 @@
     ["D","j","a","n","g","o"],
     ["v","i","s","i","o","n","."]
   ],
-  "infoPara": "Experienced in building robust, scalable web applications using <strong>Python, Django </strong>, and modern tools like <strong>Docker and PostgreSQL</strong>. I strive to merge solid backend development with intelligent systems, aiming to create impactful, AI-enhanced solutions. </br></br> Driven by innovation and a passion for clean, efficient code, I focus on developing solutions that are both functional and forward-thinking.",
+  "infoPara": "Experienced in building robust, scalable web applications using <strong id=\"detail-friend\" class=\"detail-jell\"> Python </strong>, <strong id=\"detail-friend\" class=\"detail-jell\"> Django </strong> and modern tools like <strong id=\"detail-friend\" class=\"detail-jell\"> Docker </strong> and <strong id=\"detail-friend\" class=\"detail-jell\"> PostgreSQL</strong>. I strive to merge solid backend development with intelligent systems, aiming to create impactful, AI-enhanced solutions. </br></br> Driven by innovation and a passion for clean, efficient code, I focus on developing solutions that are both functional and forward-thinking.",
   
   "contactElements": [
     {

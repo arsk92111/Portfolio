@@ -102,7 +102,7 @@ html {
     --tech-stack-box-border-color: #292929
 }
 
-#hello-friend,.footer-bottom article,.getintouch-heading article,.language-speak article,.navbar-tabs-ul li,
+#hello-friend,#detail-friend,#detail-company-name,.footer-bottom article,.getintouch-heading article,.language-speak article,.navbar-tabs-ul li,
 .two-words article {
     font-family: fira code
 }
@@ -456,7 +456,7 @@ noscript {
     opacity: 0
 }
 
-#hello-friend,#work,.about-info p,.activeThistab, .experience-info p,
+#hello-friend,#detail-friend,#detail-company-name, #work,.about-info p,.activeThistab, .experience-info p,
 .language-speak article {
     color: var(--color-white)
 }
@@ -603,6 +603,24 @@ noscript {
     align-items: flex-end
 }
 
+#detail-friend {
+    font-size: 2rem;
+    font-weight: bold;
+    width: fit-content;  
+    
+    display: inline-flex;   /* ✅ line break khatam */
+    align-items: baseline
+}
+#detail-company-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    width: fit-content;  
+    
+    display: inline-flex;   /* ✅ line break khatam */
+    align-items: baseline
+}
+
+
 #name {
     font-size: 8rem;
     width: fit-content
@@ -727,7 +745,7 @@ noscript {
     -webkit-animation: .9s both jello-vertical;
     animation: .9s both jello-vertical
 }
-
+ 
 #backtotopbutton,.dp::after,.dp::before,
 .letsTalkBtn {
     background-color: transparent
@@ -768,6 +786,83 @@ noscript {
 }
 
 @keyframes jello-vertical {
+
+    0%,
+    100% {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1)
+    }
+
+    30% {
+        -webkit-transform: scale3d(.75, 1.25, 1);
+        transform: scale3d(.75, 1.25, 1)
+    }
+
+    40% {
+        -webkit-transform: scale3d(1.25, .75, 1);
+        transform: scale3d(1.25, .75, 1)
+    }
+
+    50% {
+        -webkit-transform: scale3d(.85, 1.15, 1);
+        transform: scale3d(.85, 1.15, 1)
+    }
+
+    65% {
+        -webkit-transform: scale3d(1.05, .95, 1);
+        transform: scale3d(1.05, .95, 1)
+    }
+
+    75% {
+        -webkit-transform: scale3d(.95, 1.05, 1);
+        transform: scale3d(.95, 1.05, 1)
+    }
+}
+
+.detail-jell:hover {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-color: #03e6ff;
+    -webkit-animation: .9s both jell-vertical-detail;
+    animation: .9s both jell-vertical-detail
+}
+
+@-webkit-keyframes jell-vertical-detail {
+
+    0%,
+    100% {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1)
+    }
+
+    30% {
+        -webkit-transform: scale3d(.75, 1.25, 1);
+        transform: scale3d(.75, 1.25, 1)
+    }
+
+    40% {
+        -webkit-transform: scale3d(1.25, .75, 1);
+        transform: scale3d(1.25, .75, 1)
+    }
+
+    50% {
+        -webkit-transform: scale3d(.85, 1.15, 1);
+        transform: scale3d(.85, 1.15, 1)
+    }
+
+    65% {
+        -webkit-transform: scale3d(1.05, .95, 1);
+        transform: scale3d(1.05, .95, 1)
+    }
+
+    75% {
+        -webkit-transform: scale3d(.95, 1.05, 1);
+        transform: scale3d(.95, 1.05, 1)
+    }
+}
+
+@keyframes jell-vertical-detail {
 
     0%,
     100% {
@@ -2391,6 +2486,15 @@ textarea{
         height: 100px;
         font-size: 3.5rem
     }
+    #detail-friend {
+        height: 75px;
+        font-size: 2rem
+    }
+    
+    #detail-company-name {
+        height: 75px;
+        font-size: 1.2rem
+    }
 
     #name  {
         font-size: 5.5rem
@@ -2473,6 +2577,14 @@ textarea{
         width: 50%;
     }
     #hello-friend {
+        height: 10px; 
+    }
+    
+    #detail-friend {
+        height: 10px; 
+    }
+    
+    #detail-company-name {
         height: 10px; 
     }
     .footer-background, .footer-foreground { 
@@ -2574,8 +2686,16 @@ textarea{
     .mobiletogglemenu {  
         width: 62%;
     }
+
     #hello-friend{
         font-size: 3rem;
+    }
+
+    #detail-friend{
+        font-size: 2rem;
+    }
+    #detail-company-name {
+        font-size: 1.2rem;
     }
 
     #name {

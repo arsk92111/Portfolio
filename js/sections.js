@@ -165,7 +165,7 @@ function renderExperience(data) {
 
   data.forEach(exp => {
     const projectsHTML = exp.projects.map(p =>
-      `<li>${p.icon || ""} <strong>${p.name}</strong> — ${p.detail}</li>`
+      `<li>${p.icon || ""} <strong id="detail-company-name" class="detail-jell">${p.name}</strong> — ${p.detail}</li>`
     ).join("");
 
     container.innerHTML += ` 
@@ -177,7 +177,7 @@ function renderExperience(data) {
                                     <div class="company-row">
                                     <div style="display: flex; align-items: center;">
                                         <h3 class="company-name" style="margin: 0; padding: 0; font-weight: 600;">
-                                            ${exp.company_name}
+                                            <strong id="detail-friend" class="detail-jell">${exp.company_name}</strong>
                                         </h3>
                                         <button class="company-btn" data-url="${exp.company_link}"
                                             onclick="openCompany(this)"  id="resume-btn" style="display: flex; align-items: center; margin-left: 8px;">
@@ -201,7 +201,7 @@ function renderExperience(data) {
                                     <p class="location">📍 ${exp.location}</p>
                                     </div>
                                 </div>
-                                👩‍💻 <strong class="strong_text">${exp.experience_duration}</strong> <p class="role"> ${exp.role}</p>
+                                👩‍💻 <strong class="strong_text">${exp.experience_duration}</strong> <p class="role"><strong id="detail-company-name" class="detail-jell"> ${exp.role} </strong></p>
                                 <div class="experience-description">
                                     <p>
                                     ${exp.description}
