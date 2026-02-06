@@ -176,7 +176,7 @@ function renderExperience(data) {
                                 <div class="experience-header">
                                     <div class="company-row">
                                     <div style="display: flex; align-items: center;">
-                                        <h3 class="company-name" style="margin: 0; padding: 0; font-weight: 600;">
+                                        <h3 class="company-name" style="margin: 0; padding: 0; font-weight:800;">
                                             <strong id="detail-friend" class="detail-jell">${exp.company_name}</strong>
                                         </h3>
                                         <button class="company-btn" data-url="${exp.company_link}"

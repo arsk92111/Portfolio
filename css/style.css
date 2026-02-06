@@ -612,7 +612,7 @@ noscript {
     align-items: baseline
 }
 #detail-company-name {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 700;
     width: fit-content;  
     
@@ -1952,7 +1952,7 @@ footer {
 }
 
 .company-name {
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: 800;
   color: var(--color-white);
 }
@@ -2034,6 +2034,10 @@ footer {
  
 .strong_text{
     color: var(--color-white);
+}
+
+.strong_text{
+    font-size: 1.8rem;
 }
 
 .wa-btn {
@@ -2493,7 +2497,7 @@ textarea{
     
     #detail-company-name {
         height: 75px;
-        font-size: 1.2rem
+        font-size: 1.5rem
     }
 
     #name  {
@@ -2648,14 +2652,17 @@ textarea{
     }
     
     .company-name {
-        font-size: 3.5rem;
+        font-size: 4rem;
     } 
     .duration, .location  {
         font-size: 2rem;
     }
 
-    .strong_text, .role, .ProjectHeading, .ProjectDescription  {
+    .role, .ProjectHeading, .ProjectDescription  {
         font-size: 3rem;
+    }
+    .strong_text {
+        font-size: 1.8rem;
     }
  
 
@@ -2695,7 +2702,7 @@ textarea{
         font-size: 2rem;
     }
     #detail-company-name {
-        font-size: 1.2rem;
+        font-size: 1.5rem;
     }
 
     #name {
