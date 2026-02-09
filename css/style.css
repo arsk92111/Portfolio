@@ -935,7 +935,7 @@ noscript {
     letter-spacing: .8px
 }
 
-.cta:hover span,.text,
+.cta:hover span,.text,.tooltip_resume,
 .tooltip {
     color: #fff
 }
@@ -1361,6 +1361,11 @@ noscript {
     align-items: center;
     display: flex
 }
+.tooltip_resume {
+    align-items: center;
+    display: flex
+}
+
 
 .tech-stack-box {
     width: 160px;
@@ -1393,6 +1398,24 @@ noscript {
     pointer-events: none;
     letter-spacing: .5px;
     font-size: 1.6rem;
+    backdrop-filter: blur(5px);
+    font-weight: 500
+}
+
+
+.tooltip_resume {
+    position: absolute;
+    top: -15px;
+    opacity: 1;
+    background: linear-gradient(to bottom right, var(--tech-stack-box-first-color), var(--tech-stack-box-second-color));
+    border: 1px solid var(--tech-stack-box-border-color);
+    padding: 5px 10px;
+    border-radius: 5px;
+    justify-content: center;
+    transition-duration: .2s;
+    pointer-events: none;
+    letter-spacing: .5px;
+    font-size: 1.2rem;
     backdrop-filter: blur(5px);
     font-weight: 500
 }
@@ -2665,7 +2688,6 @@ textarea{
         font-size: 1.8rem;
     }
  
-
     .info-div .faviconforProject {
         width: 25px;
         height: 25px;
@@ -2796,8 +2818,15 @@ textarea{
         height: 45px;
     }
     
-.setting-container { 
-    gap: 14px; 
+    .setting-container { 
+        gap: 14px; 
+    }
+
+    
+.tooltip_resume { 
+    top: -10x; 
+    font-size: 1.8rem; 
+    font-weight: 500
 }
 }
   
