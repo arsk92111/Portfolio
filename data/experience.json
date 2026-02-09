@@ -22,6 +22,11 @@
         "detail": "Order Food/Fast food with long-chain B2B management system"
       },
       {
+        "name": "NowInfluencer",
+        "icon": "🤳",
+        "detail": "User will make his profile here and then he become social media influencer his/her online badges and fitness and also pipe of social media things."
+      },
+      {
         "name": "EventCombo",
         "icon": "🎟️",
         "detail": "Event handling, ticketing, speakers, parties, badges and scheduling system"
