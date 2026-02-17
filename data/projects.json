@@ -3,6 +3,26 @@
   "projects": [
     {
       "id": 1,
+      "name": "Prior Cash",
+      "favicon": "images/project/priorcash_icon.png",
+      "description": "This is my Company Project MDTS where i work for PriorCash/Eslip, POS type where Order Food & Fast Food E-commerce platform.",
+      "github": {
+        "url": "https://github.com/DroneMesh",
+        "label": "Visit Prior Cash on GitHub",
+        "icon": "images/github.svg"
+      },
+      "live": {
+        "url": "http://141.95.127.209:3000/",
+        "label": "Visit Prior Cash Live",
+        "visible": true
+      },
+      "image": {
+        "src": "images/project/priorcash.png",
+        "alt": "PriorCash website preview image"
+      }
+    },
+    {
+      "id": 2,
       "name": "Earn9Game",
       "favicon": "images/project/earn9game_icon.png",
       "description": "Earn9Game is a live gaming platform where users can play and earn rewards through interactive gameplay.",
@@ -22,7 +42,7 @@
       }
     },
     {
-      "id": 2,
+      "id": 3,
       "name": "Portfolio Arshad",
       "favicon": "images/project/portfolio_icon.png",
       "description": "Personal portfolio showcasing my skills, projects, and professional journey as a backend developer.",
@@ -42,7 +62,7 @@
       }
     },
     {
-      "id": 3,
+      "id": 4,
       "name": "Lofin App Store",
       "favicon": "images/project/lofin_icon.png",
       "description": "Final year university project featuring an app store system with backend APIs and structured data handling.",
@@ -62,7 +82,7 @@
       }
     },
     {
-      "id": 4,
+      "id": 5,
       "name": "Blog News",
       "favicon": "images/project/blog_icon.png",
       "description": "A blogging platform where users can share thoughts, read posts, and interact with content dynamically.",
@@ -82,7 +102,7 @@
       }
     },
     {
-      "id": 5,
+      "id": 6,
       "name": "Pin Store Ecommerce",
       "favicon": "images/project/pinstore_icon.png",
       "description": "E-commerce platform where users can browse, purchase products, and manage orders securely.",
@@ -102,7 +122,7 @@
       }
     },
     {
-      "id": 6,
+      "id": 7,
       "name": "Pharma Pill",
       "favicon": "images/project/pharmapill_icon.png",
       "description": "POS-style e-commerce system for pharmacy products with inventory and order management.",
@@ -122,7 +142,7 @@
       }
     },
     {
-      "id": 7,
+      "id": 8,
       "name": "WhatSoft Chat",
       "favicon": "images/project/whatsoft_icon.png",
       "description": "Social-media-style chat application with real-time messaging and user interaction.",
@@ -142,7 +162,7 @@
       }
     },
     {
-      "id": 8,
+      "id": 9,
       "name": "Multi Task",
       "favicon": "images/project/multitask_icon.png",
       "description": "Multi-tasking utility project featuring camera usage, image capture, and format conversions.",
