@@ -77,7 +77,7 @@ function homeTemplate(s) {
               <div id="home-data"></div>
               <div class="contact-btn-div" data-aos="fade-up" data-aos-delay="800"></div>
             </div>
-            <div class="dp" data-aos="fade-up"></div>
+              <div class="dpo"></div> 
           </div>
         </div>
       </section>`;
@@ -85,7 +85,7 @@ function homeTemplate(s) {
 function renderLanding(data) {
   const landingDiv = document.getElementById("home-data");
   const contactDiv = document.querySelector(".contact-btn-div");
-  const dpDiv = document.querySelector(".dp");
+  const dpDiv = document.querySelector(".dpo");
 
   // Render hello, name, work, infoPara
   landingDiv.innerHTML = `
@@ -133,10 +133,13 @@ function renderLanding(data) {
   });
 
   // Profile image
-  dpDiv.innerHTML = `
-    <a href="${data.image.src}" title="download image">
-      <img src="${data.image.src}" alt="${data.image.alt}" tabindex="0" aria-label="${data.image.aria_label}" />
-    </a>
+  dpDiv.innerHTML = `<div style="visibility:${data.image.visible ? "visible" : "hidden"}">
+            <div class="dp"  data-aos="fade-up"> 
+              <a href="${data.image.src}" title="download image">
+                <img src="${data.image.src}" alt="${data.image.alt}" tabindex="0" aria-label="${data.image.aria_label}" />
+              </a>
+            </div>
+        </div>
   `;
 }
 

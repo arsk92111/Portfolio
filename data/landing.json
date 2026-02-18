@@ -92,6 +92,7 @@
   "image": {
     "src": "images/Arshad_Photo.webp",
     "alt": "Arshad Ali",
-    "aria_label": "image of Arshad Ali"
+    "aria_label": "image of Arshad Ali",
+    "visible": false
   }
 }
