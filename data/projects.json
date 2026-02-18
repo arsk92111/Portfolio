@@ -23,6 +23,26 @@
     },
     {
       "id": 2,
+      "name": "Clap n Go",
+      "favicon": "images/project/clapngo_icon.png",
+      "description": "This is my Company Project MDTS where i work for ClapnGo, POS/E-commerce type where Order Food & Fast Food E-commerce platform.where client can make Store for his/her business too.",
+      "github": {
+        "url": "https://github.com/DroneMesh",
+        "label": "Visit Clap n Go on GitHub",
+        "icon": "images/github.svg"
+      },
+      "live": {
+        "url": "http://cc.goorderz.hu/register/?next=/",
+        "label": "Visit Clap n Go Live",
+        "visible": true
+      },
+      "image": {
+        "src": "images/project/clapngo.png",
+        "alt": "Clap n Go website preview image"
+      }
+    },
+    {
+      "id": 3,
       "name": "Earn9Game",
       "favicon": "images/project/earn9game_icon.png",
       "description": "Earn9Game is a live gaming platform where users can play and earn rewards through interactive gameplay.",
@@ -42,7 +62,7 @@
       }
     },
     {
-      "id": 3,
+      "id": 4,
       "name": "Portfolio Arshad",
       "favicon": "images/project/portfolio_icon.png",
       "description": "Personal portfolio showcasing my skills, projects, and professional journey as a backend developer.",
@@ -62,7 +82,7 @@
       }
     },
     {
-      "id": 4,
+      "id": 5,
       "name": "Lofin App Store",
       "favicon": "images/project/lofin_icon.png",
       "description": "Final year university project featuring an app store system with backend APIs and structured data handling.",
@@ -82,7 +102,7 @@
       }
     },
     {
-      "id": 5,
+      "id": 6,
       "name": "Blog News",
       "favicon": "images/project/blog_icon.png",
       "description": "A blogging platform where users can share thoughts, read posts, and interact with content dynamically.",
@@ -102,7 +122,7 @@
       }
     },
     {
-      "id": 6,
+      "id": 7,
       "name": "Pin Store Ecommerce",
       "favicon": "images/project/pinstore_icon.png",
       "description": "E-commerce platform where users can browse, purchase products, and manage orders securely.",
@@ -122,7 +142,7 @@
       }
     },
     {
-      "id": 7,
+      "id": 8,
       "name": "Pharma Pill",
       "favicon": "images/project/pharmapill_icon.png",
       "description": "POS-style e-commerce system for pharmacy products with inventory and order management.",
@@ -142,7 +162,7 @@
       }
     },
     {
-      "id": 8,
+      "id": 9,
       "name": "WhatSoft Chat",
       "favicon": "images/project/whatsoft_icon.png",
       "description": "Social-media-style chat application with real-time messaging and user interaction.",
@@ -162,7 +182,7 @@
       }
     },
     {
-      "id": 9,
+      "id": 10,
       "name": "Multi Task",
       "favicon": "images/project/multitask_icon.png",
       "description": "Multi-tasking utility project featuring camera usage, image capture, and format conversions.",
