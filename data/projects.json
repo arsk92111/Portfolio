@@ -5,7 +5,7 @@
       "id": 1,
       "name": "Prior Cash",
       "favicon": "images/project/priorcash_icon.png",
-      "description": "This is my Company Project MDTS where i work for PriorCash/Eslip, POS type where Order Food & Fast Food E-commerce platform.",
+      "description": "This is my Company Project MDTS where i work for PriorCash/Eslip, POS platform type where Order Food.",
       "github": {
         "url": "https://github.com/DroneMesh",
         "label": "Visit Prior Cash on GitHub",
@@ -25,7 +25,7 @@
       "id": 2,
       "name": "Clap n Go",
       "favicon": "images/project/clapngo_icon.png",
-      "description": "This is my Company Project MDTS where i work for ClapnGo, POS/E-commerce type where Order Food & Fast Food E-commerce platform.where client can make Store for his/her business too.",
+      "description": "This is my Company Project MDTS where i work for ClapnGo, POS platform type where Order Food.where client can make Store for his/her business too.",
       "github": {
         "url": "https://github.com/DroneMesh",
         "label": "Visit Clap n Go on GitHub",
@@ -145,7 +145,7 @@
       "id": 8,
       "name": "Pharma Pill",
       "favicon": "images/project/pharmapill_icon.png",
-      "description": "POS-style e-commerce system for pharmacy products with inventory and order management.",
+      "description": "POS Platform for pharmacy products with inventory and order management.",
       "github": {
         "url": "https://github.com/arsk92111/PharmaPill",
         "label": "Visit Pharma Pill on GitHub",
