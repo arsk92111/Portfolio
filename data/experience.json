@@ -14,22 +14,30 @@
       {
         "name": "PriorCash",
         "icon": "💼",
-        "detail": "POS type where Order Food & Fast Food E-commerce platform"
+        "detail": "Restaurants and small food businesses required a centralized digital POS system to manage orders,
+billing, and store operations efficiently.<\b>
+Developed a scalable Django-based backend with RESTful APIs for order processing, store
+management, and real-time order updates."
       },
       {
         "name": "Clap&Go",
         "icon": "🍝",
-        "detail": "Order Food/Fast food with long-chain B2B management system"
+        "detail": "Business owners needed a SaaS-style POS platform where they could create and manage their own
+stores and handle online food order.
+Implemented a multi-tenant Django architecture allowing each client to manage their store
+independently with authentication and order management APIs."
       },
       {
         "name": "NowInfluencer",
         "icon": "🤳",
-        "detail": "User will make his profile here and then he become social media influencer his/her online badges and fitness and also pipe of social media things."
+        "detail": "Aspiring influencers lacked a centralized platform to build verified digital profiles, showcase achievements, manage social presence, and track engagement across platforms.
+Developed a Django-based backend system enabling users to create influencer profiles, manage digital badges, track fitness and social metrics, and integrate multiple social media channels."
       },
       {
         "name": "EventCombo",
         "icon": "🎟️",
-        "detail": "Event handling, ticketing, speakers, parties, badges and scheduling system"
+        "detail": "Event organizers needed a centralized platform to manage event registration, ticketing, speaker management, badge generation, and scheduling without relying on multiple disconnected tools.
+Built a comprehensive Django-based event management system with modules for ticket booking, speaker onboarding, automated badge generation, event scheduling, and party management."
       }
     ]
   },
@@ -37,7 +45,7 @@
     "company_name": "Kz ProjectZ",
     "company_link": "https://www.projectz.io/",
     "company_logo": "images/projectz_logo.webp",
-    "time_frame": "February 2024 — May 2024",
+    "time_frame": "July 2024 — October 2024",
     "location": "Nayab Park, Salamatpura, Sharif Garden, Lahore",
     "employment_type": "Internship",
     "experience_duration": "Internship",
@@ -48,7 +56,8 @@
       {
         "name": "HomeSifu",
         "icon": "🏠",
-        "detail": "Rental platform for houses, apartments, and buildings with AIoT integration, lock cards, fingerprint scanning and automated security handling."
+        "detail": "Traditional rental platforms lacked smart automation features such as digital lock access, fingerprint authentication, and AIoT-based security monitoring, resulting in limited security and manual property management.
+Developed a Django-powered rental management system integrated with AIoT components including smart lock cards, fingerprint authentication, and automated access control."
       }
     ]
   }
