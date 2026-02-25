@@ -19,18 +19,13 @@
       {
         "name": "Clap&Go",
         "icon": "🍝",
-        "detail": "Business owners needed a SaaS-style POS platform where they could create and manage their own stores and handle online food order. Implemented a multi-tenant Django architecture allowing each client to manage their store independently with authentication and order management APIs."
+        "detail": "Business owners needed a SaaS-style POS platform where they could create and manage their own stores and handle online food order. </br> Implemented a multi-tenant Django architecture allowing each client to manage their store independently with authentication and order management APIs."
       },
       {
         "name": "NowInfluencer",
         "icon": "🤳",
-        "detail": "Aspiring influencers lacked a centralized platform to build verified digital profiles, showcase achievements, manage social presence, and track engagement across platforms. Developed a Django-based backend system enabling users to create influencer profiles, manage digital badges, track fitness and social metrics, and integrate multiple social media channels."
-      },
-      {
-        "name": "EventCombo",
-        "icon": "🎟️",
-        "detail": "Event organizers needed a centralized platform to manage event registration, ticketing, speaker management, badge generation, and scheduling without relying on multiple disconnected tools. Built a comprehensive Django-based event management system with modules for ticket booking, speaker onboarding, automated badge generation, event scheduling, and party management."
-      }
+        "detail": "Aspiring influencers lacked a centralized platform to build verified digital profiles, showcase achievements, manage social presence, and track engagement across platforms. </br> Developed a Django-based backend system enabling users to create influencer profiles, manage digital badges, track fitness and social metrics, and integrate multiple social media channels."
+      } 
     ]
   },
   {
@@ -48,7 +43,7 @@
       {
         "name": "HomeSifu",
         "icon": "🏠",
-        "detail": "Traditional rental platforms lacked smart automation features such as digital lock access, fingerprint authentication, and AIoT-based security monitoring, resulting in limited security and manual property management. Developed a Django-powered rental management system integrated with AIoT components including smart lock cards, fingerprint authentication, and automated access control."
+        "detail": "Traditional rental platforms lacked smart automation features such as digital lock access, fingerprint authentication, and AIoT-based security monitoring, resulting in limited security and manual property management.</br> Developed a Django-powered rental management system integrated with AIoT components including smart lock cards, fingerprint authentication, and automated access control."
       }
     ]
   }
