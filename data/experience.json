@@ -15,8 +15,7 @@
         "name": "PriorCash",
         "icon": "💼",
         "detail": "Restaurants and small food businesses required a centralized digital POS system to manage orders,
-billing, and store operations efficiently.<\b>
-Developed a scalable Django-based backend with RESTful APIs for order processing, store
+billing, and store operations efficiently.</b> Developed a scalable Django-based backend with RESTful APIs for order processing, store
 management, and real-time order updates."
       },
       {
