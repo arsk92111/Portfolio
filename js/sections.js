@@ -152,9 +152,12 @@ function experienceTemplate(s) {
           <h2 class="section-heading-article" tabindex="0" aria-label="${s.heading.aria}">
             ${s.heading.text}
           </h2>
-          <p class="sectionHeadingP"></p>
-        </div>
-        <div class="info-dp-section">
+          <p class="sectionHeadingP"></p> 
+        </div> 
+          <div class="section-heading">
+            <strong id="detail-friend" class="detail-jell">${s.heading.line_experinece}</strong>
+          </div>
+        <div class="info-dp-section"> 
           <div id="experience-container-${s.id}"></div>
         </div>
       </div>
@@ -176,34 +179,48 @@ function renderExperience(data) {
                         <div class="row" data-aos="fade-up">
                             <div class="col-12 col-md-6">
                                 <div class="experience-card">
-                                <div class="experience-header">
-                                    <div class="company-row">
-                                    <div style="display: flex; align-items: center;">
-                                        <h3 class="company-name" style="margin: 0; padding: 0; font-weight:800;">
-                                            <strong id="detail-friend" class="detail-jell">${exp.company_name}</strong>
-                                        </h3>
-                                        <button class="company-btn" data-url="${exp.company_link}"
-                                            onclick="openCompany(this)"  id="resume-btn" style="display: flex; align-items: center; margin-left: 8px;">
+                                  <div class="experience-header">
+                                      <div class="company-row">
+                                      <div style="display: flex; align-items: center;">
+                                          <h3 class="company-name" style="margin: 0; padding: 0; font-weight:800;">
+                                              <strong id="detail-friend" class="detail-jell">${exp.company_name}</strong>
+                                          </h3>
+                                          <button class="company-btn" data-url="${exp.company_link}"
+                                              onclick="openCompany(this)"  id="resume-btn" style="display: flex; align-items: center; margin-left: 8px;">
 
-                                            <div class="sign-company">
-                                                <svg fill="#326cb8" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" stroke="#326cb8"
-                                                style="width: 20px; height: 20px; margin-right: 4px;">
-                                                <path
-                                                    d="${exp.svg_file}">
-                                                </path>
-                                                </svg>
-                                                <div class="text-company">Visit Company</div>
-                                            </div>
-                                        </button>
-                                        </div>
-                                    </div>
+                                              <div class="sign-company">
+                                                  <svg fill="#326cb8" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" stroke="#326cb8"
+                                                  style="width: 20px; height: 20px; margin-right: 4px;">
+                                                  <path
+                                                      d="${exp.svg_file}">
+                                                  </path>
+                                                  </svg>
+                                                  <div class="text-company">Visit Company</div>
+                                              </div>
+                                          </button>
+                                          <h2 style="color:#fff; font-size: blod;spacing:10px"> <pre> / </pre> </h2>
+                                          <button class="company-btn" data-url="${exp.company_contract}"
+                                              onclick="openCompany(this)"  id="resume-btn" style="display: flex; align-items: center; margin-left: 5px; ">
 
-                                    </div>
-                                    <div class="placed">
-                                    <p class="duration">📅 ${exp.time_frame}</p>
-                                    <p class="location">📍 ${exp.location}</p>
-                                    </div>
-                                </div>
+                                              <div class="sign-company">
+                                                  <svg fill="transparent" viewBox="0 0 80 90" xmlns="http://www.w3.org/2000/svg" stroke="transparent"
+                                                  style="width: 20px; height: 15px; margin-right: 5px; color: #fff; background-color: transparent">
+                                                  <path
+                                                      d="${exp.svg_file_contract}">
+                                                  </path>
+                                                  </svg>
+                                                  <div class="text-company">Check Contract</div>
+                                              </div>
+                                          </button>
+                                          </div>
+                                      </div>
+
+                                      </div>
+                                      <div class="placed">
+                                      <p class="duration">📅 ${exp.time_frame}</p>
+                                      <p class="location">📍 ${exp.location}</p>
+                                      </div>
+                                  </div>
                                 👩‍💻 <strong class="strong_text">${exp.experience_duration}</strong> <p class="role"><strong id="detail-company-name" class="detail-jell"> ${exp.role} </strong></p>
                                 <div class="experience-description">
                                     <p>

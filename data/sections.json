@@ -18,7 +18,8 @@
       "type": "experience",
       "heading": {
         "text": "if Experience:",
-        "aria": "Experience me heading"
+        "aria": "Experience me heading",
+        "line_experinece" : "2 Years of Professional Experience + 3 years of Hands-on-Experience"
       }
     },
 

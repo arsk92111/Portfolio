@@ -1249,7 +1249,7 @@ noscript {
 .info-dp-section {
     width: 100%;
     display: flex;
-    margin-top: 30px
+    margin-top: 1px
 }
 
 .about-info {
@@ -2453,7 +2453,7 @@ textarea{
 
     .info-dp-section {
         flex-direction: column;
-        margin-top: 30px;
+        margin-top: 1px;
         gap: 30px
     }
 
