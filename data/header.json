@@ -46,7 +46,7 @@
     "id": "contact-mobile-tab",
     "class": "contact",
     "href": "#contact",
-    "text": "@contact",
+    "text": "@ contactMe",
     "dataAosDelay": 700,
     "active": false
   }
