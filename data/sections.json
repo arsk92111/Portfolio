@@ -52,15 +52,15 @@
         "text": "for project in Projects:",
         "aria": "My projects starts from here"
       }
-    },
+    }, 
 
     {
       "id": "contact",
-      "sectionClass": "contact-section-container light-mode",
+      "sectionClass": "home-page-container",
       "aos": "fade-up",
       "type": "contact",
-      "heading": {
-        "text": "@Contact:",
+      "heading":{
+        "text": "@ contact",
         "aria": "Feel free to Contact Me !"
       }
     }

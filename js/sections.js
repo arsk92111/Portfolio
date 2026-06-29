@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       fetch("data/footer.json")
         .then(res => res.json())
-        .then(data => FooterTemplate(data.footer))
-        .catch(err => console.error("Error loading Projects JSON:", err));
+        .then(data => renderSocialIcon(data.footer))
+        .catch(err => console.error("Error loading Contact/Footer JSON:", err));
 
     });
 });
@@ -491,8 +491,8 @@ function FooterTemplate(footer) {
         </div> 
       </div>
     </div>
- </section>
-  `;
+    </section>
+    `;
 
   attachFooterWhatsAppPopup();
 }
