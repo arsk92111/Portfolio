@@ -52,8 +52,8 @@
         "text": "for project in Projects:",
         "aria": "My projects starts from here"
       }
-    }, 
-
+    }
+    , 
     {
       "id": "contact",
       "sectionClass": "home-page-container",

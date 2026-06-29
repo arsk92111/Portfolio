@@ -445,52 +445,52 @@ function FooterTemplate(footer) {
 
   container.innerHTML = ` 
       <section id="${s.id}" class="${s.sectionClass}" data-aos="${s.aos}">
-    <div class="footer-foreground">
-      <div class="footercontainer">
+        <div class="footer-foreground">
+          <div class="footercontainer">
 
-        <!-- Quote -->
-        <div class="two-words">
-          <article tabindex="0" aria-label="Footer Quote">
-            "${footer.quote}"
-          </article>
+            <!-- Quote -->
+            <div class="two-words">
+              <article tabindex="0" aria-label="Footer Quote">
+                "${footer.quote}"
+              </article>
+            </div>
+
+            <!-- Social Section -->
+            <div class="social-media-container">
+              <div class="getintouch-heading">
+                <article>${footer.getInTouchTitle}</article>
+              </div>
+
+              <div class="logos"> 
+                <!-- WhatsApp -->
+                <div id="wa-overlay-touch"></div>
+                <a id="wa-float-touch"
+                  title="WhatsApp Connect"
+                  tabindex="0"
+                  aria-label="My Whatsapp Contact">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="35" />
+                </a>
+
+                <!-- Other social icons -->
+                ${footer.social_links
+          .filter(l => l.name !== "WhatsApp")
+          .map(link => renderSocialIcon(link))
+          .join("")}
+
+                  </div>
+                </div>
+
+                <div class="footer-avatar-container">
+                    <img src="${footer.footer_avatar.src}" alt="${footer.footer_avatar.alt}" class="footer-avatar-img" />
+                </div>
+                <div class="footer-bottom">
+                    <article>
+                    ${footer.copyright.text}
+                    <i class="far fa-copyright"></i>  ${footer.copyright.year}
+                    </article>
+                </div> 
+              </div>
         </div>
-
-        <!-- Social Section -->
-        <div class="social-media-container">
-          <div class="getintouch-heading">
-            <article>${footer.getInTouchTitle}</article>
-          </div>
-
-          <div class="logos"> 
-            <!-- WhatsApp -->
-            <div id="wa-overlay-touch"></div>
-            <a id="wa-float-touch"
-               title="WhatsApp Connect"
-               tabindex="0"
-               aria-label="My Whatsapp Contact">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="35" />
-            </a>
-
-            <!-- Other social icons -->
-            ${footer.social_links
-      .filter(l => l.name !== "WhatsApp")
-      .map(link => renderSocialIcon(link))
-      .join("")}
-
-          </div>
-        </div>
-
-        <div class="footer-avatar-container">
-            <img src="${footer.footer_avatar.src}" alt="${footer.footer_avatar.alt}" class="footer-avatar-img" />
-        </div>
-        <div class="footer-bottom">
-            <article>
-            ${footer.copyright.text}
-            <i class="far fa-copyright"></i>  ${footer.copyright.year}
-            </article>
-        </div> 
-      </div>
-    </div>
     </section>
     `;
 
