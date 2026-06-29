@@ -584,7 +584,20 @@ noscript {
     align-items: center;
     justify-content: center
 }
+
+ .contact-page-container {
+    width: 100%;
+    height: calc(100vh - 115px);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center
+}
  
+.contact-page-container {
+        height: calc(85vh - 115px); 
+        width: 100%; 
+    } 
 
 .text-content {
     display: flex;

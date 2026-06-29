@@ -66,7 +66,7 @@ function renderSections(sections) {
         break;
 
       case "contact":
-        html = FooterTemplate(sec);
+        html = contactTemplate(sec);
         break;
     }
 
@@ -440,11 +440,9 @@ function renderProjects(projects) {
 
 
 //   *********    Contacts  *********
-function FooterTemplate(s) {
-  const container = document.getElementById("footer-container");
-  if (!container) return;
+function contactTemplate(s) { 
 
-  container.innerHTML = ` 
+  return `
    <footer id="${s.id}"  class="${s.sectionClass}" data-aos="${s.aos}">
       <section id="${s.id}" class="${s.sectionClass}" data-aos="${s.aos}">
 
@@ -457,14 +455,15 @@ function FooterTemplate(s) {
         <div id="footer-container"></div>
 
       </section>
-     </footer>
-    `;
+  </footer> `;
 
-  attachFooterWhatsAppPopup();
 }
 
 function renderContact(footer) {
-  return `
+  const container = document.getElementById("footer-container");
+  if (!container) return;
+
+  container.innerHTML = `
 
         <div class="footer-foreground">
           <div class="footercontainer">
@@ -512,7 +511,10 @@ function renderContact(footer) {
                 </div> 
               </div>
         </div>
+        
   `;
+
+  attachFooterWhatsAppPopup();
 }
 
 function getSocialIcon(link) {

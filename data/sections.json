@@ -56,7 +56,7 @@
     , 
     {
       "id": "contact",
-      "sectionClass": "home-page-container",
+      "sectionClass": "contact-page-container",
       "aos": "fade-up",
       "type": "contact",
       "heading":{
