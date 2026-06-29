@@ -41,6 +41,14 @@
     "text": "for project in Projects:",
     "dataAosDelay": 700,
     "active": false
+  },
+  {
+    "id": "contact-mobile-tab",
+    "class": "contact",
+    "href": "#contact",
+    "text": "@contact",
+    "dataAosDelay": 700,
+    "active": false
   }
 ]
 }
