@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       fetch("data/footer.json")
         .then(res => res.json())
-        .then(data => renderSocialIcon(data.footer))
+        .then(data => renderContact(data.footer))
         .catch(err => console.error("Error loading Contact/Footer JSON:", err));
 
     });
@@ -439,12 +439,33 @@ function renderProjects(projects) {
 }
 
 
-function FooterTemplate(footer) {
+//   *********    Contacts  *********
+function FooterTemplate(s) {
   const container = document.getElementById("footer-container");
   if (!container) return;
 
   container.innerHTML = ` 
+   <footer id="${s.id}"  class="${s.sectionClass}" data-aos="${s.aos}">
       <section id="${s.id}" class="${s.sectionClass}" data-aos="${s.aos}">
+
+      <button class="fas" id="backtotopbutton" onclick="scrolltoTopfunction()">
+        <article aria-label="Back to top">&#8592;BACK TO TOP</article>
+      </button>
+      <div class="footer-background">
+        <div class="footer-blob"></div>
+      </div>
+        <div id="footer-container"></div>
+
+      </section>
+     </footer>
+    `;
+
+  attachFooterWhatsAppPopup();
+}
+
+function renderContact(footer) {
+  return `
+
         <div class="footer-foreground">
           <div class="footercontainer">
 
@@ -473,9 +494,9 @@ function FooterTemplate(footer) {
 
                 <!-- Other social icons -->
                 ${footer.social_links
-          .filter(l => l.name !== "WhatsApp")
-          .map(link => renderSocialIcon(link))
-          .join("")}
+    .filter(l => l.name !== "WhatsApp")
+    .map(link => getSocialIcon(link))
+    .join("")}
 
                   </div>
                 </div>
@@ -491,14 +512,10 @@ function FooterTemplate(footer) {
                 </div> 
               </div>
         </div>
-    </section>
-    `;
-
-  attachFooterWhatsAppPopup();
+  `;
 }
 
-
-function renderSocialIcon(link) {
+function getSocialIcon(link) {
   return `
     <a href="${link.url}"
        title="${link.title}"
