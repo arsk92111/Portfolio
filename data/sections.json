@@ -52,11 +52,11 @@
         "text": "for project in Projects:",
         "aria": "My projects starts from here"
       }
-    }
-    , 
+    }, 
+
     {
       "id": "contact",
-      "sectionClass": "contact-page-container",
+      "sectionClass": "contact-page-container  light-mode",
       "aos": "fade-up",
       "type": "contact",
       "heading":{

@@ -442,20 +442,21 @@ function renderProjects(projects) {
 //   *********    Contacts  *********
 function contactTemplate(s) { 
 
-  return `
-   <footer id="${s.id}"  class="${s.sectionClass}" data-aos="${s.aos}">
+  return ` 
       <section id="${s.id}" class="${s.sectionClass}" data-aos="${s.aos}">
-
-      <button class="fas" id="backtotopbutton" onclick="scrolltoTopfunction()">
-        <article aria-label="Back to top">&#8592;BACK TO TOP</article>
-      </button>
-      <div class="footer-background">
-        <div class="footer-blob"></div>
-      </div>
-        <div id="footer-container"></div>
-
+        <footer id="footer" >
+          <button class="fas" id="backtotopbutton" onclick="scrolltoTopfunction()">
+            <article aria-label="Back to top">&#8592;BACK TO TOP</article>
+          </button>
+          <div class="footer-background">
+            <div class="footer-blob"></div>
+          </div>
+            <div id="footer-container"></div>
+        </footer> 
       </section>
-  </footer> `;
+  `;
+
+  attachFooterWhatsAppPopup();
 
 }
 
@@ -463,8 +464,7 @@ function renderContact(footer) {
   const container = document.getElementById("footer-container");
   if (!container) return;
 
-  container.innerHTML = `
-
+  container.innerHTML = ` 
         <div class="footer-foreground">
           <div class="footercontainer">
 
