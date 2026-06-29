@@ -5,7 +5,7 @@
       "id": 1,
       "name": "Prior Cash",
       "favicon": "images/project/priorcash_icon.png",
-      "description": "This is my Company Project MDTS where i work for PriorCash/Eslip, POS platform type where Order Food.",
+      "description": "This is my Company Project Nexa Tech Solution where i work for PriorCash/Eslip, POS platform type where Order Food.",
       "github": {
         "url": "https://github.com/DroneMesh",
         "label": "Visit Prior Cash on GitHub",
@@ -25,7 +25,7 @@
       "id": 2,
       "name": "Clap n Go",
       "favicon": "images/project/clapngo_icon.png",
-      "description": "This is my Company Project MDTS where i work for ClapnGo, POS platform type where Order Food.where client can make Store for his/her business too.",
+      "description": "This is my Company Project Nexa Tech Solution where i work for ClapnGo, POS platform type where Order Food.where client can make Store for his/her business too.",
       "github": {
         "url": "https://github.com/DroneMesh",
         "label": "Visit Clap n Go on GitHub",
@@ -39,6 +39,26 @@
       "image": {
         "src": "images/project/clapngo.png",
         "alt": "Clap n Go website preview image"
+      }
+    },
+    {
+      "id": 3,
+      "name": "Ilm Ul Quran",
+      "favicon": "images/project/ilmulQuran_icon.jpg",
+      "description": "A comprehensive Quran knowledge (Ilm Ul Quran) platform with Whole Quran with multilanguage Translate wwith ayah and word-by-word meanings, Abjad calculations of Whole Quran ayah and words-by-words, saerch by abjad name of whole search Quran data your name abjad value with match ayah and words-by-words , advanced search, and community contributions.",
+      "github": {
+        "url": "https://github.com/ttv92110/IlmUlQuran",
+        "label": "Visit Ilm Ul Quran on GitHub",
+        "icon": "images/github.svg"
+      },
+      "live": {
+        "url": "https://ilmul-quran.vercel.app/",
+        "label": "Visit Ilm Ul Quran Live",
+        "visible": true
+      },
+      "image": {
+        "src": "images/project/ilmulQuran.png",
+        "alt": "Ilm Ul Quran website preview image"
       }
     },
     {
