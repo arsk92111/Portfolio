@@ -173,28 +173,64 @@ function experienceTemplate(s) {
       </div>
     </section>`;
 }
+
 function renderExperience(data) {
   const container = document.getElementById("experience-container-experience");
-  if (!container) return;
+  if (!container) {
+    console.error("❌ experience-container-experience not found!");
+    return;
+  }
 
-  container.innerHTML = ""; // Clear previous content
+  container.innerHTML = "";
 
-  data.forEach(exp => {
+  data.forEach((exp) => {
     const projectsHTML = exp.projects.map(p =>
       `<li>${p.icon || ""} <strong id="detail-company-name" class="detail-jell">${p.name}</strong> — ${p.detail}</li>`
     ).join("");
 
-    container.innerHTML += ` 
-                     <div class="info-dp-section">
-                        <div class="row" data-aos="fade-up">
-                            <div class="col-12 col-md-6">
-                                <div class="experience-card">
-                                  <div class="experience-header">
-                                      <div class="company-row">
-                                      <div style="display: flex; align-items: center;">
-                                          <h3 class="company-name" style="margin: 0; padding: 0; font-weight:800;">
-                                              <strong id="detail-friend" class="detail-jell">${exp.company_name}</strong>
-                                          </h3>
+    const html = `
+      <div class="experience-item" style="
+        margin-bottom: 40px;
+        border-bottom: 1px solid var(--tech-stack-box-border-color);
+        padding-bottom: 25px;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+      ">
+        <!-- TOP ROW: Company Info (Left) + Logo (Right) -->
+        <div style="
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: space-between;
+          gap: 15px 25px;
+          width: 100%;
+        ">
+          <!-- LEFT SIDE -->
+          <div style="
+            flex: 1 1 55%;
+            min-width: 200px;
+            max-width: 100%;
+            overflow: hidden;
+          ">
+            <!-- Company Name + Buttons -->
+            <div style="
+              display: flex;
+              align-items: center;
+              flex-wrap: wrap;
+              gap: 6px 10px;
+              width: 100%;
+            ">
+              <h3 class="company-name" style="
+                margin: 0;
+                font-weight: 800;
+                font-size: clamp(1.8rem, 2.8vw, 2.6rem);
+                color: var(--color-white);
+                word-break: break-word;
+                max-width: 100%;
+              ">
+                <strong id="detail-friend" style="text-adjust contant-adjust" class="detail-jell">${exp.company_name}</strong>
+              </h3> 
                                           <button class="company-btn" data-url="${exp.company_link}"
                                               onclick="openCompany(this)"  id="resume-btn" style="display: flex; align-items: center; margin-left: 8px;">
 
@@ -207,8 +243,10 @@ function renderExperience(data) {
                                                   </svg>
                                                   <div class="text-company">Visit Company</div>
                                               </div>
-                                          </button>
-                                          <h2 style="color:#fff; font-size: blod;spacing:10px"> <pre> / </pre> </h2>
+                                          </button> 
+
+                                        <span style="color: var(--color-white); font-weight: 300; font-size: 1.4rem; flex-shrink: 0;">/</span>
+ 
                                           <button class="company-btn" data-url="${exp.company_contract}"
                                               onclick="openCompany(this)"  id="resume-btn" style="display: flex; align-items: center; margin-left: 5px; ">
 
@@ -221,36 +259,113 @@ function renderExperience(data) {
                                                   </svg>
                                                   <div class="text-company">Check Contract</div>
                                               </div>
-                                          </button>
-                                          </div>
-                                      </div>
+                                          </button> 
+            </div>
 
-                                      </div>
-                                      <div class="placed">
-                                      <p class="duration">📅 ${exp.time_frame}</p>
-                                      <p class="location">📍 ${exp.location}</p>
-                                      </div>
-                                  </div>
-                                👩‍💻 <strong class="strong_text">${exp.experience_duration}</strong> <p class="role"><strong id="detail-company-name" class="detail-jell"> ${exp.role} </strong></p>
-                                <div class="experience-description">
-                                    <p>
-                                    ${exp.description}
-                                    </p>
-                                    <ul class="project-list">
-                                    ${projectsHTML}
-                                    
-                                    </ul>
-                                </div>
-                                </div>
-                            </div>
+            <!-- Duration & Location -->
+            <div style="
+              display: flex;
+              flex-wrap: wrap;
+              gap: 6px 15px;
+              margin-top: 4px;
+            ">
+              <p class="duration" style="
+                margin: 0;
+                font-size: clamp(1.1rem, 1.3vw, 1.5rem);
+                color: var(--color-white);
+                word-break: break-word;
+              ">
+                📅 ${exp.time_frame}
+              </p>
+              <p class="location" style="
+                margin: 0;
+                font-size: clamp(1.1rem, 1.3vw, 1.5rem);
+                color: var(--color-white);
+                word-break: break-word;
+              ">
+                📍 ${exp.location}
+              </p>
+            </div>
+          </div>
 
-                        <div class="dp" data-aos="fade-up">
-                            <a href="${exp.company_logo}" title="download image">
-                            <img src="${exp.company_logo}" alt="${exp.company_name}" tabindex="0" aria-label="${exp.company_name}" />
-                            </a>
-                        </div>
-                    </div>
-        `;
+          <!-- RIGHT SIDE: Logo -->
+          <div style="
+            flex: 0 1 25%;
+            min-width: 80px;
+            max-width: 160px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          ">
+            <div class="dp" data-aos="fade-up" style="
+              width: 100%;
+              max-width: 150px;
+            ">
+              <a href="${exp.company_logo}" title="download image">
+                <img src="${exp.company_logo}" alt="${exp.company_name}"
+                  style="
+                    width: 100%;
+                    height: auto;
+                    border-radius: 14px;
+                    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+                    transition: 0.3s;
+                    object-fit: contain;
+                    display: block;
+                  "
+                  onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM ROW: Role, Description, Projects -->
+        <div style="
+          margin-top: 16px;
+          width: 100%;
+          max-width: 100%;
+          overflow: hidden;
+        ">
+          <p class="role" style="
+            font-size: clamp(1.5rem, 1.8vw, 2rem);
+            font-weight: 700;
+            color: var(--color-white);
+            margin: 0 0 6px 0;
+            word-break: break-word;
+          ">
+            👩‍💻 <strong class="strong_text">${exp.experience_duration}</strong>
+            <strong id="detail-company-name" class="detail-jell" style="font-size: inherit;"> ${exp.role} </strong>
+          </p>
+
+          <div class="experience-description" style="width: 100%; max-width: 100%; overflow: hidden;">
+            <p style="
+              font-size: clamp(1.2rem, 1.4vw, 1.6rem);
+              line-height: 1.7;
+              color: var(--color-white);
+              margin: 0 0 10px 0;
+              word-break: break-word;
+              overflow-wrap: break-word;
+            ">
+              ${exp.description}
+            </p>
+            <ul class="project-list" style="
+              list-style: none;
+              padding-left: 0;
+              margin: 0;
+              font-size: clamp(1.1rem, 1.2vw, 1.4rem);
+              color: var(--color-white);
+              width: 100%;
+              max-width: 100%;
+              overflow: hidden;
+            ">
+              ${projectsHTML}
+            </ul>
+          </div>
+        </div>
+      </div>
+    `;
+
+    container.innerHTML += html;
   });
 }
 
@@ -267,7 +382,7 @@ function aboutTemplate(s) {
           </div>
           <div class="info-dp-section">
             <div class="about-info" id="about-content"></div>
-            <div class="dp" data-aos="fade-up" id="about-image"></div>
+            <div class="dp_image" data-aos="fade-up" id="about-image"></div>
           </div>
         </div>
       </section>`;

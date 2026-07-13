@@ -66,36 +66,7 @@ footer {
     user-select: none;
     -webkit-tap-highlight-color: transparent
 }
-
-/* ============================================================
-   CRITICAL FIX — Prevent overflow on all devices
-   ============================================================ */
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  max-width: 100%;
-}
-
-html,
-body {
-  overflow-x: hidden;
-  width: 100%;
-  position: relative;
-}
-
-img,
-video,
-iframe,
-svg {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
+ 
 /* Fix for projects grid on all screens */
 .projects-grid {
   display: grid;
@@ -614,7 +585,9 @@ noscript {
 }
 
 .dp::after,
-.dp::before {
+.dp::before
+.dp_image::after,
+.dp_image::before {
     height: 300px;
     z-index: -2;
     content: ""
@@ -831,7 +804,7 @@ noscript {
     animation: .9s both jello-vertical
 }
  
-#backtotopbutton,.dp::after,.dp::before,
+#backtotopbutton,.dp::after,.dp::before, .dp_image::after,.dp_image::before,
 .letsTalkBtn {
     background-color: transparent
 }
@@ -1137,12 +1110,16 @@ noscript {
 
 .dp::after,
 .dp::before,
+.dp_image::after,
+.dp_image::before,
 .text {
     position: absolute
 }
 
 .dp::after,
 .dp::before,
+.dp_image::after,
+.dp_image::before,
 .text-company {
     position: absolute
 }
@@ -1243,7 +1220,12 @@ noscript {
 .dp::after,
 .dp::before,
 .dp:hover::after,
-.dp:hover::before {
+.dp:hover::before,
+.dp_image,
+.dp_image::after,
+.dp_image::before,
+.dp_image:hover::after,
+.dp_image:hover::before {
     transition-duration: .5s
 }
 
@@ -1306,7 +1288,10 @@ noscript {
 
 .dp img,
 .dp::after,
-.dp::before {
+.dp::before ,
+.dp_image img,
+.dp_::after,
+.dp_image::before{
     width: 300px
 }
 
@@ -1359,24 +1344,32 @@ noscript {
 .dp {
     width: 40%;
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    position: relative
+    position: relative;
+    flex-direction: column;
+    align-content: center;
+    justify-content: flex-end;
+}
+.dp_image {
+    width: 40%;
+    display: flex;
+    position: relative; 
+    align-content: center;
+    justify-content: flex-end;
 }
 
-.dp::before {
+.dp::before, .dp_image::before {
     box-shadow: 2px 2px 0 inset #8000ff, -2px -2px 0 inset transparent
 }
 
-.dp::after {
+.dp::after, .dp_image::after {
     box-shadow: 2px 2px 0 inset transparent, -2px -2px 0 inset #8000ff
 }
 
-.dp:hover::after {
+.dp:hover::after, .dp_image:hover::after {
     transform: translate(20px, 20px)
 }
 
-.dp:hover::before {
+.dp:hover::before, .dp_image:hover::before {
     transform: translate(-20px, -20px)
 }
 
@@ -2304,59 +2297,136 @@ textarea{
 }
  
 
+.experience-item {
+  margin-bottom: 50px;
+  border-bottom: 1px solid var(--tech-stack-box-border-color);
+  padding-bottom: 30px;
+}
+
+.company-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 14px;
+  height: 32px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(82.3deg, #965de9 10.8%, #6358ee 94.3%);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  gap: 6px;
+  transition: 0.3s;
+}
+
+.company-btn:hover {
+  transform: scale(1.05);
+}
 /*  -----------------------------------  Media Query   ----------------------- */
  
 /* ============================================================
-   MEDIA QUERIES — RESPONSIVE FIX FOR ALL DEVICES
+   🌐 GLOBAL MOBILE FIXES — Sab sections ke liye
    ============================================================ */
 
-/* Large screens */
-@media screen and (max-width: 1920px) {
-  html { font-size: 60%; }
+/* 🛡️ Overflow protection - HAR JAGAH */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  max-width: 100%;
 }
 
-@media screen and (max-width: 1400px) {
-  html { font-size: 60%; }
+html,
+body {
+  overflow-x: hidden !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  position: relative;
 }
 
-/* Tablet landscape */
+img,
+video,
+iframe,
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 📦 Sab containers ko overflow se bachao */
+#all_section,
+.home-section,
+.about-section,
+.experience-section,
+.skills-section,
+.projects-section-div,
+.info-dp-section,
+.text-content,
+.about-info,
+.experience-info,
+.experience-card,
+.experience-description,
+.project-box,
+.info-div,
+.image-div,
+.footercontainer,
+.footer-foreground {
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+/* 📝 Text overflow fix — har jagah */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+article,
+li,
+span,
+div,
+section {
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+  hyphens: auto !important;
+}
+
+/* 🔧 Text content — mobile par full width */
+.text-content {
+  width: 100% !important;
+  padding: 0 10px !important;
+}
+
+/* ============================================================
+   📱 MEDIA QUERIES — COMPLETE REWRITE
+   ============================================================ */
+
+/* 📟 Tablet Landscape */
 @media screen and (max-width: 1200px) {
   html { font-size: 58%; }
-
   .projects-section-div,
   .skills-section,
-  .text-content {
-    width: 85%;
-  }
-
   .home-section,
   .about-section,
   .experience-section {
-    width: 85%;
-  }
-
-  .logo:hover {
-    transform: translateY(200px);
+    width: 90% !important;
   }
 }
 
-/* Tablet portrait */
+/* 📟 Tablet Portrait */
 @media screen and (max-width: 998px) {
   html { font-size: 55%; }
-
+  
   .blob,
   .cursor-inner,
   .cursor-outer,
   .navbar-tabs-ul {
-    display: none;
+    display: none !important;
   }
 
-.settingactivate {
-    transform-origin: left;
-    transition-duration: .5s
-}
   .stopscrolling {
-    overflow: hidden;
+    overflow: hidden !important;
   }
 
   .hamburger {
@@ -2372,7 +2442,7 @@ textarea{
   }
 
   .hamburgerbase {
-    width: 80%;
+    width: 85%;
     height: 80px;
     display: flex;
     align-items: center;
@@ -2451,7 +2521,7 @@ textarea{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 70px;
+    gap: 50px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.176);
   }
 
@@ -2489,1357 +2559,808 @@ textarea{
   }
 
   .info-dp-section {
-    flex-direction: column;
-    gap: 30px;
+    flex-direction: column !important;
+    gap: 20px !important;
   }
 
   .about-info,
   .experience-info,
-  .dp {
-    width: 100%;
+  .dp, .db_image {
+    width: 100% !important;
   }
 
-  .dp {
-    align-items: center;
-    justify-content: center;
+  .dp, .dp_image {
+    align-items: center !important;
+    justify-content: center !important;
   }
 
   .projects-section-div {
-    width: 85%;
+    width: 90% !important;
   }
 
   .project-box {
-    flex-direction: column;
-    height: auto;
-    min-height: 600px;
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 450px !important;
+    padding: 15px !important;
   }
 
   .image-div,
   .info-div {
-    width: 100%;
-    height: auto;
+    width: 100% !important;
+    height: auto !important;
   }
 
   .image-div {
-    padding: 20px 0 0 0;
+    padding: 20px 0 0 0 !important;
   }
 
   .image-div img {
-    border-radius: 12px;
-  }
-}
-
-/* Mobile large (phones) */
-@media screen and (max-width: 768px) {
-  html { font-size: 50%; }
-
-  .text-content {
-    padding-left: 0;
-    width: 90%;
-  }
-
-  #hello-friend {
-    height: auto;
-    font-size: 3.5rem;
-  }
-
-  #detail-friend {
-    height: auto;
-    font-size: 2rem;
-  }
-
-  #detail-company-name {
-    height: auto;
-    font-size: 1.3rem;
-  }
-
-  #name {
-    font-size: 5.5rem;
-  }
-
-  #work {
-    font-size: 3.5rem;
-  }
-
-  #info-para {
-    width: 100%;
-    font-size: 2rem;
-  }
-
-  .contact-btn-div {
-    height: auto;
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: flex-start;
-    gap: 20px;
-    padding-top: 30px;
-  }
-
-  .setting-container {
-    margin-left: 0;
-  }
-
-  .dp::after,
-  .dp::before {
-    display: none;
-  }
-
-  .logo {
-    width: 18%;
-  }
-
-  .logo:hover {
-    transform: translateY(200px);
-  }
-
-  .projects-section-div {
-    width: 90%;
-  }
-
-  .project-boxes-div {
-    padding: 30px 0;
+    border-radius: 12px !important;
   }
 
   .projects-grid {
     grid-template-columns: 1fr !important;
   }
+}
 
-  .project-box {
-    flex-direction: column;
-    min-height: 450px;
+/* 📱 Mobile Large (Phones) */
+@media screen and (max-width: 768px) {
+  html { font-size: 50%; }
+
+  .text-content {
+    width: 100% !important;
+    padding: 0 15px !important;
   }
 
-  .info-div,
-  .image-div {
-    flex: 1 1 100%;
-    padding: 10px;
-    width: 100%;
-    height: auto;
+  #hello-friend {
+    font-size: 3.2rem !important;
+    flex-wrap: wrap !important;
   }
 
-  .ProjectHeading {
-    font-size: 2.2rem;
+  #detail-friend {
+    font-size: 1.8rem !important;
   }
 
-  .ProjectDescription {
-    font-size: 1.6rem;
+  #detail-company-name {
+    font-size: 1.2rem !important;
   }
 
-  .image-div img {
-    width: 100%;
-    height: auto;
+  #name {
+    font-size: 5rem !important;
+    flex-wrap: wrap !important;
+  }
+
+  #work {
+    font-size: 3.2rem !important;
+    flex-wrap: wrap !important;
+  }
+
+  #work div {
+    margin: 0 6px 0 0 !important;
+  }
+
+  #info-para {
+    font-size: 1.8rem !important;
+    line-height: 2.4rem !important;
+    width: 100% !important;
+    padding-top: 15px !important;
   }
 
   .home-section,
   .about-section,
   .experience-section,
   .skills-section {
-    width: 90%;
-    margin-top: 5%;
+    width: 95% !important;
+    margin-top: 5% !important;
+    padding: 10px 0 !important;
   }
 
-  .about-section-container,
-  .experience-section-container {
-    padding-top: 5%;
+  .projects-section-div {
+    width: 95% !important;
   }
 
-  .skills-section-container {
-    padding-top: 5%;
+  .project-box {
+    min-height: 380px !important;
+    padding: 12px !important;
+  }
+
+  .ProjectHeading {
+    font-size: 2rem !important;
+  }
+
+  .ProjectDescription {
+    font-size: 1.5rem !important;
+  }
+
+  .contact-btn-div {
+    padding-top: 20px !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+
+  .letsTalkBtn {
+    width: 140px !important;
+    height: 35px !important;
+  }
+
+  .letsTalkBtn-text {
+    font-size: 1.6rem !important;
+  }
+
+  .setting-container {
+    margin-left: 0 !important;
+    gap: 10px !important;
+  }
+
+  .dp::after,
+  .dp::before
+  .dp_image::after,
+  .dp_image::before {
+    display: none !important;
+  }
+
+  .logo {
+    width: 18% !important;
+  }
+
+  .navbar {
+    width: 92% !important;
+    height: 70px !important;
+    padding: 0 15px !important;
+    border-radius: 30px !important;
   }
 
   .frontend-dev-heading {
-    font-size: 2.8rem;
-    height: auto;
-    padding: 10px 0;
+    font-size: 2.5rem !important;
+    height: auto !important;
+    padding: 10px 0 !important;
   }
 
   .frontend-dev-section {
-    width: 100%;
-    margin-top: 10px;
+    width: 100% !important;
+    margin-top: 10px !important;
   }
 
   .tech-stack-wrapper {
-    gap: 20px;
-    margin-top: 20px;
+    gap: 20px !important;
+    margin-top: 20px !important;
   }
 
   .tech-stack-box {
-    width: 100px;
-    height: 100px;
+    width: 100px !important;
+    height: 100px !important;
   }
 
   .tech-stack-box img {
-    width: 70%;
+    width: 70% !important;
   }
 
   .two-words article {
-    font-size: 2.5rem;
-    text-align: center;
+    font-size: 2.5rem !important;
+    text-align: center !important;
   }
 
   .getintouch-heading article {
-    font-size: 2.8rem;
+    font-size: 2.5rem !important;
   }
 
   .logos {
-    gap: 15px;
-    flex-wrap: wrap;
-    justify-content: center;
+    gap: 15px !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
   }
 
   .social-media-container a {
-    width: 50px;
-    height: 50px;
+    width: 50px !important;
+    height: 50px !important;
   }
 
   .footer-avatar-container {
-    width: 160px;
+    width: 160px !important;
   }
 
   .footer-bottom article {
-    font-size: 1.2rem;
-    text-align: center;
-    padding: 0 10px;
+    font-size: 1.2rem !important;
+    text-align: center !important;
+    padding: 0 10px !important;
   }
 
   .footer-background,
   .footer-foreground {
-    height: auto;
-    min-height: 100vh;
+    height: auto !important;
+    min-height: 100vh !important;
   }
 
   .footercontainer {
-    padding: 20px 0;
-  }
-
-  .tooltip_resume {
-    top: -10px;
-    font-size: 1.8rem;
-    font-weight: 500;
-  }
-
-  /* WhatsApp popup mobile fix */
-  #wa-popup {
-    width: 90%;
-    left: 5%;
-    bottom: 10px;
-  }
-
-  #wa-popup-touch {
-    width: 90%;
-    left: 5%;
-    bottom: 10px;
-  }
-
-  .company-row {
-    flex-wrap: wrap;
-    gap: 5px;
+    padding: 20px 0 !important;
   }
 
   .company-name {
-    font-size: 2.8rem;
+    font-size: 2.6rem !important;
   }
 
   .duration,
   .location {
-    font-size: 1.6rem;
+    font-size: 1.5rem !important;
   }
 
-  .role,
-  .ProjectHeading {
-    font-size: 2.4rem;
-  }
-
-  .ProjectDescription {
-    font-size: 1.6rem;
+  .role {
+    font-size: 2.2rem !important;
   }
 
   .strong_text {
-    font-size: 1.6rem;
+    font-size: 1.5rem !important;
   }
 
   .experience-description p {
-    font-size: 1.6rem;
+    font-size: 1.5rem !important;
+    line-height: 2.2rem !important;
   }
 
   .project-list {
-    font-size: 1.4rem;
+    font-size: 1.4rem !important;
   }
 
   .about-info p {
-    font-size: 1.8rem;
-    line-height: 2.4rem;
+    font-size: 1.7rem !important;
+    line-height: 2.3rem !important;
   }
 
   .placed {
-    padding-left: 0;
+    padding-left: 0 !important;
+  }
+
+  .company-row {
+    flex-wrap: wrap !important;
+    gap: 5px !important;
+  }
+
+  /* WhatsApp popup mobile fix */
+  #wa-popup {
+    width: 90% !important;
+    left: 5% !important;
+    bottom: 10px !important;
+  }
+
+  #wa-popup-touch {
+    width: 90% !important;
+    left: 5% !important;
+    bottom: 10px !important;
+  }
+
+  #wa-float,
+  #wa-float-download {
+    width: 50px !important;
+    height: 50px !important;
+    left: 10px !important;
+  }
+
+  #wa-float {
+    bottom: 15px !important;
+  }
+
+  #wa-float-download {
+    bottom: 80px !important;
+  }
+
+  #backtotopbutton {
+    width: 2.5rem !important;
+    height: 12rem !important;
+    right: 5px !important;
+  }
+
+  #backtotopbutton article {
+    font-size: 1.2rem !important;
+  }
+
+  .section-heading-article {
+    font-size: 2.5rem !important;
+  }
+
+  .sectionHeadingP {
+    width: 150px !important;
+  }
+
+  .btn-row {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .resume-btn,
+  .cover-btn {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  .resume-btn:hover,
+  .cover-btn:hover {
+    width: 100px !important;
+  }
+
+  .resume-btn:hover .sign,
+  .cover-btn:hover .sign {
+    padding-left: 12px !important;
+  }
+
+  .resume-btn:hover .text,
+  .cover-btn:hover .text {
+    font-size: 1.2rem !important;
+    padding-right: 8px !important;
+  }
+
+  .sign svg {
+    width: 14px !important;
   }
 }
 
-/* Small mobile phones (≤ 480px) — MOST CRITICAL FIX */
+/* 📱 Mobile Small (≤ 480px) — CRITICAL FIX */
 @media screen and (max-width: 480px) {
   html {
-    font-size: 45%; /* Much better than 25.5%! */
+    font-size: 45% !important; /* ✅ Ye sab se important hai */
   }
 
-  /* Prevent horizontal scroll */
   body {
-    overflow-x: hidden;
-    width: 100%;
+    overflow-x: hidden !important;
+    width: 100% !important;
   }
 
   .main,
   .home-page-container,
   .landing-page-container,
   .contact-page-container {
-    max-width: 100%;
-    overflow-x: hidden;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
   }
 
   .text-content {
-    width: 100%;
-    padding: 0 10px;
+    width: 100% !important;
+    padding: 0 8px !important;
   }
 
   #hello-friend {
-    font-size: 2.8rem;
-    flex-wrap: wrap;
+    font-size: 2.6rem !important;
+    flex-wrap: wrap !important;
   }
 
   #detail-friend {
-    font-size: 1.8rem;
+    font-size: 1.6rem !important;
   }
 
   #detail-company-name {
-    font-size: 1.2rem;
+    font-size: 1.1rem !important;
   }
 
   #name {
-    font-size: 4.5rem;
-    flex-wrap: wrap;
+    font-size: 4rem !important;
+    flex-wrap: wrap !important;
   }
 
   #work {
-    font-size: 2.8rem;
-    flex-wrap: wrap;
+    font-size: 2.6rem !important;
+    flex-wrap: wrap !important;
   }
 
   #work div {
-    margin: 0 6px 0 0;
+    margin: 0 4px 0 0 !important;
   }
 
   #info-para {
-    font-size: 1.8rem;
-    line-height: 2.6rem;
-    padding-top: 15px;
-    width: 100%;
+    font-size: 1.6rem !important;
+    line-height: 2.2rem !important;
+    padding-top: 10px !important;
+    width: 100% !important;
   }
 
-.settingactivate {
-    transform-origin: left;
-    transition-duration: .5s
-}
   .home-section,
   .about-section,
   .experience-section,
   .skills-section {
-    width: 95%;
-    margin-top: 3%;
-    padding: 10px 0;
+    width: 96% !important;
+    margin-top: 3% !important;
+    padding: 8px 0 !important;
   }
 
   .projects-section-div {
-    width: 95%;
+    width: 96% !important;
   }
 
   .projects-grid {
     grid-template-columns: 1fr !important;
-    gap: 1.5rem;
+    gap: 1.5rem !important;
   }
 
   .project-box {
-    min-height: auto;
-    padding: 15px;
-    border-radius: 20px;
+    min-height: auto !important;
+    padding: 12px !important;
+    border-radius: 16px !important;
   }
 
   .info-div {
-    padding: 5px 10px;
+    padding: 5px 8px !important;
   }
 
   .info-div .faviconforProject {
-    width: 30px;
-    height: 30px;
+    width: 25px !important;
+    height: 25px !important;
   }
 
   .ProjectHeading {
-    font-size: 2rem;
-    margin: 8px 0;
+    font-size: 1.8rem !important;
+    margin: 6px 0 !important;
   }
 
   .ProjectDescription {
-    font-size: 1.5rem;
-    margin-bottom: 12px;
+    font-size: 1.3rem !important;
+    margin-bottom: 10px !important;
   }
 
   .image-div {
-    padding: 10px 0 0 0;
+    padding: 8px 0 0 0 !important;
   }
 
   .image-div img {
-    border-radius: 12px;
+    border-radius: 10px !important;
   }
 
-  .dp img {
-    width: 120px;
-    height: auto;
+  .dp img, .dp_image img {
+    width: 120px !important;
+    height: auto !important;
   }
 
-  .dp {
-    width: 100%;
-    justify-content: center;
-    align-items: center;
+  .dp, .dp_image {
+    width: 100% !important;
+    justify-content: center !important;
+    align-items: center !important;
   }
 
   .contact-btn-div {
-    padding-top: 20px;
-    gap: 10px;
-    width: 100%;
+    padding-top: 15px !important;
+    gap: 8px !important;
+    width: 100% !important;
   }
 
   .letsTalkBtn {
-    width: 140px;
-    height: 35px;
+    width: 130px !important;
+    height: 32px !important;
   }
 
   .letsTalkBtn-text {
-    font-size: 1.6rem;
+    font-size: 1.4rem !important;
   }
 
   .setting-container {
-    gap: 10px;
-    width: auto;
-    padding: 10px 0;
+    margin-left: 0 !important;
+    gap: 10px !important;
   }
 
-  /* Navbar adjustments */
   .navbar {
-    width: 92%;
-    height: 65px;
-    padding: 0 12px;
-    border-radius: 30px;
+    width: 94% !important;
+    height: 60px !important;
+    padding: 0 12px !important;
+    border-radius: 25px !important;
   }
 
   .logo {
-    width: 15%;
+    width: 15% !important;
   }
 
   .hamburgerbase {
-    width: 92%;
-    height: 65px;
-    padding: 12px;
+    width: 94% !important;
+    height: 60px !important;
+    padding: 12px !important;
   }
 
   #hamburger-button {
-    width: 3.5rem;
-    height: 2.8rem;
+    width: 3.5rem !important;
+    height: 2.8rem !important;
   }
 
   .mobile-navbar-tabs-ul {
-    gap: 40px;
+    gap: 35px !important;
   }
 
   .mobile-navbar-tabs-li {
-    font-size: 1.6rem;
+    font-size: 1.6rem !important;
   }
 
-  /* Skills */
   .frontend-dev-heading {
-    font-size: 2.2rem;
+    font-size: 2.2rem !important;
   }
 
   .tech-stack-wrapper {
-    gap: 15px;
+    gap: 15px !important;
   }
 
   .tech-stack-box {
-    width: 80px;
-    height: 80px;
-    border-radius: 20px;
+    width: 80px !important;
+    height: 80px !important;
+    border-radius: 18px !important;
   }
 
   .tech-stack-box img {
-    width: 65%;
+    width: 65% !important;
   }
 
   .tooltip {
-    font-size: 1.2rem;
-    padding: 3px 8px;
-    top: -15px;
+    font-size: 1.2rem !important;
+    padding: 3px 8px !important;
+    top: -15px !important;
   }
 
-  /* Experience */
   .company-name {
-    font-size: 2.2rem;
+    font-size: 2.2rem !important;
   }
 
   .company-btn {
-    width: 30px;
-    height: 20px;
+    height: 28px !important;
+    padding: 3px 10px !important;
+    font-size: 1rem !important;
   }
 
-  .company-btn:hover {
-    width: 100px;
-  }
-
-  .company-btn:hover .sign-company {
-    padding-left: 10px;
-  }
-
-  .company-btn:hover .text-company {
-    font-size: 1rem;
+  .company-btn svg {
+    width: 12px !important;
+    height: 12px !important;
   }
 
   .duration,
   .location {
-    font-size: 1.4rem;
+    font-size: 1.3rem !important;
   }
 
   .role {
-    font-size: 2rem;
+    font-size: 1.8rem !important;
   }
 
   .strong_text {
-    font-size: 1.4rem;
+    font-size: 1.3rem !important;
   }
 
   .experience-description p {
-    font-size: 1.5rem;
-    line-height: 2.2rem;
+    font-size: 1.4rem !important;
+    line-height: 2rem !important;
   }
 
   .project-list {
-    font-size: 1.3rem;
+    font-size: 1.2rem !important;
   }
 
   .project-list li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.5rem !important;
   }
 
-  .placed {
-    padding-left: 0;
-  }
-
-  .company-row {
-    flex-wrap: wrap;
-  }
-
-  /* About */
   .about-info p {
-    font-size: 1.6rem;
-    line-height: 2.2rem;
+    font-size: 1.5rem !important;
+    line-height: 2rem !important;
   }
 
   .btn-row {
-    flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px !important;
   }
 
   .resume-btn,
   .cover-btn {
-    width: 38px;
-    height: 38px;
+    width: 35px !important;
+    height: 35px !important;
   }
 
   .resume-btn:hover,
   .cover-btn:hover {
-    width: 100px;
+    width: 85px !important;
   }
 
   .resume-btn:hover .sign,
   .cover-btn:hover .sign {
-    padding-left: 12px;
+    padding-left: 10px !important;
   }
 
   .resume-btn:hover .text,
   .cover-btn:hover .text {
-    font-size: 1.2rem;
-    padding-right: 8px;
+    font-size: 1rem !important;
+    padding-right: 6px !important;
   }
 
   .sign svg {
-    width: 14px;
+    width: 12px !important;
   }
 
-  /* Footer */
   .two-words article {
-    font-size: 2rem;
-    padding: 0 10px;
+    font-size: 2rem !important;
+    padding: 0 10px !important;
   }
 
   .getintouch-heading article {
-    font-size: 2.2rem;
+    font-size: 2rem !important;
   }
 
   .logos {
-    gap: 10px;
+    gap: 8px !important;
   }
 
   .social-media-container a {
-    width: 40px;
-    height: 40px;
-    padding: 8px;
+    width: 38px !important;
+    height: 38px !important;
+    padding: 6px !important;
   }
 
   .social-media-container a svg {
-    width: 30px;
-    height: 30px;
+    width: 28px !important;
+    height: 28px !important;
   }
 
   .footer-avatar-container {
-    width: 120px;
+    width: 120px !important;
   }
 
   .footer-bottom {
-    height: 60px;
+    height: 55px !important;
   }
 
   .footer-bottom article {
-    font-size: 1.1rem;
+    font-size: 1rem !important;
   }
 
-  /* WhatsApp & Download buttons */
   #wa-float,
   #wa-float-download {
-    width: 45px;
-    height: 45px;
-    left: 10px;
+    width: 42px !important;
+    height: 42px !important;
+    left: 8px !important;
   }
 
   #wa-float {
-    bottom: 15px;
+    bottom: 12px !important;
   }
 
   #wa-float-download {
-    bottom: 80px;
+    bottom: 68px !important;
   }
 
   #wa-popup,
   #wa-popup-touch {
-    width: 95%;
-    left: 2.5%;
-    bottom: 10px;
+    width: 96% !important;
+    left: 2% !important;
+    bottom: 8px !important;
   }
 
-  /* Scroll to top */
   #backtotopbutton {
-    width: 2.5rem;
-    height: 12rem;
-    right: 5px;
+    width: 2rem !important;
+    height: 10rem !important;
+    right: 3px !important;
   }
 
   #backtotopbutton article {
-    font-size: 1.2rem;
+    font-size: 1rem !important;
   }
 
-  /* Section headings */
   .section-heading-article {
-    font-size: 2.5rem;
+    font-size: 2.2rem !important;
   }
 
   .sectionHeadingP {
-    width: 150px;
+    width: 100px !important;
+  }
+
+  .placed {
+    padding-left: 0 !important;
+  }
+
+  .company-row {
+    gap: 4px !important;
+  }
+
+  .experience-item {
+    padding-bottom: 20px !important;
+    margin-bottom: 30px !important;
   }
 }
 
-/* Extremely small devices (≤ 360px) */
+/* 📱 Extremely small devices (≤ 360px) */
 @media screen and (max-width: 360px) {
   html {
-    font-size: 40%;
+    font-size: 40% !important;
   }
 
   #name {
-    font-size: 3.8rem;
+    font-size: 3.5rem !important;
   }
 
   #work {
-    font-size: 2.4rem;
+    font-size: 2.2rem !important;
   }
 
   #hello-friend {
-    font-size: 2.4rem;
+    font-size: 2.2rem !important;
   }
 
   .tech-stack-box {
-    width: 70px;
-    height: 70px;
+    width: 65px !important;
+    height: 65px !important;
   }
 
   .project-box {
-    padding: 10px;
+    padding: 8px !important;
+  }
+
+  .setting-container {
+    margin-left: 0 !important;
+    gap: 10px !important;
   }
 
   .ProjectHeading {
-    font-size: 1.8rem;
+    font-size: 1.6rem !important;
   }
 
-.settingactivate {
-    transform-origin: left;
-    transition-duration: .5s
-}
   .ProjectDescription {
-    font-size: 1.3rem;
+    font-size: 1.2rem !important;
   }
 
   .company-name {
-    font-size: 2rem;
+    font-size: 2rem !important;
   }
 
   .navbar {
-    width: 95%;
-    height: 55px;
-    padding: 0 10px;
+    width: 96% !important;
+    height: 50px !important;
+    padding: 0 8px !important;
   }
 
   .hamburgerbase {
-    width: 95%;
-    height: 55px;
-    padding: 10px;
+    width: 96% !important;
+    height: 50px !important;
+    padding: 8px !important;
   }
 
   #hamburger-button {
-    width: 3rem;
-    height: 2.4rem;
+    width: 2.8rem !important;
+    height: 2.2rem !important;
   }
 
   .logo {
-    width: 12%;
+    width: 12% !important;
   }
 
   .logo-top img {
-    height: 80%;
+    height: 80% !important;
   }
 
-  .dp img {
-    width: 100px;
+  .dp img,.dp_image img {
+    width: 90px !important;
   }
 
   .info-div {
-    padding: 5px 5px;
+    padding: 4px 4px !important;
   }
 
   .image-div {
-    padding: 5px 0 0 0;
+    padding: 4px 0 0 0 !important;
   }
 
   .section-heading-article {
-    font-size: 2.2rem;
+    font-size: 2rem !important;
+  }
+
+  #info-para {
+    font-size: 1.4rem !important;
+    line-height: 2rem !important;
+  }
+
+  .role {
+    font-size: 1.6rem !important;
+  }
+
+  .experience-description p {
+    font-size: 1.2rem !important;
+    line-height: 1.8rem !important;
+  }
+
+  .project-list {
+    font-size: 1.1rem !important;
+  }
+
+  .about-info p {
+    font-size: 1.3rem !important;
+    line-height: 1.8rem !important;
   }
 }
-/*     
 
-@media screen and (max-width:1920px) {
-    html {
-        font-size: 60%
-    }
-}
-
-@media screen and (max-width:1400px) {
-    html {
-        font-size: 60%
-    }
-} 
-
-@media screen and (max-width:1200px) {
-    html {
-        font-size: 60%
-    }
-
-    .projects-section-div,
-    .skills-section,
-    .text-content {
-        width: 80%
-    }
-    .home-section {
-        width: 80%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center
-    }
-
-    .about-section {
-        width: 80%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center
-    } 
-
-    .experience-section {
-        width: 80%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center
-    }
  
-    .logo:hover {
-        transform: translateY(200px);
-        transition-duration: 1s
-    }
- 
-
-}
-
-@media screen and (max-width:1150px) {
-    html {
-        font-size: 60%
-    }
-}
-
-@media screen and (max-width:998px) {
-
-    #hamburger-button,
-    .hamburger {
-        background-color: transparent
-    }
-
-    .mobile-navbar-tabs-ul a,
-    .mobiletogglemenu {
-        text-decoration: none
-    }
-
-    .activeThismobiletab,
-    .mobile-navbar-tabs-ul a {
-        color: var(--color-white)
-    }
-
-    html {
-        font-size: 55%
-    }
-
-    .blob,
-    .cursor-inner,
-    .cursor-outer,
-    .navbar-tabs-ul {
-        display: none
-    }
-
-    .stopscrolling {
-        overflow: hidden
-    }
-
-    .hamburger {
-        position: fixed;
-        top: 0;
-        width: 100vw;
-        height: 115px;
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
-        z-index: 9998
-    }
-
-    .activeThismobiletab:before,
-    .burger-bar,
-    .hamburger-animation1,
-    .hamburger-animation2,
-    .hamburger-animation3 {
-        background-color: var(--color-white)
-    }
-
-    .hamburgerbase {
-        width: 80%;
-        height: 80px;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        padding: 20px
-    }
-
-    #hamburger-button {
-        font-size: 3rem;
-        font-weight: 800;
-        width: 4.5rem;
-        height: 3.5rem;
-        border: none;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between
-    }
-
-    #burger-bar1,
-    #burger-bar2,
-    #burger-bar3 {
-        height: 3px;
-        border-radius: 0;
-        transition-duration: .3s
-    }
-
-    #burger-bar1,
-    #burger-bar3 {
-        width: 60%
-    }
-
-    #burger-bar2 {
-        width: 100%
-    }
-
-    .hamburger-animation1 {
-        transform: rotate(45deg) scaleX(1.7);
-        transition-duration: .3s;
-        transform-origin: left
-    }
-
-    .hamburger-animation2 {
-        transform: scaleX(0)
-    }
-
-    .hamburger-animation3 {
-        transform: rotateZ(-45deg) scaleX(1.7);
-        transform-origin: left;
-        transition-duration: .3s
-    }
-
-    .mobiletogglemenu {
-        background-color: transparent;
-        z-index: 9990;
-        height: 100%;
-        width: 100%;
-        position: fixed;
-        top: 0;
-        right: 0;
-        list-style: none;
-        font-size: 2rem;
-        cursor: pointer;
-        display: flex;
-        transform: translate(1000px);
-        transition-duration: 1s
-    }
-
-    .show-toggle-menu {
-        transform: translate(0);
-        transition-duration: .6s
-    }
-
-    .mobile-navbar-tabs-ul {
-        background-color: var(--color-dark-mode);
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 70px;
-        box-shadow: 0 0 30px rgba(0, 0, 0, .176)
-    }
-
-    .mobile-navbar-tabs-li {
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.8rem;
-        font-weight: 600;
-        position: relative;
-        cursor: pointer;
-        font-family: fira code;
-        height: 30px;
-        width: fit-content
-    }
-
-    .about-info
-    .dp,
-    .info-dp-section {
-        width: 100%;
-        display: flex
-    }
-
-    .experience-info
-    .dp,
-    .info-dp-section {
-        width: 100%;
-        display: flex
-    }
-
-    .info-dp-section {
-        flex-direction: column;
-        margin-top: 1px;
-        gap: 30px
-    }
-
-    .about-info {
-        flex-direction: column
-    }
-
-    .experience-info {
-        flex-direction: column
-    }
-
-    .dp {
-        align-items: center;
-        justify-content: center
-    }
-
-    .activeThismobiletab:before {
-        content: "";
-        position: absolute;
-        height: 10px;
-        width: 10px;
-        left: -20px;
-        border-radius: 50%
-    }
-
-    .projects-section-div {
-        width: 80%
-    }
-
-    .project-box {
-        flex-direction: column;
-        height: 800px
-    }
-
-    .image-div,
-    .info-div {
-        width: 100%;
-        height: 50%
-    }
-
-    .image-div {
-        padding: 0 0 0 80px
-    }
-}  
-
-@media screen and (max-width:768px) {
-    html {
-        font-size: 50%
-    }
-
-    .text-content {
-        padding-left: 0;
-        width: 80%
-    }
-
-    #hello-friend {
-        height: 100px;
-        font-size: 3.5rem
-    }
-    #detail-friend {
-        height: 75px;
-        font-size: 2rem
-    }
-    
-    #detail-company-name {
-        height: 75px;
-        font-size: 1.3rem
-    }
-
-    #name  {
-        font-size: 5.5rem
-    }
-  
-    #work {
-        font-size: 3.5rem
-    }
-
-    #info-para,
-    .language-name {
-        width: 100%
-    }
-
-    .contact-btn-div {
-        height: 140px;
-        display: flex;
-        flex-direction: column-reverse;
-        align-items: flex-start;
-        justify-content: flex-start;
-        gap: 20px
-    }
-
-    .setting-container {
-        margin-left: 0
-    }
-
-    .dp::after,
-    .dp::before {
-        display: none
-    }
-
-    .logo {
-        width: 18%
-    }
-
-    .logo:hover {
-        transform: translateY(200px);
-        transition-duration: 1s
-    }
-
-    .projects-section-div {
-        width: 80%
-    }
-
-    .project-boxes-div {
-        padding: 40px 0
-    }
-    .projects-grid {
-    grid-template-columns: 1fr;
-  }
-    .project-box {
-    flex-direction: column;
-  }
-
-  .info-div, .image-div {
-    flex: 1 1 100%;
-    padding: 10px;
-  }
-
-  .ProjectHeading {
-    font-size: 1.5rem;
-  }
-
-  .image-div img {
-    width: 100%;
-  }
-}    
-  */
-
-/* ------------------------------------------           Mobile size     --------------------------------- */
-
-/* 
-   
-@media screen and (max-width:650px) {
-    html {
-        font-size: 25.5%;
-    }
-    .text-content { 
-        width: 50%;
-    }
-    #hello-friend {
-        height: 10px; 
-    }
-    
-    #detail-friend {
-        height: 10px; 
-    }
-    
-    #detail-company-name {
-        height: 10px; 
-    }
-    .footer-background, .footer-foreground { 
-        height: 100vh; 
-    }
-    
-    .landing-page-container, .home-page-container {
-        height: calc(85vh - 115px); 
-        width: 100%; 
-    } 
-
-    #info-para {
-        font-weight: 400;
-        font-size: 2.5rem;
-        width: 100%;   
-        line-height: 20px;  
-    }
-
-    .letsTalkBtn{    
-        
-        width: 151px;
-        height: 30px;
-    }
-
-    .letsTalkBtn-text { 
-        font-size: 1.8rem;
-    }
-
-    .skills-section {
-            width: 93%;
-            margin-top: 2%;
-    }
-    
-    .contact-btn-div {
-        height: 90px;
-        display: flex;
-        height: fit-content;
-        flex-direction: column-reverse;  
-        align-items: flex-start;
-         justify-content: flex-start;  
-        gap: 0px;
-    }
-    .contact-btn-div {  
-        height: fit-content;
-        display: flex;
-        width: 88%;
-        padding-top: 21px; 
-        display: -webkit-inline-box;
-        align-items: center;
-        justify-content: flex-start;
-    }
-     
-    .about-section, .experience-section { 
-        width: 93%;
-        margin-top: 50%;
-    }
-
-    .home-section{ 
-        width: 93%;
-        margin-top: 10%;
-    }
-    
-    .company-name {
-        font-size: 3.5rem;
-    } 
-    .duration, .location  {
-        font-size: 2rem;
-    }
-
-    .role, .ProjectHeading, .ProjectDescription  {
-        font-size: 3rem;
-    }
-    .strong_text {
-        font-size: 1.8rem;
-    }
- 
-    .info-div .faviconforProject {
-        width: 25px;
-        height: 25px;
-    }
- 
-    .dp img, .dp::after, .dp::before {
-            width: 150px;
-    }
-    .dp::after, .dp::before {
-        height: 175px; 
-    }
-     
-    .dp {
-        align-items: baseline;
-        justify-content: center;
-        width: 40%;
-        display: flex; 
-        position: relative;
-    }
-    .mobile-navbar-tabs-ul { 
-        width: 100%;
-        height: 75%; 
-        gap: 35px; 
-    }
-    .mobiletogglemenu {  
-        width: 62%;
-    }
-
-    #hello-friend{
-        font-size: 3rem;
-    }
-
-    #detail-friend{
-        font-size: 2rem;
-    }
-    #detail-company-name {
-        font-size: 1.3rem;
-    }
-
-    #name {
-        font-size: 6rem;
-    }
-
-    #work {
-        font-size: 4rem;
-    }
- 
-    .info-dp-section { 
-        margin-top: 0; 
-    }  
-    .experience-info .dp, .info-dp-section {
-        width: 93%; 
-        display: -webkit-inline-box;
-    } 
-
-    .experience-section-container {
-        width: 63%; 
-        padding-top: 0%; 
-        margin-top: 0%;
-    }
-    .experience-description p { 
-        font-size: 2.1rem;
-    }
-    .project-list { 
-        font-size: 1.7rem;
-    }
-
-    .about-info p {
-        line-height: 14px;
-        font-size: 2.5rem;
-    } 
-    .about-info {
-        width: 53%;
-    }
-    
-    .about-section-container {
-        padding-top: 0%; 
-        margin-top: 80px;
-    }
-    .skills-section-container { 
-        padding-top: 32%;
-    }
-    .frontend-dev-heading {
-        font-size: 2.5rem; 
-        height: 40px;
-    }
-    .frontend-dev-section{ 
-        width: 50%;
-        margin-top: 6px;
-    }
-    .tech-stack-wrapper {
-        gap: 30px;
-        margin-top: 35px;
-    }
-    .tech-stack-box {
-        width: 67px;
-        height: 67px;
-    }
-    .info-div, .image-div {
-        flex: -1 1 100%;
-        padding: 3px;
-        width: 50%;
-        height: 25%;
-    }
-    .project-boxes-div {
-        padding: 15px 0;
-    }
-    .image-div img {
-        height: 50%;
-    }
-    .project-box {  
-        height: 350px;
-    }
-    .cta:hover:before, .project-box-wrapper {
-        width: 100%;
-    }
-    .getintouch-heading article {
-        font-size: 5rem;
-    }
-    .two-words article {
-        font-size: 3.5rem;
-    }
-    .logos {
-        gap: 10px;
-    }
-    .social-media-container a {
-        width: 45px;
-        height: 45px;
-    }
-    
-    .setting-container { 
-        gap: 14px; 
-    }
-
-    
-    .tooltip_resume { 
-        top: -10x; 
-        font-size: 1.8rem; 
-        font-weight: 500
-    }
-}
-   */
