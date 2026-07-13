@@ -6,13 +6,7 @@ export default async function handler(req, res) {
     if (req.method === 'OPTIONS') return res.status(200).end();
     if (req.method !== 'POST') return res.status(405).json({ error: 'Only POST allowed' });
 
-    try {  
-        // const {
-        //     vid, ip_local, city, country, device, page, page_title,
-        //     referrer, language, screen, prefers_dark, visit_type,
-        //     network_type, downlink, timezone, browser
-        // } = req.body;
-
+    try {   
         const {
             ip_local, city, country, device, language, visit_type, timezone, browser
         } = req.body;
@@ -83,5 +77,16 @@ export default async function handler(req, res) {
 
     } catch (error) { 
         res.status(500).json({ error: error.message });
+    }
+
+    // In vercel_track.js - wrap the counter update safely
+    function updateCounter(result) {
+        const counter = document.getElementById('user_count');
+        if (!counter) return;
+
+        if (result.count !== undefined) {
+            counter.textContent = result.count;
+            // Don't modify styles that could affect layout
+        }
     }
 }
