@@ -384,117 +384,58 @@ function projectsTemplate(s) {
       </div>
     </section>`;
 }
-
 function renderProjects(projects) {
   const container = document.getElementById("projects-container");
   if (!container) return;
   container.innerHTML = "";
 
-  // For mobile: single column, desktop: two columns
-  const isMobile = window.innerWidth < 768;
+  for (let i = 0; i < projects.length; i += 2) {
+    const row = [projects[i], projects[i + 1]].filter(Boolean);
 
-  if (isMobile) {
-    // Single column for mobile
-    projects.forEach((p, idx) => {
-      container.innerHTML += `
-        <div data-aos="fade-up" class="project-box-wrapper">
-          <div class="project-box">
-            <div class="info-div">
-              <div class="projects-title-grid">
-                <div class="projects-title-f-grid">
-                  <img src="${p.favicon}" alt="${p.name} favicon" class="faviconforProject">
-                </div>
-                <div class="projects-title-s-grid">
-                  <article class="ProjectHeading">${p.id}. ${p.name}</article>
-                </div>
-              </div>
-              <p class="ProjectDescription">${p.description}</p>
-              <div class="project-buttons">
-                <a href="${p.github.url}" target="_blank" class="github-redirect" aria-label="${p.github.label}">
-                  <img src="${p.github.icon}" alt="github redirect button">
-                </a>
-                <div style="visibility:${p.live.visible ? "visible" : "hidden"}">
-                  <a href="${p.live.url}" target="_blank" class="cta" aria-label="${p.live.label}">
-                    <span>Live view</span>
-                    <svg viewBox="0 0 13 10">
-                      <path d="M1,5 L11,5"></path>
-                      <polyline points="8 1 12 5 8 9"></polyline>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="image-div">
-              <a href="${p.image?.src || '#'}" title="${p.image?.alt || 'Project Image'}">
-                <img src="${p.image?.src || 'images/default.png'}" alt="${p.image?.alt || 'Project Image'}" class="project-image"/>
-              </a>
-            </div>
-          </div>
-        </div>
-      `;
-    });
-  } else {
-  // Two columns for desktop
-    for (let i = 0; i < projects.length; i += 2) {
-      const row = [projects[i], projects[i + 1]].filter(Boolean);
+    container.innerHTML += `
+            <div class="projects-grid">
+                ${row.map(p => `
+                    <div data-aos="fade-up" class="project-box-wrapper">
+                        <div class="project-box project-box2">
+                            <div class="info-div">
+                                <div class="projects-title-grid">
+                                    <div class="projects-title-f-grid">
+                                        <img src="${p.favicon}" alt="${p.name} favicon" class="faviconforProject">
+                                    </div>
+                                    <div class="projects-title-s-grid">
+                                        <article class="ProjectHeading">${p.id}. ${p.name}</article>
+                                    </div>
+                                </div>
 
-      container.innerHTML += `
-        <div class="projects-grid">
-          ${row.map(p => `
-            <div data-aos="fade-up" class="project-box-wrapper">
-              <div class="project-box">
-                <div class="info-div">
-                  <div class="projects-title-grid">
-                    <div class="projects-title-f-grid">
-                      <img src="${p.favicon}" alt="${p.name} favicon" class="faviconforProject">
+                                <p class="ProjectDescription">${p.description}</p>
+
+                                <div class="project-buttons">
+                                    <a href="${p.github.url}" target="_blank" class="github-redirect" aria-label="${p.github.label}">
+                                        <img src="${p.github.icon}" alt="github redirect button">
+                                    </a>
+                                    <div style="visibility:${p.live.visible ? "visible" : "hidden"}">
+                                        <a href="${p.live.url}" target="_blank" class="cta" aria-label="${p.live.label}">
+                                            <span>Live view</span>
+                                            <svg viewBox="0 0 13 10">
+                                                <path d="M1,5 L11,5"></path>
+                                                <polyline points="8 1 12 5 8 9"></polyline>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="image-div">
+                                <a href="${p.image?.src || '#'}" title="${p.image?.alt || 'Project Image'}">
+                                    <img src="${p.image?.src || 'images/default.png'}" alt="${p.image?.alt || 'Project Image'}" class="project-image"/>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="projects-title-s-grid">
-                      <article class="ProjectHeading">${p.id}. ${p.name}</article>
-                    </div>
-                  </div>
-                  <p class="ProjectDescription">${p.description}</p>
-                  <div class="project-buttons">
-                    <a href="${p.github.url}" target="_blank" class="github-redirect" aria-label="${p.github.label}">
-                      <img src="${p.github.icon}" alt="github redirect button">
-                    </a>
-                    <div style="visibility:${p.live.visible ? "visible" : "hidden"}">
-                      <a href="${p.live.url}" target="_blank" class="cta" aria-label="${p.live.label}">
-                        <span>Live view</span>
-                        <svg viewBox="0 0 13 10">
-                          <path d="M1,5 L11,5"></path>
-                          <polyline points="8 1 12 5 8 9"></polyline>
-                        </svg>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="image-div">
-                  <a href="${p.image?.src || '#'}" title="${p.image?.alt || 'Project Image'}">
-                    <img src="${p.image?.src || 'images/default.png'}" alt="${p.image?.alt || 'Project Image'}" class="project-image"/>
-                  </a>
-                </div>
-              </div>
+                `).join("")}
             </div>
-          `).join("")}
-        </div>
-      `;
-    }
+        `;
   }
-
-  // Add resize listener to re-render on orientation change
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      // Only re-render if screen size crosses the mobile threshold
-      const nowMobile = window.innerWidth < 768;
-      if (nowMobile !== isMobile) {
-        // We'd need to re-run the render here, but for simplicity,
-        // you can just call renderProjects(projects) again
-        // Or rely on CSS grid auto-flow
-      }
-    }, 250);
-  });
 }
 
 

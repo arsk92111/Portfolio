@@ -114,9 +114,7 @@ svg {
 }
 
 /* Fix for long words/URLs */
-.ProjectDescription,
-.about-info p,
-.experience-description p,
+.ProjectDescription, .about-info p, .experience-description p,
 #info-para {
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -1113,7 +1111,6 @@ noscript {
     position: relative
 }
 
-
 .company-btn {
     margin-top: 5px;
     color: #fff;
@@ -1488,7 +1485,6 @@ noscript {
     backdrop-filter: blur(5px);
     font-weight: 500
 }
-
 
 .tooltip_resume {
     position: absolute;
@@ -2355,6 +2351,10 @@ textarea{
     display: none;
   }
 
+.settingactivate {
+    transform-origin: left;
+    transition-duration: .5s
+}
   .stopscrolling {
     overflow: hidden;
   }
@@ -2835,6 +2835,10 @@ textarea{
     width: 100%;
   }
 
+.settingactivate {
+    transform-origin: left;
+    transition-duration: .5s
+}
   .home-section,
   .about-section,
   .experience-section,
@@ -3179,6 +3183,10 @@ textarea{
     font-size: 1.8rem;
   }
 
+.settingactivate {
+    transform-origin: left;
+    transition-duration: .5s
+}
   .ProjectDescription {
     font-size: 1.3rem;
   }
@@ -3599,7 +3607,7 @@ textarea{
 
 /* ------------------------------------------           Mobile size     --------------------------------- */
 
-
+/* 
    
 @media screen and (max-width:650px) {
     html {
@@ -3834,4 +3842,4 @@ textarea{
         font-weight: 500
     }
 }
-  
+   */
