@@ -27,3 +27,6 @@ const sections = document.querySelectorAll('section'); const navLi = document.qu
 console.log('%c Developed by Arshad Ali', 'background-image: linear-gradient(90deg,#8000ff,#6bc5f8); color: white;font-weight:900;font-size:1rem; padding:20px;'); let mybutton = document.getElementById("backtotopbutton"); window.onscroll = function () { scrollFunction() }; function scrollFunction() { if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) { mybutton.style.display = "block" } else { mybutton.style.display = "none" } }
 function scrolltoTopfunction() { document.body.scrollTop = 0; document.documentElement.scrollTop = 0 }
 document.addEventListener("contextmenu", function (e) { if (e.target.nodeName === "IMG") { e.preventDefault() } }, !1);
+
+// 0000000000000000000000000000000000000000000000000000000000000000000000000  //
+

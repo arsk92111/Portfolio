@@ -2398,6 +2398,7 @@ section {
   padding: 0 10px !important;
 }
 
+
 /* ============================================================
    📱 MEDIA QUERIES — COMPLETE REWRITE
    ============================================================ */
@@ -2892,6 +2893,62 @@ section {
   .sign svg {
     width: 14px !important;
   }
+  
+  .about-top-row {
+    flex-wrap: nowrap !important;  /* ✅ Stack nahi hoga */
+    gap: 15px !important;
+  }
+  
+  .about-text-col {
+    flex: 1 1 55% !important;
+    min-width: 140px !important;
+  }
+  
+  .about-image-col {
+    flex: 0 1 30% !important;
+    min-width: 80px !important;
+    max-width: 150px !important;
+  }
+  
+  .about-image-col img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+
+/* 📱 Very small phones */
+@media screen and (max-width: 480px) {
+  .about-top-row {
+    gap: 10px !important;
+  }
+  
+  .about-text-col {
+    flex: 1 1 50% !important;
+    min-width: 100px !important;
+  }
+  
+  .about-image-col {
+    flex: 0 1 25% !important;
+    min-width: 60px !important;
+    max-width: 120px !important;
+  }
+  
+  .about-text-col p {
+    font-size: 1.3rem !important;
+    line-height: 1.6 !important;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .about-text-col p {
+    font-size: 1.1rem !important;
+    line-height: 1.5 !important;
+  }
+  
+  .about-image-col {
+    min-width: 50px !important;
+    max-width: 90px !important;
+  }
 }
 
 /* 📱 Mobile Small (≤ 480px) — CRITICAL FIX */
@@ -3015,9 +3072,9 @@ section {
   }
 
   .contact-btn-div {
-    padding-top: 15px !important;
-    gap: 8px !important;
-    width: 100% !important;
+    padding-top: 20px !important;
+    gap: 5px !important;
+    width: 35% !important;
   }
 
   .letsTalkBtn {

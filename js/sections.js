@@ -119,16 +119,7 @@ function renderLanding(data) {
   // Render buttons + settings container dynamically
   contactDiv.innerHTML = '';
   data.contactElements.forEach(elem => {
-    if (elem.type === "button") {
-      contactDiv.innerHTML += `
-        <a href="${elem.url}" ${elem.id ? `id="${elem.id}"` : ""} tabindex="-1">
-          <button class="${elem.class}">
-            <p class="letsTalkBtn-text">${elem.label}${elem.id ? `: <span id="user_count"></span>` : ""}</p>
-            <span class="letsTalkBtn-BG"></span>
-          </button>
-        </a>
-      `;
-    } else if (elem.type === "settings") {
+    if (elem.type === "settings") {
       let settingsHTML = `<div class="${elem.class}" id="${elem.id}">`;
       elem.children.forEach(child => {
         if (child.type === "input") {
@@ -139,6 +130,16 @@ function renderLanding(data) {
       });
       settingsHTML += `</div>`;
       contactDiv.innerHTML += settingsHTML;
+    }
+    else if (elem.type === "button") {
+      contactDiv.innerHTML += `
+        <a href="${elem.url}" ${elem.id ? `id="${elem.id}"` : ""} tabindex="-1">
+          <button class="${elem.class}">
+            <p class="letsTalkBtn-text">${elem.label}${elem.id ? `: <span id="user_count"></span>` : ""}</p>
+            <span class="letsTalkBtn-BG"></span>
+          </button>
+        </a>
+      `;
     }
   });
 
@@ -369,69 +370,165 @@ function renderExperience(data) {
   });
 }
 
-//   *********    About  *********
+//   *********    About  ********* 
 function aboutTemplate(s) {
   return `
-      <section id="${s.id}" class="${s.sectionClass}" data-aos="${s.aos}">
-        <div class="about-section">
-          <div class="section-heading">
-            <h2 class="section-heading-article" tabindex="0" aria-label="${s.heading.aria}">
-              ${s.heading.text}
-            </h2>
-            <p class="sectionHeadingP"></p>
-          </div>
-          <div class="info-dp-section">
-            <div class="about-info" id="about-content"></div>
-            <div class="dp_image" data-aos="fade-up" id="about-image"></div>
-          </div>
+    <section id="${s.id}" class="${s.sectionClass}" data-aos="${s.aos}">
+      <div class="about-section">
+        <div class="section-heading">
+          <h2 class="section-heading-article" tabindex="0" aria-label="${s.heading.aria}">
+            ${s.heading.text}
+          </h2>
+          <p class="sectionHeadingP"></p>
         </div>
-      </section>`;
+        
+        <!-- Row 1: Text (left) + Image (right) — side by side -->
+        <div class="about-top-row" style="
+          display: flex;
+          flex-wrap: nowrap;
+          align-items: flex-start;
+          gap: 30px;
+          width: 100%;
+          max-width: 100%;
+          overflow: hidden;
+        ">
+          <div class="about-text-col" id="about-text-col" style="
+            flex: 1 1 55%;
+            min-width: 200px;
+            max-width: 100%;
+            overflow: hidden;
+          "></div>
+          
+          <div class="about-image-col" id="about-image-col" style="
+            flex: 0 1 30%;
+            min-width: 120px;
+            max-width: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+          "></div>
+        </div>
+        
+        <!-- Row 2: Third paragraph + buttons (full width) -->
+        <div class="about-bottom-row" style="
+          width: 100%;
+          max-width: 100%;
+          overflow: hidden;
+          margin-top: 20px;
+        ">
+          <div id="about-bottom-content"></div>
+        </div>
+        
+      </div>
+    </section>`;
 }
 function renderAbout(data) {
-  const aboutContent = document.getElementById("about-content");
+  const textCol = document.getElementById("about-text-col");
+  const imageCol = document.getElementById("about-image-col");
+  const bottomContent = document.getElementById("about-bottom-content");
 
-  // Paragraphs
-  data.paragraphs.forEach(text => {
-    aboutContent.innerHTML += `<p tabindex="0">${text}</p><br/>`;
+  if (!textCol || !imageCol || !bottomContent) {
+    console.error("❌ About elements not found!");
+    return;
+  }
+
+  // --- Pehle 2 paragraphs (left side) ---
+  const firstTwo = data.paragraphs.slice(0, 2);
+  firstTwo.forEach(text => {
+    textCol.innerHTML += `<p tabindex="0" style="
+      font-size: clamp(1.4rem, 1.6vw, 2rem);
+      line-height: 1.8;
+      color: var(--color-white);
+      word-break: break-word;
+      overflow-wrap: break-word;
+      margin-bottom: 15px;
+    ">${text}</p><br/>`;
   });
 
-  // Buttons
+  // --- Image (right side) ---
+  const img = data.profile_image;
+  imageCol.innerHTML = `
+    <div class="dp" data-aos="fade-up" style="
+      width: 100%;
+      max-width: 220px;
+    ">
+      <a href="${img.src}" title="download image">
+        <img src="${img.src}" alt="${img.alt}" 
+          style="
+            width: 100%;
+            height: auto;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+            transition: 0.3s;
+            display: block;
+          "
+          onmouseover="this.style.transform='scale(1.02)'" 
+          onmouseout="this.style.transform='scale(1)'"
+        />
+      </a>
+    </div>
+  `;
+
+  // --- 3rd paragraph (bottom, full width) ---
+  const thirdPara = data.paragraphs.slice(2, 3);
+  thirdPara.forEach(text => {
+    bottomContent.innerHTML += `<p tabindex="0" style="
+      font-size: clamp(1.4rem, 1.6vw, 2rem);
+      line-height: 1.8;
+      color: var(--color-white);
+      word-break: break-word;
+      overflow-wrap: break-word;
+      margin-bottom: 15px;
+    ">${text}</p><br/>`;
+  });
+
+  // --- Buttons (bottom, full width) ---
   const buttonsHTML = data.buttons.map(btn => `
-      <button class="${btn.type}-btn" data-url="${btn.file_url}">
-        <div class="sign">
-          <svg viewBox="0 0 640 512">
-            <path d="${btn.svg_file}"/>
-          </svg>
-        </div>
-        <div class="text">${btn.label}</div>
-      </button>
-    `).join("");
-
-  aboutContent.innerHTML += `
-      <div class="row" data-aos="fade-up">
-        <div class="col-12">
-          <div class="btn-row">
-            ${buttonsHTML}
-          </div>
-        </div>
+    <button class="${btn.type}-btn" data-url="${btn.file_url}" style="
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(82.3deg, #965de9 10.8%, #6358ee 94.3%);
+      color: #fff;
+      font-size: clamp(1.2rem, 1.4vw, 1.6rem);
+      font-weight: 600;
+      cursor: pointer;
+      gap: 8px;
+      transition: 0.3s;
+    " 
+    onmouseover="this.style.transform='scale(1.05)'" 
+    onmouseout="this.style.transform='scale(1)'"
+    >
+      <div class="sign" style="display: flex; align-items: center;">
+        <svg viewBox="0 0 640 512" style="width: 18px; height: 18px; fill: #fff;">
+          <path d="${btn.svg_file}"/>
+        </svg>
       </div>
-    `;
+      <div class="text" style="color: #fff; font-size: clamp(1rem, 1.2vw, 1.4rem);">${btn.label}</div>
+    </button>
+  `).join("");
 
-  // Add click listeners after adding buttons
+  bottomContent.innerHTML += `
+    <div class="btn-row" style="
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 10px;
+    ">
+      ${buttonsHTML}
+    </div>
+  `;
+
+  // Add click listeners for buttons
   document.querySelectorAll(".btn-row button").forEach(button => {
     button.addEventListener("click", () => {
       const url = button.dataset.url;
       if (url) window.open(url, "_blank");
     });
   });
-
-  // Image
-  const img = data.profile_image;
-  document.getElementById("about-image").innerHTML = `
-      <a href="${img.src}" title="download image">
-        <img src="${img.src}" alt="${img.alt}" tabindex="0" aria-label="${img.aria_label}">
-      </a>
-    `;
 }
 
 //   *********    Skills  *********
