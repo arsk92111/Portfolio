@@ -1,19 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
     fetch("data/header.json")
         .then(res => res.json())
-        .then(data => { renderHeader(data); renderMobileNavbar(data) })
+        .then(data => {
+            renderHeader(data);
+            renderMobileNavbar(data);
+            // Re-run active tab after sections render
+            setTimeout(() => {
+                setupActiveTab();
+                setupMobileActiveTab();
+            }, 500);
+        })
         .catch(err => console.error("Error loading header JSON:", err));
 });
 
 function renderHeader(data) {
-    // Set Hey! text
-    document.getElementById("hey-text").textContent = data.heyText;
+    const heyElement = document.getElementById("hey-text");
+    if (heyElement) heyElement.textContent = data.heyText;
 
-    // Set logo image
-    document.getElementById("logo-img").src = data.logoSrc;
+    const logoImg = document.getElementById("logo-img");
+    if (logoImg) logoImg.src = data.logoSrc;
 
-    // Render navbar tabs
     const ul = document.getElementById("navbar-tabs-ul");
+    if (!ul) return;
     ul.innerHTML = "";
 
     data.navbarTabs.forEach(tab => {
@@ -30,21 +38,18 @@ function renderHeader(data) {
         li.appendChild(a);
         ul.appendChild(li);
     });
-
-    // Now setup scroll-based active tab
-    setupActiveTab();
 }
 
 function setupActiveTab() {
     const navLi = document.querySelectorAll(".navbar-tabs-li");
+    if (!navLi.length) return;
 
     window.addEventListener("scroll", () => {
         let current = "";
-
         navLi.forEach(li => {
             const a = li.querySelector("a");
+            if (!a) return;
             const target = document.querySelector(a.getAttribute("href"));
-
             if (!target) return;
 
             const top = target.offsetTop - 120;
@@ -58,7 +63,7 @@ function setupActiveTab() {
         navLi.forEach(li => {
             li.classList.remove("activeThistab");
             const a = li.querySelector("a");
-            if (a.getAttribute("href") === current) {
+            if (a && a.getAttribute("href") === current) {
                 li.classList.add("activeThistab");
             }
         });
@@ -68,17 +73,16 @@ function setupActiveTab() {
     window.dispatchEvent(new Event("scroll"));
 }
 
-//  *****************************************************   **************   MOBILE HEADER   **********************
-
 function renderMobileNavbar(data) {
     const ul = document.getElementById("mobile-ul");
+    if (!ul) return;
     ul.innerHTML = "";
 
     data.navbarTabs.forEach((tab, index) => {
         const li = document.createElement("li");
         li.id = tab.id;
         li.className = "mobile-navbar-tabs-li " + tab.class;
-        if (index === 0) li.classList.add("activeThismobiletab"); // first tab active initially
+        if (index === 0) li.classList.add("activeThismobiletab");
         li.setAttribute("onclick", "hidemenubyli()");
 
         const a = document.createElement("a");
@@ -93,17 +97,16 @@ function renderMobileNavbar(data) {
     setupMobileActiveTab();
 }
 
-
 function setupMobileActiveTab() {
     const navLi = document.querySelectorAll(".mobile-navbar-tabs-li");
+    if (!navLi.length) return;
 
     window.addEventListener("scroll", () => {
         let current = "";
-
         navLi.forEach(li => {
             const a = li.querySelector("a");
+            if (!a) return;
             const target = document.querySelector(a.getAttribute("href"));
-
             if (!target) return;
 
             const top = target.offsetTop - 120;
@@ -117,12 +120,11 @@ function setupMobileActiveTab() {
         navLi.forEach(li => {
             li.classList.remove("activeThismobiletab");
             const a = li.querySelector("a");
-            if (a.getAttribute("href") === current) {
+            if (a && a.getAttribute("href") === current) {
                 li.classList.add("activeThismobiletab");
             }
         });
     });
 
-    // initial highlight
     window.dispatchEvent(new Event("scroll"));
 }

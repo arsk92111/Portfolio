@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => renderLanding(data))
         .catch(err => console.error("Error loading home JSON:", err));
 
-      // AFTER sections are rendered, load experience
       fetch("data/experience.json")
         .then(res => res.json())
         .then(data => renderExperience(data))
@@ -34,7 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(res => res.json())
         .then(data => renderContact(data.footer))
         .catch(err => console.error("Error loading Contact/Footer JSON:", err));
-
     });
 });
 
@@ -48,23 +46,18 @@ function renderSections(sections) {
       case "home":
         html = homeTemplate(sec);
         break;
-
       case "experience":
         html = experienceTemplate(sec);
         break;
-
       case "about":
         html = aboutTemplate(sec);
         break;
-
       case "skills":
         html = skillsTemplate(sec);
         break;
-
       case "projects":
         html = projectsTemplate(sec);
         break;
-
       case "contact":
         html = contactTemplate(sec);
         break;
@@ -601,55 +594,48 @@ function renderProjects(projects) {
   if (!container) return;
   container.innerHTML = "";
 
-  for (let i = 0; i < projects.length; i += 2) {
-    const row = [projects[i], projects[i + 1]].filter(Boolean);
-
-    container.innerHTML += `
-            <div class="projects-grid">
-                ${row.map(p => `
-                    <div data-aos="fade-up" class="project-box-wrapper">
-                        <div class="project-box project-box2">
-                            <div class="info-div">
-                                <div class="projects-title-grid">
-                                    <div class="projects-title-f-grid">
-                                        <img src="${p.favicon}" alt="${p.name} favicon" class="faviconforProject">
-                                    </div>
-                                    <div class="projects-title-s-grid">
-                                        <article class="ProjectHeading">${p.id}. ${p.name}</article>
-                                    </div>
-                                </div>
-
-                                <p class="ProjectDescription">${p.description}</p>
-
-                                <div class="project-buttons">
-                                    <a href="${p.github.url}" target="_blank" class="github-redirect" aria-label="${p.github.label}">
-                                        <img src="${p.github.icon}" alt="github redirect button">
-                                    </a>
-                                    <div style="visibility:${p.live.visible ? "visible" : "hidden"}">
-                                        <a href="${p.live.url}" target="_blank" class="cta" aria-label="${p.live.label}">
-                                            <span>Live view</span>
-                                            <svg viewBox="0 0 13 10">
-                                                <path d="M1,5 L11,5"></path>
-                                                <polyline points="8 1 12 5 8 9"></polyline>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="image-div">
-                                <a href="${p.image?.src || '#'}" title="${p.image?.alt || 'Project Image'}">
-                                    <img src="${p.image?.src || 'images/default.png'}" alt="${p.image?.alt || 'Project Image'}" class="project-image"/>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                `).join("")}
+  // Use a simple grid — each project appears once
+  container.innerHTML = `
+    <div class="projects-grid">
+      ${projects.map(p => `
+        <div data-aos="fade-up" class="project-box-wrapper">
+          <div class="project-box">
+            <div class="info-div">
+              <div class="projects-title-grid">
+                <div class="projects-title-f-grid">
+                  <img src="${p.favicon}" alt="${p.name} favicon" class="faviconforProject">
+                </div>
+                <div class="projects-title-s-grid">
+                  <article class="ProjectHeading">${p.id}. ${p.name}</article>
+                </div>
+              </div>
+              <p class="ProjectDescription">${p.description}</p>
+              <div class="project-buttons">
+                <a href="${p.github.url}" target="_blank" class="github-redirect" aria-label="${p.github.label}">
+                  <img src="${p.github.icon}" alt="github redirect button">
+                </a>
+                <div style="visibility:${p.live.visible ? "visible" : "hidden"}">
+                  <a href="${p.live.url}" target="_blank" class="cta" aria-label="${p.live.label}">
+                    <span>Live view</span>
+                    <svg viewBox="0 0 13 10">
+                      <path d="M1,5 L11,5"></path>
+                      <polyline points="8 1 12 5 8 9"></polyline>
+                    </svg>
+                  </a>
+                </div>
+              </div>
             </div>
-        `;
-  }
+            <div class="image-div">
+              <a href="${p.image?.src || '#'}" title="${p.image?.alt || 'Project Image'}">
+                <img src="${p.image?.src || 'images/default.png'}" alt="${p.image?.alt || 'Project Image'}" class="project-image"/>
+              </a>
+            </div>
+          </div>
+        </div>
+      `).join("")}
+    </div>
+  `;
 }
-
 
 //   *********    Contacts  *********
 function contactTemplate(s) { 

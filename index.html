@@ -48,15 +48,29 @@
     <div class="hey" id="hey-text"></div>
 
     <div class="logo" tabindex="0" aria-label="vinod jangid logo">
-      <div class="logo-top">
-        <img id="logo-img" alt="animation-head" />
-      </div>
+        <div class="logo-top">
+            <img id="logo-img" alt="animation-head" />
+        </div>
     </div>
+ 
 
     <div class="navbar-tabs" id="navbar-tabs">
-      <ul class="navbar-tabs-ul" id="navbar-tabs-ul"></ul>
+        <ul class="navbar-tabs-ul" id="navbar-tabs-ul"></ul>
     </div>
-  </div>
+    
+    <!-- Layout Selector -->
+    <div class="layout-selector">
+        <select id="layoutSelect" aria-label="Select Template">
+            <option value="default">Default</option>
+            <option value="book">📖 Book</option>
+            <option value="terminal">💻 Terminal</option>
+            <option value="magazine">📰 Magazine</option>
+            <option value="glass">✨ Glass</option>
+            <option value="brutalist">🎯 Brutalist</option>
+            <option value="minimal">🌟 Minimal</option>
+        </select>
+    </div>
+</div>
   </header>
   <!-- header ends here -->
 
@@ -77,7 +91,6 @@
         <!-- JS will render li items here -->
       </ul>
     </div>
-    <!-- mobile toggle menu ends -->
      
     <!-- All Sections rendering here -->
      <div id="all_section"></div> 
@@ -136,6 +149,7 @@ How are You!</textarea>
 </div>
  
   <!-- footer ends here -->
+  <script src="js/book_theme.js"></script>
   <script src="js/header.js"></script>
   <script src="js/sections.js"></script> 
   <script src="js/footer.js"></script>

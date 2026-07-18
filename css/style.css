@@ -1692,7 +1692,7 @@ footer {
 
 .footer-background {
     width: 100%;
-    height: 100vh;
+    height: 90vh;
     background-color: #0b0b0b;
     display: flex;
     align-items: flex-end;
@@ -1711,9 +1711,9 @@ footer {
 
 .footer-foreground {
     position: absolute;
-    top: 0;
+    top: 10%;
     width: 100%;
-    height: 100vh;
+    height: 90vh;
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -2770,7 +2770,7 @@ section {
   .footer-background,
   .footer-foreground {
     height: auto !important;
-    min-height: 100vh !important;
+    min-height: 90vh !important;
   }
 
   .footercontainer {
@@ -3420,4 +3420,54 @@ section {
   }
 }
 
- 
+
+
+/* ============================================================
+   📐 LAYOUT SELECTOR — Position in navbar
+   ============================================================ */
+
+.layout-selector {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.layout-selector select {
+    background: var(--tech-stack-box-first-color);
+    color: var(--color-white);
+    border: 1px solid var(--tech-stack-box-border-color);
+    border-radius: 30px;
+    padding: 6px 14px;
+    font-size: 1.2rem;
+    font-family: 'Fira Code', monospace;
+    cursor: pointer;
+    outline: none;
+    transition: 0.3s;
+}
+
+.layout-selector select:hover {
+    border-color: var(--color-light-blue);
+}
+
+/* Position in navbar */
+.navbar .layout-selector {
+    margin: 0 15px;
+}
+
+@media screen and (max-width: 998px) {
+    .layout-selector {
+        margin: 0 5px;
+    }
+    .layout-selector select {
+        font-size: 1rem;
+        padding: 4px 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .layout-selector select {
+        font-size: 0.8rem;
+        padding: 3px 8px;
+        max-width: 80px;
+    }
+}
