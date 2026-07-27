@@ -1,0 +1,230 @@
+{
+  "meta": {
+    "siteTitle": "Arshad Ali — Python / Django Backend Developer",
+    "metaDescription": "Portfolio of Arshad Ali, a Python & Django backend developer specializing in scalable REST APIs, POS platforms and AIoT-integrated systems.",
+    "keywords": ["Arshad Ali", "Python Developer", "Django Developer", "Backend Engineer", "REST API", "Lahore Developer"],
+    "favicon": "Static/Images/favicon.svg",
+    "author": "Arshad Ali"
+  },
+
+  "navigation": [
+    { "label": "# Home", "target": "home", "icon": "home" },
+    { "label": "if Experience:", "target": "experience", "icon": "work" },
+    { "label": "def AboutMe():", "target": "about", "icon": "person" },
+    { "label": "class Skills:", "target": "skills", "icon": "code" },
+    { "label": "for p in Projects:", "target": "projects", "icon": "folder" },
+    { "label": "@ContactMe", "target": "contact", "icon": "mail" }
+  ],
+
+  "templates": [
+    { "id": "default",    "label": "Default",    "icon": "auto_awesome" },
+    { "id": "books",      "label": "Books",      "icon": "menu_book" },
+    { "id": "resume",     "label": "Resume",     "icon": "description" },
+    { "id": "restaurant", "label": "Restaurant", "icon": "restaurant_menu" }
+  ],
+
+  "hero": {
+    "greeting": "hello():",
+    "intro": "I'm",
+    "name": "Arshad Ali.",
+    "roleLines": ["Python dev", "with Django", "vision."],
+    "paragraph": "Experienced in building robust, scalable web applications using <strong>Python</strong>, <strong>Django</strong> and modern tools like <strong>Docker</strong> and <strong>PostgreSQL</strong>. I strive to merge solid backend development with intelligent systems, aiming to create impactful, AI-enhanced solutions.<br><br>Driven by innovation and a passion for clean, efficient code, I focus on developing solutions that are both functional and forward-thinking.",
+    "primaryCta": { "label": "Open To Work!", "url": "https://wa.me/+923401710232?text=Let's%20Talk!%20Arshad%20Ali%20about%20your%20experience" },
+    "secondaryCta": { "label": "View Projects", "target": "projects" },
+    "resumeFile": "files/Arshad_Ali_Django_2026.pdf",
+    "coverLetterFile": "files/Arshad_Ali_Cover_Letter.pdf",
+    "image": { "src": "Static/Images/profile/arshad.webp", "alt": "Arshad Ali" },
+    "stats": [
+      { "value": "2+", "label": "years professional" },
+      { "value": "12", "label": "projects shipped" },
+      { "value": "3",  "label": "companies" }
+    ]
+  },
+
+  "about": {
+    "sectionTitle": "About Me",
+    "paragraphs": [
+      "Hello, I'm <strong>Arshad Ali</strong> — a Python developer specializing in Backend Engineering and <strong>Django</strong>, <strong>REST API</strong>, with expertise in <strong>Python</strong>, <strong>SQL</strong>, <strong>Django</strong>, and <strong>Docker</strong>. Since May 2023, I've been building scalable systems and exploring Django technologies through project-based learning.",
+      "Key projects include a real-time <strong>Gaming</strong> application, <strong>chatbots</strong>, an <strong>E-commerce</strong> store, <strong>Pharmacy</strong> POS, an <strong>App store</strong>, a <strong>Blog</strong> app, <strong>Social</strong> media chat, and Django task management apps. I've faced challenges in deployment and migrating local databases to other database platforms — experiences that drive me to enhance my skills in database technologies and backend API development.",
+      "I am seeking opportunities in Python and <strong>Django Backend</strong> Development where I can leverage my skills and advance my expertise in <strong>APIs</strong>, <strong>REST API</strong>, and <strong>FastAPI</strong>. Driven by a passion for overcoming challenges, I aim to make significant contributions to projects that inspire innovation."
+    ],
+    "buttons": [
+      { "type": "resume", "label": "Resume", "fileUrl": "files/Arshad_Ali_Django_2026.pdf" },
+      { "type": "cover",  "label": "Cover Letter", "fileUrl": "files/Arshad_Ali_Cover_Letter.pdf" }
+    ],
+    "profileImage": { "src": "Static/Images/profile/arshad.webp", "alt": "Arshad Ali" },
+    "highlights": [
+      { "label": "Focus", "value": "Django REST backends" },
+      { "label": "Based in", "value": "Lahore, Pakistan" },
+      { "label": "Coding since", "value": "May 2023" },
+      { "label": "Currently exploring", "value": "FastAPI & AIoT" }
+    ]
+  },
+
+  "experience": {
+    "sectionTitle": "Experience",
+    "tagline": "2 Years of Professional Experience + hands-on project work",
+    "items": [
+      {
+        "company": "Nexa Tech Solution",
+        "companyLink": "https://nexatechsolution.co/",
+        "timeFrame": "July 2024 — June 2026",
+        "location": "Raya Defense, DHA Phase 6, Lahore",
+        "employmentType": "Full Time",
+        "duration": "1 year 11 months",
+        "role": "Python / Django Backend Developer",
+        "description": "Contributing to high-quality, scalable Django-based systems. Work focuses on API design, database optimization, and real-time application logic across multiple key products.",
+        "projects": [
+          { "name": "PriorCash", "icon": "point_of_sale", "detail": "A centralized digital POS system for restaurants and small food businesses. Built a scalable Django backend with RESTful APIs for order processing, store management, and real-time order updates." },
+          { "name": "Clap&Go", "icon": "storefront", "detail": "A SaaS-style POS platform where business owners create and manage their own stores for online food orders. Implemented a multi-tenant Django architecture with independent authentication and order APIs per client." },
+          { "name": "NowInfluencer", "icon": "smartphone", "detail": "A platform for aspiring influencers to build verified digital profiles and track engagement. Built the Django backend enabling profile creation, digital badges, fitness/social metrics tracking, and multi-channel integration." }
+        ]
+      },
+      {
+        "company": "Kz ProjectZ",
+        "companyLink": "https://www.projectz.io/",
+        "timeFrame": "March 2024 — June 2024",
+        "location": "Nayab Park, Salamatpura, Sharif Garden, Lahore",
+        "employmentType": "Internship",
+        "duration": "Internship",
+        "role": "Python / Django Backend Developer",
+        "description": "Served as an internship backend developer, contributing to automation-focused, scalable Django systems including API development, database optimization, and AIoT-based product systems.",
+        "projects": [
+          { "name": "HomeSifu", "icon": "sensor_door", "detail": "A rental management platform lacking smart automation in the market. Developed a Django-powered system integrated with AIoT components — smart lock cards, fingerprint authentication, and automated access control." }
+        ]
+      }
+    ]
+  },
+
+  "skills": {
+    "sectionTitle": "Skills",
+    "categories": [
+      {
+        "title": "Tech Stack",
+        "skills": [
+          { "name": "Python", "icon": "code" },
+          { "name": "Django", "icon": "hub" },
+          { "name": "REST APIs", "icon": "api" },
+          { "name": "Bootstrap", "icon": "view_quilt" },
+          { "name": "MySQL", "icon": "storage" },
+          { "name": "PostgreSQL", "icon": "dns" },
+          { "name": "Git", "icon": "merge" }
+        ]
+      },
+      {
+        "title": "Programming Tools",
+        "skills": [
+          { "name": "VS Code", "icon": "terminal" },
+          { "name": "PyCharm", "icon": "developer_mode" },
+          { "name": "Sublime Text", "icon": "edit_note" },
+          { "name": "Postman", "icon": "send" },
+          { "name": "Docker", "icon": "inventory_2" }
+        ]
+      }
+    ]
+  },
+
+  "projects": {
+    "sectionTitle": "Projects",
+    "filters": ["All", "Django", "Backend", "Frontend", "API"],
+    "items": [
+      {
+        "id": 1, "name": "Prior Cash", "category": ["Django", "Backend", "API"],
+        "description": "Company project at Nexa Tech Solution — PriorCash/Eslip, a POS platform for ordering food.",
+        "github": "https://github.com/DroneMesh",
+        "live": "http://141.95.127.209:3000/", "liveVisible": true
+      },
+      {
+        "id": 2, "name": "Clap n Go", "category": ["Django", "Backend", "API"],
+        "description": "Company project at Nexa Tech Solution — a POS platform for ordering food, where clients can create their own store.",
+        "github": "https://github.com/DroneMesh",
+        "live": "http://cc.goorderz.hu/register/?next=/", "liveVisible": true
+      },
+      {
+        "id": 3, "name": "Ilm Ul Quran", "category": ["Django", "Backend", "Frontend"],
+        "description": "A comprehensive Quran knowledge platform with the full Quran, multi-language translation, word-by-word meaning, Abjad calculations, and name-to-ayah abjad search.",
+        "github": "https://github.com/ttv92110/IlmUlQuran",
+        "live": "https://ilmul-quran.vercel.app/", "liveVisible": true
+      },
+      {
+        "id": 4, "name": "Earn9Game", "category": ["Backend"],
+        "description": "A live gaming platform where users can play and earn rewards through interactive gameplay.",
+        "github": "https://github.com/arsk92111/Earn9Game",
+        "live": "https://weatherwizard.vercel.app/", "liveVisible": false
+      },
+      {
+        "id": 5, "name": "WinPrize", "category": ["Django", "Backend", "API"],
+        "description": "A modern, secure lucky-draw platform built with Django — daily/weekly/monthly draws, email verification, payment tracking, admin panel, and real-time draw management.",
+        "github": "https://github.com/ttv92110/WinPrize",
+        "live": "https://winprize.vercel.app/", "liveVisible": true
+      },
+      {
+        "id": 6, "name": "Portfolio Arshad", "category": ["Frontend"],
+        "description": "Personal portfolio showcasing skills, projects, and professional journey as a backend developer.",
+        "github": "https://github.com/arsk92111/Portfolio",
+        "live": "https://arshadali.vercel.app/", "liveVisible": true
+      },
+      {
+        "id": 7, "name": "Lofin App Store", "category": ["Backend", "API"],
+        "description": "Final year university project — an app store system with backend APIs and structured data handling.",
+        "github": "https://github.com/arsk92111/LofinAppStore",
+        "live": "https://trackmyjob.vercel.app/", "liveVisible": false
+      },
+      {
+        "id": 8, "name": "Blog News", "category": ["Django", "Backend"],
+        "description": "A blogging platform where users can share thoughts, read posts, and interact with content dynamically.",
+        "github": "https://github.com/arsk92111/BlogNews",
+        "live": "https://weatherwizard.vercel.app/", "liveVisible": false
+      },
+      {
+        "id": 9, "name": "Pin Store Ecommerce", "category": ["Django", "Backend"],
+        "description": "E-commerce platform where users can browse, purchase products, and manage orders securely.",
+        "github": "https://github.com/arsk92111/PinStoreEcommerce",
+        "live": "https://weatherwizard.vercel.app/", "liveVisible": false
+      },
+      {
+        "id": 10, "name": "Pharma Pill", "category": ["Django", "Backend"],
+        "description": "POS platform for pharmacy products with inventory and order management.",
+        "github": "https://github.com/arsk92111/PharmaPill",
+        "live": "https://weatherwizard.vercel.app/", "liveVisible": false
+      },
+      {
+        "id": 11, "name": "WhatSoft Chat", "category": ["Backend", "API"],
+        "description": "Social-media-style chat application with real-time messaging and user interaction.",
+        "github": "https://github.com/arsk92111/WhatSoft_Chat",
+        "live": "https://weatherwizard.vercel.app/", "liveVisible": false
+      },
+      {
+        "id": 12, "name": "Multi Task", "category": ["Backend"],
+        "description": "Multi-tasking utility project featuring camera usage, image capture, and format conversions.",
+        "github": "https://github.com/arsk92111/MultiTaskProject",
+        "live": "https://weatherwizard.vercel.app/", "liveVisible": false
+      }
+    ]
+  },
+
+  "contact": {
+    "sectionTitle": "Contact Me",
+    "tagline": "Open to full-time backend roles and freelance Django/API work.",
+    "email": "arsk92110@gmail.com",
+    "phone": "+92 340 1710232",
+    "phoneHref": "tel:+923401710232",
+    "location": "Lahore, Punjab, Pakistan",
+    "whatsapp": "https://wa.me/+923401710232?text=Let's%20Talk!%20Arshad%20Ali%20about%20your%20experience"
+  },
+
+  "socialLinks": [
+    { "name": "WhatsApp", "url": "https://wa.me/+923401710232", "icon": "chat" },
+    { "name": "Phone", "url": "tel:+923401710232", "icon": "call" },
+    { "name": "LinkedIn", "url": "https://www.linkedin.com/in/arshad-ali-0b4148123/", "icon": "work" },
+    { "name": "GitHub", "url": "https://github.com/arsk92111", "icon": "code" },
+    { "name": "Gmail", "url": "mailto:arsk92110@gmail.com", "icon": "mail" },
+    { "name": "Twitter", "url": "https://x.com/arsk92110_ali", "icon": "tag" }
+  ],
+
+  "footer": {
+    "quote": "Learning, Living, and Leveling Up.",
+    "copyrightText": "Created by Arshad Ali",
+    "copyrightYear": 2026
+  }
+}

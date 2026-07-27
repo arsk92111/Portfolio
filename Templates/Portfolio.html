@@ -1,0 +1,100 @@
+<!--
+  Templates/Portfolio.html
+  Reference snapshot of the <main> content markup (Home, Experience, About,
+  Skills, Projects, Contact) rendered inside index.html.
+  Every section is populated at runtime by Static/JS/renderer.js from
+  data/portfolio.json -- nothing here is hardcoded content.
+-->
+<main>
+    <!-- HOME / HERO -->
+    <section id="home" class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="hero-eyebrow mono" id="hero-eyebrow">hello():</div>
+          <h1 id="hero-name"></h1>
+          <div class="hero-role mono">&gt; <span id="hero-role-text"></span><span class="cursor">&nbsp;</span></div>
+          <p class="desc" id="hero-desc"></p>
+          <div class="btn-row" id="hero-btn-row"></div>
+          <div class="hero-stats" id="hero-stats"></div>
+        </div>
+
+        <div class="hero-scene-wrap">
+          <div id="hero-3d"></div>
+          <div class="scene-caption"><span class="dot"></span> rendering python.django()</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" class="section" data-page>
+      <div class="container section-inner">
+        <div class="eyebrow-code" id="experience-eyebrow"></div>
+        <h2 class="section-title" id="experience-title"></h2>
+        <p class="section-sub" id="experience-sub"></p>
+        <div class="timeline" id="timeline-wrap"></div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section" data-page>
+      <div class="container section-inner">
+        <div class="eyebrow-code" id="about-eyebrow"></div>
+        <h2 class="section-title" id="about-title"></h2>
+
+        <div class="about-grid">
+          <div class="about-card" data-reveal>
+            <div class="avatar-ring">
+              <a href="../Static/Images/Tumbnail_Arshad.png" title="download image">
+                <img src="../Static/Images/Tumbnail_Arshad.png" alt="${img.alt}" 
+                  style=" width: 100%; height: auto; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.35); transition: 0.3s; display: block; "
+                  onmouseover="this.style.transform='scale(1.02)'"  onmouseout="this.style.transform='scale(1)'" />
+              </a>
+            </div>
+            <div class="about-highlights" id="about-highlights"></div>
+          </div>
+
+          <div>
+            <div class="about-body" id="about-body"></div>
+            <div class="about-buttons" id="about-buttons"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="section" data-page>
+      <div class="container section-inner">
+        <div class="eyebrow-code" id="skills-eyebrow"></div>
+        <h2 class="section-title" id="skills-title"></h2>
+        <div class="skills-cats" id="skills-cats"></div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section" data-page>
+      <div class="container section-inner">
+        <div class="eyebrow-code" id="projects-eyebrow"></div>
+        <h2 class="section-title" id="projects-title"></h2>
+        <div class="filter-row" id="filter-row"></div>
+        <div class="projects-grid" id="projects-grid"></div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section" data-page>
+      <div class="container section-inner">
+        <div class="eyebrow-code" id="contact-eyebrow"></div>
+        <h2 class="section-title" id="contact-title"></h2>
+        <p class="section-sub" id="contact-sub"></p>
+
+        <div class="contact-grid">
+          <div class="contact-list" id="contact-list"></div>
+
+          <div class="contact-panel">
+            <div class="terminal-bar"><span></span><span></span><span></span></div>
+            <pre id="contact-code"></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>

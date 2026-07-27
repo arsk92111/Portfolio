@@ -1,0 +1,81 @@
+/* ============================================================
+   THEME TOKENS — Dark mode is the native mode of this design;
+   Light mode is a controlled inversion, not just a bg swap.
+   ============================================================ */
+
+:root{
+  /* --- brand palette (fixed across themes) --- */
+  --orange: #ff7a29;
+  --orange-soft: #ffb37a;
+  --green: #35d07f;
+  --green-soft: #8af0bf;
+  --yellow: #f4c95d;
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 26px;
+  --radius-pill: 999px;
+
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --ease: cubic-bezier(.16,.84,.44,1);
+  --nav-h: 78px;
+}
+
+/* ---------------- DARK (default) ---------------- */
+[data-theme="dark"]{
+  --bg: #08090b;
+  --bg-1: #0e1013;
+  --bg-2: #15181c;
+  --bg-card: rgba(255,255,255,0.035);
+  --bg-card-solid: #121417;
+  --border: rgba(255,255,255,0.09);
+  --border-strong: rgba(255,255,255,0.16);
+
+  --text: #edf1f3;
+  --text-dim: #a6b0b8;
+  --text-faint: #6b747c;
+
+  --glow-orange: 0 0 40px rgba(255,122,41,.25);
+  --glow-green: 0 0 40px rgba(53,208,127,.22);
+  --shadow-card: 0 20px 60px -20px rgba(0,0,0,.6);
+
+  --nav-bg: rgba(15,17,20,0.55);
+  --nav-border: rgba(255,255,255,.1);
+
+  --scrollbar-track: #0e1013;
+}
+
+/* ---------------- LIGHT ---------------- */
+[data-theme="light"]{
+  --bg: #f4f2ed;
+  --bg-1: #ffffff;
+  --bg-2: #ece9e2;
+  --bg-card: rgba(10,10,10,0.03);
+  --bg-card-solid: #ffffff;
+  --border: rgba(10,10,10,0.08);
+  --border-strong: rgba(10,10,10,0.14);
+
+  --text: #14171a;
+  --text-dim: #4c5157;
+  --text-faint: #80868c;
+
+  --glow-orange: 0 0 30px rgba(255,122,41,.18);
+  --glow-green: 0 0 30px rgba(53,208,127,.16);
+  --shadow-card: 0 20px 50px -25px rgba(20,20,10,.25);
+
+  --nav-bg: rgba(255,255,255,0.6);
+  --nav-border: rgba(10,10,10,.08);
+
+  --scrollbar-track: #ece9e2;
+}
+
+/* Utility gradient text */
+.grad-text{
+  background: linear-gradient(100deg, var(--orange), var(--yellow) 55%, var(--green));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

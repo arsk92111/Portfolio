@@ -1,0 +1,44 @@
+@media (max-width: 1080px){
+  .hero-grid{ grid-template-columns: 1fr; }
+  .hero-scene-wrap{ order:-1; height: 320px; }
+  .about-grid{ grid-template-columns: 1fr; }
+  .about-card{ max-width: 380px; }
+  .contact-grid{ grid-template-columns: 1fr; }
+  .skills-cats{ grid-template-columns: 1fr; }
+}
+
+@media (max-width: 860px){
+  .container{ padding: 0 20px; }
+  .section{ padding: 90px 0; }
+  body[data-template="books"] .section{ padding: 60px 30px; margin: 14px; }
+
+  .navbar{ top:14px; left:14px; right:14px; transform:none; width:auto; max-width:none;
+    justify-content: space-between; }
+  .navbar .logo{ padding-right:8px; }
+  .nav-links{
+    position: fixed; top: 78px; left: 362px; right: -240px;
+    background: var(--bg-card-solid); border:1px solid var(--border);
+    border-radius: var(--radius-md); flex-direction:column; align-items:stretch;
+    padding: 10px; gap:4px; box-shadow: var(--shadow-card);
+    opacity:0; visibility:hidden; transform: translateY(-10px);
+    transition: all .3s var(--ease);
+  }
+  .nav-links.open{ opacity:1; visibility:visible; transform:none; }
+  .nav-links a{ padding: 14px 16px; text-align:left; }
+  .nav-toggle{ display:flex; }
+
+  .hero-stats{ flex-wrap:wrap; gap: 20px; }
+  .projects-grid{ grid-template-columns: 1fr; }
+  body[data-template="resume"] .projects-grid{ grid-template-columns: 1fr; }
+  .footer-top{ flex-direction:column; align-items:flex-start; }
+  .cursor-dot, .cursor-ring{ display:none; }
+}
+
+@media (max-width: 520px){
+  .hero h1{ font-size: 38px; }
+  .btn{ padding: 13px 20px; font-size: 14px; }
+  .about-highlights{ grid-template-columns: 1fr; }
+  .timeline-item{ padding-left: 56px; }
+  .timeline::before{ left: 18px; }
+  .timeline-dot{ left: 8px; }
+}

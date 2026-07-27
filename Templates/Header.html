@@ -1,0 +1,33 @@
+<!--
+  Templates/Header.html
+  Reference snapshot of the floating navbar markup rendered inside index.html.
+  This project is a single-page app: index.html owns the live DOM and
+  Static/JS/renderer.js fills every id below from data/portfolio.json.
+  Kept here as a documented, copy-pasteable partial for anyone extending
+  the markup or building a templating server-side later.
+-->
+<!-- NAVBAR -->
+  <nav class="navbar" aria-label="Primary">
+    <div class="logo"><span class="dot"></span> Arshad Ali</div>
+    <ul class="nav-links" id="nav-links-list"></ul>
+
+    <div class="nav-actions">
+      <button class="icon-btn theme-toggle" id="theme-toggle" aria-label="Toggle light and dark mode">
+        <span class="material-symbols-outlined icon-sun">light_mode</span>
+        <span class="material-symbols-outlined icon-moon">dark_mode</span>
+      </button>
+
+      <div class="template-select" id="template-select">
+        <button class="icon-btn" id="template-btn" aria-label="Choose a visual template">
+          <span class="material-symbols-outlined">palette</span>
+        </button>
+        <div class="template-menu" id="template-menu"></div>
+      </div>
+
+      <button class="icon-btn nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </nav>
+
+  
