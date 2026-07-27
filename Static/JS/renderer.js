@@ -69,7 +69,7 @@ const Renderer = (() => {
     btnRow.appendChild(el("a", { href: `#${h.secondaryCta.target}`, class: "btn btn-outline" }, [
       icon("folder_open"), el("span", { text: h.secondaryCta.label })
     ]));
-    btnRow.appendChild(el("a", { href: h.resumeFile, download: "", class: "btn btn-outline" }, [
+    btnRow.appendChild(el("a", { href: h.resumeFile, class: "btn btn-outline" }, [
       icon("download"), el("span", { text: "Resume" })
     ]));
 
@@ -130,9 +130,10 @@ const Renderer = (() => {
           el("h3", {}, [el("a", { href: item.companyLink, target: "_blank", rel: "noopener", text: item.company })]),
           el("span", { class: "timeline-badge", text: item.employmentType })
         ]),
-        el("div", { class: "timeline-meta" }, [
+        el("div", { class: "timeline-meta" }, [ 
           el("span", { text: `📍 ${item.location}` }),
-          el("span", { text: `🗓 ${item.timeFrame}` }),
+          el("p", { class: "desc" }),
+          el("span", { text: `🗓 ${item.timeFrame}` }), 
           el("span", { text: `⏱ ${item.duration}` })
         ]),
         el("h4", { style: "font-size:16px;color:var(--orange);margin-bottom:10px;", text: item.role }),
